@@ -287,4 +287,290 @@
 
 <!-- CUSTOMER -->
 <section class="section customer-section" id="customer">
-  <div class="secti
+  <div class="section-header reveal">
+    <div class="section-tag">👤 بطاقة الزبون</div>
+    <h2 class="section-title">تعرّف على عميلك المثالي</h2>
+  </div>
+
+  <div class="customer-card reveal">
+    <div class="customer-header">
+      <div class="customer-avatar">👤</div>
+      <div>
+        <h3>بطاقة الزبون المستهدف</h3>
+        <p>الثقافة المقاولاتية ✦ مشروعي</p>
+      </div>
+    </div>
+    <div class="customer-body">
+      <div class="cfield">
+        <div class="cfield-icon">🎂</div>
+        <div style="flex:1"><div class="cfield-label">العمر</div><input class="cfield-input" placeholder="أدخل الفئة العمرية للزبون..."></div>
+      </div>
+      <div class="cfield">
+        <div class="cfield-icon">⭐</div>
+        <div style="flex:1">
+          <div class="cfield-label">الجنس</div>
+          <div class="gender-row">
+            <button class="gbtn" onclick="setGender(this)">☆ ذكر</button>
+            <button class="gbtn" onclick="setGender(this)">☆ أنثى</button>
+          </div>
+        </div>
+      </div>
+      <div class="cfield">
+        <div class="cfield-icon">💼</div>
+        <div style="flex:1"><div class="cfield-label">المهنة أو الدور</div><input class="cfield-input" placeholder="مثال: طالب، موظف، ربة بيت..."></div>
+      </div>
+      <div class="cfield">
+        <div class="cfield-icon">❤️</div>
+        <div style="flex:1"><div class="cfield-label">ما الذي يحبه؟</div><input class="cfield-input" placeholder="اهتماماته وما يستمتع به..."></div>
+      </div>
+      <div class="cfield">
+        <div class="cfield-icon">🔍</div>
+        <div style="flex:1"><div class="cfield-label">ماذا يحتاج؟</div><input class="cfield-input" placeholder="احتياجاته ومشكلاته..."></div>
+      </div>
+      <div class="cfield">
+        <div class="cfield-icon">🛒</div>
+        <div style="flex:1"><div class="cfield-label">لماذا سيشتري منتجي؟</div><input class="cfield-input" placeholder="السبب الذي سيدفعه للشراء..."></div>
+      </div>
+      <div class="cfield">
+        <div class="cfield-icon">✨</div>
+        <div style="flex:1"><div class="cfield-label">ما الشيء الذي سيعجبه في مشروعي؟</div><input class="cfield-input" placeholder="ما الذي سيميز مشروعك في نظره..."></div>
+      </div>
+      <div class="cfield">
+        <div class="cfield-icon">💡</div>
+        <div style="flex:1"><div class="cfield-label">أفكار أخرى عن هذا الزبون</div><input class="cfield-input" placeholder="ملاحظات وأفكار إضافية..."></div>
+      </div>
+      <button class="save-btn" onclick="saveCard()">💾 حفظ بطاقة الزبون</button>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SHOE SHOP ===== -->
+<div id="shop">
+
+<!-- Shop Hero -->
+<div class="shop-hero">
+  <div class="shop-brand">Air<span>Zone</span></div>
+  <p class="shop-tagline">متجر الأحذية الفاخرة — أكثر من 200 تصميم عصري</p>
+  <div class="shop-search-bar">
+    <input type="text" id="searchInput" placeholder="ابحث عن حذاء..." oninput="filterProducts()">
+    <button>🔍</button>
+  </div>
+</div>
+
+<!-- Category Bar -->
+<div class="shop-bar">
+  <div class="shop-bar-cats">
+    <button class="cat-btn active" onclick="setCategory(this,'all')">الكل</button>
+    <button class="cat-btn" onclick="setCategory(this,'رياضي')">رياضي</button>
+    <button class="cat-btn" onclick="setCategory(this,'كلاسيك')">كلاسيك</button>
+    <button class="cat-btn" onclick="setCategory(this,'كاجوال')">كاجوال</button>
+    <button class="cat-btn" onclick="setCategory(this,'نسائي')">نسائي</button>
+    <button class="cat-btn" onclick="setCategory(this,'أطفال')">أطفال</button>
+  </div>
+  <div class="shop-bar-info" id="resultCount">عرض 12 منتج</div>
+</div>
+
+<!-- Shop Layout -->
+<div class="shop-layout">
+
+  <!-- Sidebar -->
+  <div class="shop-sidebar">
+    <div class="sidebar-box">
+      <div class="sidebar-title">🎨 اللون</div>
+      <label class="filter-option"><input type="checkbox" onchange="filterProducts()"> أبيض</label>
+      <label class="filter-option"><input type="checkbox" onchange="filterProducts()"> أسود</label>
+      <label class="filter-option"><input type="checkbox" onchange="filterProducts()"> بني</label>
+      <label class="filter-option"><input type="checkbox" onchange="filterProducts()"> أزرق</label>
+      <label class="filter-option"><input type="checkbox" onchange="filterProducts()"> أحمر</label>
+    </div>
+    <div class="sidebar-box">
+      <div class="sidebar-title">📏 المقاس</div>
+      <label class="filter-option"><input type="checkbox" onchange="filterProducts()"> 38</label>
+      <label class="filter-option"><input type="checkbox" onchange="filterProducts()"> 39</label>
+      <label class="filter-option"><input type="checkbox" onchange="filterProducts()"> 40</label>
+      <label class="filter-option"><input type="checkbox" onchange="filterProducts()"> 41</label>
+      <label class="filter-option"><input type="checkbox" onchange="filterProducts()"> 42</label>
+      <label class="filter-option"><input type="checkbox" onchange="filterProducts()"> 43</label>
+      <label class="filter-option"><input type="checkbox" onchange="filterProducts()"> 44</label>
+    </div>
+    <div class="sidebar-box">
+      <div class="sidebar-title">💰 السعر (درهم)</div>
+      <div class="price-range">
+        <input class="price-input" type="number" placeholder="من" id="minPrice">
+        <span style="color:var(--muted)">—</span>
+        <input class="price-input" type="number" placeholder="إلى" id="maxPrice">
+      </div>
+      <button class="apply-filter" onclick="filterProducts()">تطبيق الفلتر</button>
+    </div>
+  </div>
+
+  <!-- Products -->
+  <div class="shop-products">
+    <div class="products-header">
+      <div class="products-count" id="pcount">12 منتج متاح</div>
+      <select class="sort-select" onchange="sortProducts(this.value)">
+        <option value="default">ترتيب افتراضي</option>
+        <option value="price-asc">السعر: من الأقل</option>
+        <option value="price-desc">السعر: من الأعلى</option>
+        <option value="rating">الأعلى تقييماً</option>
+      </select>
+    </div>
+    <div class="products-grid" id="productsGrid"></div>
+  </div>
+
+</div>
+</div>
+
+<!-- Cart Float -->
+<div class="cart-float" onclick="showCart()" id="cartFloat" style="display:none">
+  🛒 سلة الشراء
+  <div class="cart-count" id="cartCount">0</div>
+</div>
+
+
+  <p>✦ الثقافة المقاولاتية — <span>AirZone للأحذية</span> ✦</p>
+  <p style="margin-top:6px;font-size:11px;">صُمِّم لدعم رواد الأعمال الشباب</p>
+</footer>
+
+<div class="toast" id="toast">✅ تم حفظ بطاقة الزبون بنجاح!</div>
+
+<script>
+  // ===== SHOP JS =====
+  const allProducts = [
+    { id:1, name:'كروس ترينر برو', brand:'AirZone', cat:'رياضي', price:4200, oldPrice:5800, stars:5, reviews:128, badge:'hot', emoji:'👟', desc:'حذاء رياضي خفيف الوزن مناسب للجري والتدريب اليومي' },
+    { id:2, name:'كلاسيك ليذر أوكسفورد', brand:'AirZone', cat:'كلاسيك', price:6500, oldPrice:null, stars:5, reviews:84, badge:'new', emoji:'👞', desc:'حذاء جلدي أنيق للمناسبات الرسمية والعمل' },
+    { id:3, name:'أورا كاجوال سليب-أون', brand:'AirZone', cat:'كاجوال', price:2900, oldPrice:3500, stars:4, reviews:210, badge:'sale', emoji:'🥿', desc:'راحة تامة للاستخدام اليومي بتصميم عصري' },
+    { id:4, name:'ستار رن ماكس', brand:'AirZone', cat:'رياضي', price:5100, oldPrice:null, stars:5, reviews:67, badge:'new', emoji:'👟', desc:'تقنية امتصاص الصدمات للجري المحترف' },
+    { id:5, name:'روز هيل لاديز', brand:'AirZone', cat:'نسائي', price:3800, oldPrice:4600, stars:4, reviews:155, badge:'sale', emoji:'👠', desc:'كعب أنيق بألوان متعددة للمرأة العصرية' },
+    { id:6, name:'ميني ستارز أطفال', brand:'AirZone', cat:'أطفال', price:1800, oldPrice:null, stars:5, reviews:93, badge:'hot', emoji:'👟', desc:'ألوان مبهجة وراحة فائقة لأطفالك الصغار' },
+    { id:7, name:'أورثو ووك كلاسيك', brand:'AirZone', cat:'كلاسيك', price:7200, oldPrice:null, stars:5, reviews:42, badge:'new', emoji:'👞', desc:'دعم متكامل للقدم من الجلد الإيطالي الأصلي' },
+    { id:8, name:'سبيد ليت رانر', brand:'AirZone', cat:'رياضي', price:3600, oldPrice:4200, stars:4, reviews:189, badge:'sale', emoji:'👟', desc:'وزن خفيف جداً وتهوية ممتازة للرياضيين' },
+    { id:9, name:'بوهيمي كاجوال', brand:'AirZone', cat:'كاجوال', price:2400, oldPrice:null, stars:4, reviews:76, badge:null, emoji:'🥾', desc:'تصميم بوهيمي فريد يناسب جميع الإطلالات' },
+    { id:10, name:'فلاور كيدز', brand:'AirZone', cat:'أطفال', price:1500, oldPrice:1900, stars:5, reviews:118, badge:'sale', emoji:'👟', desc:'متين وخفيف للأطفال في سن المدرسة' },
+    { id:11, name:'غلام هيلز نسائي', brand:'AirZone', cat:'نسائي', price:4400, oldPrice:null, stars:5, reviews:61, badge:'new', emoji:'👡', desc:'كعب مستدير مريح بتصميم فاخر لكل المناسبات' },
+    { id:12, name:'أولترا بوست 360', brand:'AirZone', cat:'رياضي', price:8900, oldPrice:10500, stars:5, reviews:300, badge:'hot', emoji:'👟', desc:'أفضل حذاء رياضي لعام 2024 — تقنية بوست المتطورة' },
+  ];
+
+  let cart = [];
+  let currentCat = 'all';
+
+  function renderStars(n) {
+    return '★'.repeat(n) + '☆'.repeat(5-n);
+  }
+
+  function renderProducts(list) {
+    const grid = document.getElementById('productsGrid');
+    document.getElementById('pcount').textContent = list.length + ' منتج متاح';
+    document.getElementById('resultCount').textContent = 'عرض ' + list.length + ' منتج';
+    if (list.length === 0) {
+      grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--muted);font-size:16px;">😕 لا توجد منتجات مطابقة</div>';
+      return;
+    }
+    grid.innerHTML = list.map(p => `
+      <div class="product-card" onclick="quickView(${p.id})">
+        ${p.badge ? `<div class="product-badge badge-${p.badge}">${p.badge==='new'?'جديد':p.badge==='sale'?'تخفيض':'🔥 رائج'}</div>` : ''}
+        <div class="product-img">${p.emoji}</div>
+        <div class="product-info">
+          <div class="product-brand">${p.brand}</div>
+          <div class="product-name">${p.name}</div>
+          <div class="product-desc">${p.desc}</div>
+          <div class="product-stars">${renderStars(p.stars)} <span>(${p.reviews})</span></div>
+          <div class="product-footer">
+            <div class="product-price">
+              ${p.oldPrice ? `<span class="old-price">${p.oldPrice.toLocaleString()} درهم</span>` : ''}
+              ${p.price.toLocaleString()} درهم
+            </div>
+            <button class="add-cart-btn" id="btn-${p.id}" onclick="addToCart(event,${p.id})" title="أضف للسلة">+</button>
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function filterProducts() {
+    const q = document.getElementById('searchInput').value.toLowerCase();
+    let list = allProducts.filter(p => {
+      const matchCat = currentCat === 'all' || p.cat === currentCat;
+      const matchQ = p.name.includes(q) || p.desc.includes(q) || p.cat.includes(q);
+      const min = parseFloat(document.getElementById('minPrice').value) || 0;
+      const max = parseFloat(document.getElementById('maxPrice').value) || Infinity;
+      const matchPrice = p.price >= min && p.price <= max;
+      return matchCat && matchQ && matchPrice;
+    });
+    renderProducts(list);
+  }
+
+  function setCategory(btn, cat) {
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    currentCat = cat;
+    filterProducts();
+  }
+
+  function sortProducts(val) {
+    let list = allProducts.filter(p => currentCat === 'all' || p.cat === currentCat);
+    if (val === 'price-asc') list.sort((a,b) => a.price - b.price);
+    else if (val === 'price-desc') list.sort((a,b) => b.price - a.price);
+    else if (val === 'rating') list.sort((a,b) => b.reviews - a.reviews);
+    renderProducts(list);
+  }
+
+  function addToCart(e, id) {
+    e.stopPropagation();
+    cart.push(id);
+    const btn = document.getElementById('btn-'+id);
+    btn.textContent = '✓';
+    btn.classList.add('added');
+    setTimeout(() => { btn.textContent = '+'; btn.classList.remove('added'); }, 1200);
+    document.getElementById('cartCount').textContent = cart.length;
+    document.getElementById('cartFloat').style.display = 'flex';
+    // mini toast
+    const t = document.getElementById('toast');
+    const p = allProducts.find(x => x.id===id);
+    t.textContent = '✅ تمت إضافة ' + p.name + ' إلى السلة!';
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2500);
+  }
+
+  function showCart() {
+    if (cart.length === 0) { alert('السلة فارغة!'); return; }
+    const items = {};
+    cart.forEach(id => { items[id] = (items[id]||0)+1; });
+    let total = 0;
+    let msg = '🛒 سلة المشتريات:\n\n';
+    Object.entries(items).forEach(([id, qty]) => {
+      const p = allProducts.find(x => x.id==id);
+      msg += `${p.emoji} ${p.name} x${qty} — ${(p.price*qty).toLocaleString()} درهم\n`;
+      total += p.price * qty;
+    });
+    msg += '\n💰 الإجمالي: ' + total.toLocaleString() + ' درهم';
+    alert(msg);
+  }
+
+  function quickView(id) {
+    const p = allProducts.find(x => x.id===id);
+    alert(`${p.emoji} ${p.name}\n\n${p.desc}\n\nالفئة: ${p.cat}\nالسعر: ${p.price.toLocaleString()} درهم\nالتقييم: ${renderStars(p.stars)} (${p.reviews} تقييم)`);
+  }
+
+  // Init
+  renderProducts(allProducts);
+
+  // ===== END SHOP JS =====
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  function setGender(btn) {
+    btn.closest('.gender-row').querySelectorAll('.gbtn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  function saveCard() {
+    const toast = document.getElementById('toast');
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 3000);
+  }
+</script>
+</body>
+</html>

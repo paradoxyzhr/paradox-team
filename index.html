@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الثقافة المقاولاتية — مشروعي</title>
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --teal: #2ab8c4;
+    --teal-dark: #1a9aa6;
+    --teal-light: #e8f8f9;
+    --gold: #f0b942;
+    --gold-light: #fdf3dc;
+    --ink: #1a2332;
+    --muted: #6b7a8d;
+    --bg: #f4f8fb;
+    --white: #ffffff;
+    --line: rgba(26,35,50,0.1);
+  }
+  html { scroll-behavior: smooth; }
+  body { background: var(--bg); color: var(--ink); font-family: 'Segoe UI', Tahoma, 'Arabic Typesetting', 'Traditional Arabic', sans-serif; }
+
+  nav {
+    background: var(--white);
+    border-bottom: 3px solid var(--teal);
+    padding: 0 40px; height: 68px;
+    display: flex; align-items: center; justify-content: space-between;
+    position: sticky; top: 0; z-index: 100;
+    box-shadow: 0 2px 20px rgba(42,184,196,0.1);
+  }
+  .nav-logo { font-size: 20px; font-weight: 900; color: var(--teal-dark); display: flex; align-items: center; gap: 10px; }
+  .nav-logo span { color: var(--gold); }
+  .nav-links { display: flex; gap: 28px; list-style: none; }
+  .nav-links a { text-decoration: none; color: var(--muted); font-size: 14px; font-weight: 600; transition: color 0.3s; }
+  .nav-links a:hover { color: var(--teal); }
+  .nav-links a.shop-link { background: var(--gold); color: var(--ink); padding: 7px 18px; border-radius: 50px; font-weight: 700; }
+  .nav-links a.shop-link:hover { background: #d4a030; color: var(--ink); }
+
+  .hero {
+    background: linear-gradient(135deg, #1a9aa6 0%, #2ab8c4 60%, #4dd0d8 100%);
+    color: white; padding: 80px 40px; text-align: center; position: relative; overflow: hidden;
+  }
+  .hero::before { content: '✦'; position: absolute; top: -40px; right: 4%; font-size: 220px; opacity: 0.05; }
+  .hero::after { content: '✦'; position: absolute; bottom: -40px; left: 4%; font-size: 180px; opacity: 0.05; }
+  .hero-badge { display: inline-block; background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4); padding: 6px 20px; border-radius: 50px; font-size: 13px; margin-bottom: 20px; }
+  .hero h1 { font-size: clamp(32px,5vw,58px); font-weight: 900; line-height: 1.25; margin-bottom: 14px; }
+  .hero p { font-size: 15px; opacity: 0.85; max-width: 480px; margin: 0 auto 36px; line-height: 1.9; }
+  .hero-stats { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; }
+  .hero-stat { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 16px; padding: 18px 28px; min-width: 120px; text-align: center; }
+  .hero-stat-num { font-size: 30px; font-weight: 900; display: block; }
+  .hero-stat-label { font-size: 12px; opacity: 0.8; margin-top: 2px; }
+
+  .section { padding: 72px 40px; }
+  .section-header { text-align: center; margin-bottom: 52px; }
+  .section-tag { display: inline-block; background: var(--teal-light); color: var(--teal-dark); padding: 6px 18px; border-radius: 50px; font-size: 13px; font-weight: 700; margin-bottom: 12px; }
+  .section-title { font-size: clamp(26px,4vw,38px); font-weight: 900; }
+
+  .canvas-section { background: var(--white); }
+  .canvas-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+  .cell {
+    background: var(--white); border: 2px solid var(--line); border-radius: 14px;
+    padding: 22px 18px; transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .cell:hover { transform: translateY(-4px); box-shadow: 0 12px 36px rgba(42,184,196,0.14); }
+  .cell.teal { border-color: var(--teal); background: var(--teal-light); }
+  .cell.gold { border-color: var(--gold); background: var(--gold-light); }
+  .cell-icon { width: 42px; height: 42px; border-radius: 11px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 12px; }
+  .bg-teal { background: var(--teal); } .bg-gold { background: var(--gold); }
+  .bg-blue { background: #3b82f6; } .bg-green { background: #22c55e; } .bg-purple { background: #a855f7; }
+  .cell-title { font-size: 14px; font-weight: 700; margin-bottom: 10px; }
+  .cell ul { list-style: none; }
+  .cell ul li { font-size: 12px; color: var(--muted); line-height: 1.85; padding-right: 14px; position: relative; }
+  .cell ul li::before { content: '←'; position: absolute; right: 0; color: var(--teal); font-size: 10px; top: 4px; }
+  .cell.gold ul li::before { color: var(--gold-dark, #c8902a); }
+
+  .canvas-bottom { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+
+  .customer-section { background: var(--bg); }
+  .customer-card { max-width: 680px; margin: 0 auto; background: var(--white); border-radius: 24px; overflow: hidden; box-shadow: 0 8px 40px rgba(26,35,50,0.08); border: 2px solid var(--teal-light); }
+  .customer-header { background: linear-gradient(135deg, var(--teal-dark), var(--teal)); padding: 30px 36px; color: white; display: flex; align-items: center; gap: 18px; }
+  .customer-avatar { width: 68px; height: 68px; border-radius: 50%; background: rgba(255,255,255,0.2); border: 3px solid rgba(255,255,255,0.5); display: flex; align-items: center; justify-content: center; font-size: 30px; flex-shrink: 0; }
+  .customer-header h3 { font-size: 20px; font-weight: 700; }
+  .customer-header p { font-size: 13px; opacity: 0.8; margin-top: 4px; }
+  .customer-body { padding: 36px; }
+  .cfield { display: flex; align-items: flex-start; padding: 16px 0; border-bottom: 1px dashed var(--line); gap: 14px; }
+  .cfield:last-of-type { border-bottom: none; }
+  .cfield-icon { width: 38px; height: 38px; border-radius: 10px; background: var(--teal-light); color: var(--teal-dark); display: flex; align-items: center; justify-content: center; font-size: 17px; flex-shrink: 0; margin-top: 4px; }
+  .cfield-label { font-size: 11px; color: var(--muted); font-weight: 600; margin-bottom: 6px; letter-spacing: 0.03em; }
+  .cfield-input { width: 100%; border: none; outline: none; border-bottom: 2px solid var(--teal-light); font-family: 'Segoe UI', Tahoma, 'Arabic Typesetting', 'Traditional Arabic', sans-serif; font-size: 14px; color: var(--ink); padding: 5px 0; background: transparent; transition: border-color 0.3s; }
+  .cfield-input:focus { border-bottom-color: var(--teal); }
+  .cfield-input::placeholder { color: #ccc; }
+  .gender-row { display: flex; gap: 10px; margin-top: 4px; }
+  .gbtn { padding: 9px 22px; border-radius: 50px; border: 2px solid var(--line); font-family: 'Segoe UI', Tahoma, 'Arabic Typesetting', 'Traditional Arabic', sans-serif; font-size: 13px; cursor: pointer; background: white; color: var(--muted); transition: all 0.3s; }
+  .gbtn.active { border-color: var(--teal); background: var(--teal); color: white; }
+  .gbtn:hover:not(.active) { border-color: var(--teal); color: var(--teal); }
+  .save-btn { display: block; margin: 28px auto 0; background: linear-gradient(135deg, var(--teal-dark), var(--teal)); color: white; border: none; cursor: pointer; padding: 14px 44px; border-radius: 50px; font-family: 'Segoe UI', Tahoma, 'Arabic Typesetting', 'Traditional Arabic', sans-serif; font-size: 15px; font-weight: 700; box-shadow: 0 8px 24px rgba(42,184,196,0.3); transition: transform 0.3s, box-shadow 0.3s; }
+  .save-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(42,184,196,0.4); }
+
+  .toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--ink); color: white; padding: 13px 30px; border-radius: 50px; font-size: 14px; font-weight: 600; transition: transform 0.4s ease; z-index: 999; }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  footer { background: var(--ink); color: rgba(255,255,255,0.5); text-align: center; padding: 28px 40px; font-size: 13px; }
+  footer span { color: var(--teal); }
+
+  .reveal { opacity: 1; transform: translateY(0); }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .d1 { transition-delay: 0.1s; } .d2 { transition-delay: 0.2s; } .d3 { transition-delay: 0.3s; } .d4 { transition-delay: 0.4s; }
+
+  @media (max-width: 900px) { .canvas-grid { grid-template-columns: 1fr 1fr; } .canvas-bottom { grid-template-columns: 1fr; } }
+  @media (max-width: 600px) { .canvas-grid { grid-template-columns: 1fr; } .nav-links { display: none; } .section { padding: 56px 20px; } .hero { padding: 56px 20px; } }
+
+  /* ===== SHOP STYLES ===== */
+  .shop-section { background: #f8f9fa; }
+
+  .shop-hero {
+    background: linear-gradient(135deg, #1a2332 0%, #2d3a4f 60%, #1a9aa6 100%);
+    color: white; padding: 60px 40px; text-align: center; position: relative; overflow: hidden;
+  }
+  .shop-hero::before { content: '👟'; position: absolute; top: -20px; right: 3%; font-size: 180px; opacity: 0.07; }
+  .shop-hero::after { content: '👟'; position: absolute; bottom: -20px; left: 3%; font-size: 140px; opacity: 0.07; }
+  .shop-brand { font-size: clamp(36px,6vw,72px); font-weight: 900; letter-spacing: -1px; }
+  .shop-brand span { color: var(--gold); }
+  .shop-tagline { font-size: 15px; opacity: 0.75; margin: 10px 0 28px; }
+  .shop-search-bar { display: flex; gap: 0; max-width: 500px; margin: 0 auto; border-radius: 50px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.3); }
+  .shop-search-bar input { flex: 1; padding: 14px 20px; border: none; outline: none; font-family: 'Segoe UI', Tahoma, 'Arabic Typesetting', 'Traditional Arabic', sans-serif; font-size: 14px; }
+  .shop-search-bar button { background: var(--gold); border: none; padding: 14px 24px; cursor: pointer; font-size: 18px; transition: background 0.3s; }
+  .shop-search-bar button:hover { background: #d4a030; }
+
+  .shop-bar {
+    background: var(--ink); padding: 12px 40px;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+  }
+  .shop-bar-cats { display: flex; gap: 8px; flex-wrap: wrap; }
+  .cat-btn { padding: 7px 18px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: rgba(255,255,255,0.7); font-family: 'Segoe UI', Tahoma, 'Arabic Typesetting', 'Traditional Arabic', sans-serif; font-size: 13px; cursor: pointer; transition: all 0.3s; }
+  .cat-btn.active, .cat-btn:hover { background: var(--teal); border-color: var(--teal); color: white; }
+  .shop-bar-info { font-size: 12px; color: rgba(255,255,255,0.5); }
+
+  .shop-layout { display: grid; grid-template-columns: 240px 1fr; gap: 24px; padding: 32px 40px; }
+  @media (max-width: 860px) { .shop-layout { grid-template-columns: 1fr; } }
+
+  .shop-sidebar { position: sticky; top: 88px; align-self: start; }
+  .sidebar-box { background: white; border-radius: 16px; padding: 22px; margin-bottom: 16px; border: 1px solid var(--line); }
+  .sidebar-title { font-size: 14px; font-weight: 700; margin-bottom: 16px; color: var(--ink); border-bottom: 2px solid var(--teal-light); padding-bottom: 10px; }
+  .filter-option { display: flex; align-items: center; gap: 10px; padding: 7px 0; font-size: 13px; color: var(--muted); cursor: pointer; }
+  .filter-option input[type=checkbox] { accent-color: var(--teal); width: 15px; height: 15px; cursor: pointer; }
+  .filter-option:hover { color: var(--ink); }
+  .price-range { display: flex; gap: 8px; align-items: center; margin-top: 8px; }
+  .price-input { width: 80px; padding: 7px 10px; border: 1px solid var(--line); border-radius: 8px; font-family: 'Segoe UI', Tahoma, 'Arabic Typesetting', 'Traditional Arabic', sans-serif; font-size: 12px; outline: none; }
+  .price-input:focus { border-color: var(--teal); }
+  .apply-filter { width: 100%; margin-top: 12px; padding: 9px; background: var(--teal); color: white; border: none; border-radius: 8px; font-family: 'Segoe UI', Tahoma, 'Arabic Typesetting', 'Traditional Arabic', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: background 0.3s; }
+  .apply-filter:hover { background: var(--teal-dark); }
+
+  .shop-products { }
+  .products-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+  .products-count { font-size: 14px; color: var(--muted); font-weight: 600; }
+  .sort-select { padding: 8px 14px; border: 1px solid var(--line); border-radius: 8px; font-family: 'Segoe UI', Tahoma, 'Arabic Typesetting', 'Traditional Arabic', sans-serif; font-size: 13px; outline: none; cursor: pointer; }
+
+  .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px; }
+
+  .product-card {
+    background: white; border-radius: 18px; overflow: hidden;
+    border: 1px solid var(--line); transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer; position: relative;
+  }
+  .product-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(26,35,50,0.12); }
+
+  .product-badge { position: absolute; top: 12px; right: 12px; padding: 4px 12px; border-radius: 50px; font-size: 11px; font-weight: 700; z-index: 2; }
+  .badge-new { background: var(--teal); color: white; }
+  .badge-sale { background: #ef4444; color: white; }
+  .badge-hot { background: var(--gold); color: var(--ink); }
+
+  .product-img { height: 180px; display: flex; align-items: center; justify-content: center; font-size: 80px; background: linear-gradient(135deg, #f0f4f8, #e8f0f5); position: relative; overflow: hidden; }
+  .product-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.04)); }
+
+  .product-info { padding: 16px; }
+  .product-brand { font-size: 10px; color: var(--teal-dark); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
+  .product-name { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; line-height: 1.4; }
+  .product-desc { font-size: 11px; color: var(--muted); line-height: 1.7; margin-bottom: 10px; }
+  .product-stars { color: var(--gold); font-size: 13px; margin-bottom: 8px; }
+  .product-stars span { color: var(--muted); font-size: 11px; margin-right: 4px; }
+  .product-footer { display: flex; align-items: center; justify-content: space-between; }
+  .product-price { font-size: 18px; font-weight: 900; color: var(--ink); }
+  .product-price .old-price { font-size: 12px; color: #aaa; text-decoration: line-through; display: block; font-weight: 400; }
+  .add-cart-btn { background: var(--teal); color: white; border: none; width: 36px; height: 36px; border-radius: 50%; font-size: 16px; cursor: pointer; transition: all 0.3s; display: flex; align-items: center; justify-content: center; }
+  .add-cart-btn:hover { background: var(--teal-dark); transform: scale(1.1); }
+  .add-cart-btn.added { background: #22c55e; animation: popIn 0.4s ease; }
+  @keyframes popIn { 0%{transform:scale(1)} 50%{transform:scale(1.3)} 100%{transform:scale(1)} }
+
+  .cart-float { position: fixed; bottom: 28px; left: 28px; background: var(--ink); color: white; padding: 14px 22px; border-radius: 50px; font-size: 14px; font-weight: 700; box-shadow: 0 8px 28px rgba(26,35,50,0.3); cursor: pointer; display: flex; align-items: center; gap: 10px; z-index: 200; transition: transform 0.3s; }
+  .cart-float:hover { transform: translateY(-3px); }
+  .cart-count { background: var(--gold); color: var(--ink); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 900; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo"><span>✦</span> الثقافة المقاولاتية</div>
+  <ul class="nav-links">
+    <li><a href="#canvas">نموذج العمل</a></li>
+    <li><a href="#customer">بطاقة الزبون</a></li>
+    <li><a href="#shop" class="shop-link">🛍️ متجر AirZone</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="hero-badge">✦ مشروعي الريادي</div>
+  <h1>نموذج العمل التجاري<br>وبطاقة الزبون</h1>
+  <p>أداة تفاعلية لتصميم مشروعك الريادي وفهم احتياجات عملائك بشكل متكامل</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="hero-stat-num">9</span><div class="hero-stat-label">عناصر النموذج</div></div>
+    <div class="hero-stat"><span class="hero-stat-num">7</span><div class="hero-stat-label">أسئلة الزبون</div></div>
+    <div class="hero-stat"><span class="hero-stat-num">✦</span><div class="hero-stat-label">مشروع ناجح</div></div>
+  </div>
+</section>
+
+<!-- CANVAS -->
+<section class="section canvas-section" id="canvas">
+  <div class="section-header reveal">
+    <div class="section-tag">📋 نموذج العمل التجاري</div>
+    <h2 class="section-title">مخطط مشروعي</h2>
+  </div>
+
+  <div class="canvas-grid">
+    <div class="cell reveal d1">
+      <div class="cell-icon bg-blue">🔧</div>
+      <div class="cell-title">الموارد الرئيسية</div>
+      <ul><li>الموارد البشرية</li><li>الموارد المادية</li><li>الموارد المالية</li><li>الموارد التقنية</li></ul>
+    </div>
+    <div class="cell teal reveal d2">
+      <div class="cell-icon bg-teal">⚡</div>
+      <div class="cell-title">الأنشطة الرئيسية</div>
+      <ul><li>دور المشروع في المجال الاجتماعي والاقتصادي</li><li>العمليات الأساسية</li><li>إدارة الجودة</li></ul>
+    </div>
+    <div class="cell teal reveal d3">
+      <div class="cell-icon bg-teal">💎</div>
+      <div class="cell-title">عرض القيمة</div>
+      <ul><li>التواصل والتفاعل 📚</li><li>تطبيقات التواصل الاجتماعي</li><li>الإعلانات والتسويق</li></ul>
+    </div>
+    <div class="cell reveal d4">
+      <div class="cell-icon bg-purple">🤝</div>
+      <div class="cell-title">علاقة الزبائن</div>
+      <ul><li>خدمة شخصية مباشرة</li><li>مجتمعات رقمية</li><li>الدعم المستمر</li></ul>
+    </div>
+    <div class="cell reveal d2">
+      <div class="cell-icon bg-green">👥</div>
+      <div class="cell-title">شرائح الزبائن</div>
+      <ul><li>تبادل وتنمية</li><li>الفئة المستهدفة</li><li>البيع المباشر</li></ul>
+    </div>
+    <div class="cell gold reveal d1">
+      <div class="cell-icon bg-gold">🌟</div>
+      <div class="cell-title">الشركاء الرئيسيون</div>
+      <ul><li>شركاء استراتيجيون</li><li>موردون رئيسيون</li><li>جهات داعمة</li></ul>
+    </div>
+    <div class="cell teal reveal d2" style="grid-column: span 2;">
+      <div class="cell-icon bg-teal">📡</div>
+      <div class="cell-title">القنوات</div>
+      <p style="font-size:12px; color:var(--muted); line-height:1.9;">كيف نصل إلى الزبائن ونقدم لهم عروضنا ونحافظ على علاقاتنا معهم؟<br>التواصل الاجتماعي 📱 — المتجر الإلكتروني — البيع المباشر — البيئة 🌱</p>
+    </div>
+    <div class="cell gold reveal d3" style="grid-column: span 2;">
+      <div class="cell-icon bg-gold">💰</div>
+      <div class="cell-title">مصادر الإيرادات</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px;">
+        <span style="background:var(--gold-light);border:1px solid var(--gold);padding:4px 14px;border-radius:50px;font-size:11px;">مبيعات مباشرة</span>
+        <span style="background:var(--gold-light);border:1px solid var(--gold);padding:4px 14px;border-radius:50px;font-size:11px;">اشتراكات</span>
+        <span style="background:var(--gold-light);border:1px solid var(--gold);padding:4px 14px;border-radius:50px;font-size:11px;">خدمات إضافية</span>
+        <span style="background:var(--gold-light);border:1px solid var(--gold);padding:4px 14px;border-radius:50px;font-size:11px;">إعلانات</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="canvas-bottom">
+    <div class="cell gold reveal d1">
+      <div class="cell-icon bg-gold">📊</div>
+      <div class="cell-title">هيكل التكاليف</div>
+      <ul><li>تكاليف ثابتة (إيجار، رواتب)</li><li>تكاليف متغيرة (مواد خام)</li><li>تكاليف التسويق</li></ul>
+    </div>
+    <div class="cell reveal d2" style="background: linear-gradient(135deg,#e8f8f9,#fdf3dc);">
+      <div class="cell-icon bg-teal">🎯</div>
+      <div class="cell-title">هدف المشروع</div>
+      <p style="font-size:12px;color:var(--muted);line-height:1.9;">اكتب هنا الهدف الرئيسي لمشروعك والقيمة التي يقدمها للمجتمع...</p>
+    </div>
+  </div>
+</section>
+
+<!-- CUSTOMER -->
+<section class="section customer-section" id="customer">
+  <div class="section-header reveal">
+    <div class="section-tag">👤 بطاقة الزبون</d

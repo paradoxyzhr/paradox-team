@@ -5,8 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>الثقافة المقاولاتية — مشروعي</title>
 <style>
-
-<style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
   :root {
     --teal: #2ab8c4;
@@ -105,7 +103,7 @@
   footer { background: var(--ink); color: rgba(255,255,255,0.5); text-align: center; padding: 28px 40px; font-size: 13px; }
   footer span { color: var(--teal); }
 
-  .reveal { opacity: 0; transform: translateY(22px); transition: opacity 0.65s ease, transform 0.65s ease; }
+  .reveal { opacity: 1; transform: translateY(0); }
   .reveal.visible { opacity: 1; transform: translateY(0); }
   .d1 { transition-delay: 0.1s; } .d2 { transition-delay: 0.2s; } .d3 { transition-delay: 0.3s; } .d4 { transition-delay: 0.4s; }
 
@@ -415,7 +413,176 @@
         <option value="rating">الأعلى تقييماً</option>
       </select>
     </div>
-    <div class="products-grid" id="productsGrid"></div>
+    
+    <div class="products-grid" id="productsGrid">
+      <div class="product-card">
+        <div class="product-badge badge-hot">🔥 رائج</div>
+        <div class="product-img">👟</div>
+        <div class="product-info">
+          <div class="product-brand">AirZone</div>
+          <div class="product-name">كروس ترينر برو</div>
+          <div class="product-desc">حذاء رياضي خفيف الوزن مناسب للجري والتدريب اليومي</div>
+          <div class="product-stars">★★★★★ <span>(128)</span></div>
+          <div class="product-footer">
+            <div class="product-price"><span class="old-price">5800 درهم</span>4200 درهم</div>
+            <button class="add-cart-btn" onclick="addToCart(event,1)">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-badge badge-new">جديد</div>
+        <div class="product-img">👞</div>
+        <div class="product-info">
+          <div class="product-brand">AirZone</div>
+          <div class="product-name">كلاسيك ليذر أوكسفورد</div>
+          <div class="product-desc">حذاء جلدي أنيق للمناسبات الرسمية والعمل</div>
+          <div class="product-stars">★★★★★ <span>(84)</span></div>
+          <div class="product-footer">
+            <div class="product-price">6500 درهم</div>
+            <button class="add-cart-btn" onclick="addToCart(event,2)">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-badge badge-sale">تخفيض</div>
+        <div class="product-img">🥿</div>
+        <div class="product-info">
+          <div class="product-brand">AirZone</div>
+          <div class="product-name">أورا كاجوال سليب-أون</div>
+          <div class="product-desc">راحة تامة للاستخدام اليومي بتصميم عصري</div>
+          <div class="product-stars">★★★★☆ <span>(210)</span></div>
+          <div class="product-footer">
+            <div class="product-price"><span class="old-price">3500 درهم</span>2900 درهم</div>
+            <button class="add-cart-btn" onclick="addToCart(event,3)">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-badge badge-new">جديد</div>
+        <div class="product-img">👟</div>
+        <div class="product-info">
+          <div class="product-brand">AirZone</div>
+          <div class="product-name">ستار رن ماكس</div>
+          <div class="product-desc">تقنية امتصاص الصدمات للجري المحترف</div>
+          <div class="product-stars">★★★★★ <span>(67)</span></div>
+          <div class="product-footer">
+            <div class="product-price">5100 درهم</div>
+            <button class="add-cart-btn" onclick="addToCart(event,4)">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-badge badge-sale">تخفيض</div>
+        <div class="product-img">👠</div>
+        <div class="product-info">
+          <div class="product-brand">AirZone</div>
+          <div class="product-name">روز هيل لاديز</div>
+          <div class="product-desc">كعب أنيق بألوان متعددة للمرأة العصرية</div>
+          <div class="product-stars">★★★★☆ <span>(155)</span></div>
+          <div class="product-footer">
+            <div class="product-price"><span class="old-price">4600 درهم</span>3800 درهم</div>
+            <button class="add-cart-btn" onclick="addToCart(event,5)">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-badge badge-hot">🔥 رائج</div>
+        <div class="product-img">👟</div>
+        <div class="product-info">
+          <div class="product-brand">AirZone</div>
+          <div class="product-name">ميني ستارز أطفال</div>
+          <div class="product-desc">ألوان مبهجة وراحة فائقة لأطفالك الصغار</div>
+          <div class="product-stars">★★★★★ <span>(93)</span></div>
+          <div class="product-footer">
+            <div class="product-price">1800 درهم</div>
+            <button class="add-cart-btn" onclick="addToCart(event,6)">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-badge badge-new">جديد</div>
+        <div class="product-img">👞</div>
+        <div class="product-info">
+          <div class="product-brand">AirZone</div>
+          <div class="product-name">أورثو ووك كلاسيك</div>
+          <div class="product-desc">دعم متكامل للقدم من الجلد الإيطالي الأصلي</div>
+          <div class="product-stars">★★★★★ <span>(42)</span></div>
+          <div class="product-footer">
+            <div class="product-price">7200 درهم</div>
+            <button class="add-cart-btn" onclick="addToCart(event,7)">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-badge badge-sale">تخفيض</div>
+        <div class="product-img">👟</div>
+        <div class="product-info">
+          <div class="product-brand">AirZone</div>
+          <div class="product-name">سبيد ليت رانر</div>
+          <div class="product-desc">وزن خفيف جداً وتهوية ممتازة للرياضيين</div>
+          <div class="product-stars">★★★★☆ <span>(189)</span></div>
+          <div class="product-footer">
+            <div class="product-price"><span class="old-price">4200 درهم</span>3600 درهم</div>
+            <button class="add-cart-btn" onclick="addToCart(event,8)">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-img">🥾</div>
+        <div class="product-info">
+          <div class="product-brand">AirZone</div>
+          <div class="product-name">بوهيمي كاجوال</div>
+          <div class="product-desc">تصميم بوهيمي فريد يناسب جميع الإطلالات</div>
+          <div class="product-stars">★★★★☆ <span>(76)</span></div>
+          <div class="product-footer">
+            <div class="product-price">2400 درهم</div>
+            <button class="add-cart-btn" onclick="addToCart(event,9)">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-badge badge-sale">تخفيض</div>
+        <div class="product-img">👟</div>
+        <div class="product-info">
+          <div class="product-brand">AirZone</div>
+          <div class="product-name">فلاور كيدز</div>
+          <div class="product-desc">متين وخفيف للأطفال في سن المدرسة</div>
+          <div class="product-stars">★★★★★ <span>(118)</span></div>
+          <div class="product-footer">
+            <div class="product-price"><span class="old-price">1900 درهم</span>1500 درهم</div>
+            <button class="add-cart-btn" onclick="addToCart(event,10)">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-badge badge-new">جديد</div>
+        <div class="product-img">👡</div>
+        <div class="product-info">
+          <div class="product-brand">AirZone</div>
+          <div class="product-name">غلام هيلز نسائي</div>
+          <div class="product-desc">كعب مستدير مريح بتصميم فاخر لكل المناسبات</div>
+          <div class="product-stars">★★★★★ <span>(61)</span></div>
+          <div class="product-footer">
+            <div class="product-price">4400 درهم</div>
+            <button class="add-cart-btn" onclick="addToCart(event,11)">+</button>
+          </div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-badge badge-hot">🔥 رائج</div>
+        <div class="product-img">👟</div>
+        <div class="product-info">
+          <div class="product-brand">AirZone</div>
+          <div class="product-name">أولترا بوست 360</div>
+          <div class="product-desc">أفضل حذاء رياضي لعام 2024 — تقنية بوست المتطورة</div>
+          <div class="product-stars">★★★★★ <span>(300)</span></div>
+          <div class="product-footer">
+            <div class="product-price"><span class="old-price">10500 درهم</span>8900 درهم</div>
+            <button class="add-cart-btn" onclick="addToCart(event,12)">+</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
 </div>
@@ -429,7 +596,7 @@
 
 
   <p>✦ الثقافة المقاولاتية — <span>AirZone للأحذية</span> ✦</p>
-  <p style="margin-top:6px;font-size:11px;">صُمِّم لدعم رواد الأعمال الشباب</p>
+  <p style="margin-top:6px;font-size:11px;">Powered by Paradox ⚡</p>
 </footer>
 
 <div class="toast" id="toast">✅ تم حفظ بطاقة الزبون بنجاح!</div>
@@ -552,14 +719,10 @@
     alert(`${p.emoji} ${p.name}\n\n${p.desc}\n\nالفئة: ${p.cat}\nالسعر: ${p.price.toLocaleString()} درهم\nالتقييم: ${renderStars(p.stars)} (${p.reviews} تقييم)`);
   }
 
-  // Init
-  renderProducts(allProducts);
+  // Products already rendered as static HTML
 
   // ===== END SHOP JS =====
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  // animations disabled for offline compatibility
 
   function setGender(btn) {
     btn.closest('.gender-row').querySelectorAll('.gbtn').forEach(b => b.classList.remove('active'));

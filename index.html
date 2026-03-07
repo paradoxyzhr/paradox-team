@@ -117,7 +117,7 @@
   .shop-section { background: #f8f9fa; }
 
   .shop-hero {
-    background: linear-gradient(135deg, #1a2332 0%, #2d3a4f 60%, #1a9aa6 100%);
+    background: linear-gradient(135deg, #1a9aa6 0%, #2ab8c4 60%, #0d7a85 100%);
     color: white; padding: 60px 40px; text-align: center; position: relative; overflow: hidden;
   }
   .shop-hero::before { content: '👟'; position: absolute; top: -20px; right: 3%; font-size: 180px; opacity: 0.07; }
@@ -143,6 +143,12 @@
   @media (max-width: 860px) { .shop-layout { grid-template-columns: 1fr; } }
 
   .shop-sidebar { position: sticky; top: 88px; align-self: start; }
+  @media (max-width: 767px) {
+    .shop-sidebar { display: none; }
+    .shop-sidebar.open { display: block; position: fixed; top: 0; right: 0; height: 100%; width: 75%; background: white; z-index: 999; overflow-y: auto; padding: 20px; box-shadow: -4px 0 20px rgba(0,0,0,0.2); }
+    .shop-layout { grid-template-columns: 1fr !important; }
+    .filter-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 998; }
+  }
   .sidebar-box { background: white; border-radius: 16px; padding: 22px; margin-bottom: 16px; border: 1px solid var(--line); }
   .sidebar-title { font-size: 14px; font-weight: 700; margin-bottom: 16px; color: var(--ink); border-bottom: 2px solid var(--teal-light); padding-bottom: 10px; }
   .filter-option { display: flex; align-items: center; gap: 10px; padding: 7px 0; font-size: 13px; color: var(--muted); cursor: pointer; }
@@ -152,14 +158,16 @@
   .price-input { width: 80px; padding: 7px 10px; border: 1px solid var(--line); border-radius: 8px; font-family: 'Segoe UI', Tahoma, 'Arabic Typesetting', 'Traditional Arabic', sans-serif; font-size: 12px; outline: none; }
   .price-input:focus { border-color: var(--teal); }
   .apply-filter { width: 100%; margin-top: 12px; padding: 9px; background: var(--teal); color: white; border: none; border-radius: 8px; font-family: 'Segoe UI', Tahoma, 'Arabic Typesetting', 'Traditional Arabic', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: background 0.3s; }
-  .apply-filter:hover { background: var(--teal-dark); }
+  .apply-
 
   .shop-products { }
   .products-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
   .products-count { font-size: 14px; color: var(--muted); font-weight: 600; }
   .sort-select { padding: 8px 14px; border: 1px solid var(--line); border-radius: 8px; font-family: 'Segoe UI', Tahoma, 'Arabic Typesetting', 'Traditional Arabic', sans-serif; font-size: 13px; outline: none; cursor: pointer; }
 
-  .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 18px; }
+  .products-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  @media (min-width: 768px) { .products-grid { grid-template-columns: repeat(3, 1fr); gap: 18px; } }
+  @media (min-width: 1100px) { .products-grid { grid-template-columns: repeat(4, 1fr); gap: 18px; } }
 
   .product-card {
     background: white; border-radius: 18px; overflow: hidden;
@@ -248,6 +256,11 @@
   .hero { display: block !important; }
   .canvas-grid { display: grid !important; }
   .shop-layout { display: grid !important; }
+
+  @media (max-width: 767px) {
+    .mobile-filter-btn-wrap { display: block !important; }
+    .filter-overlay.active { display: block; }
+  }
 </style>
 </head>
 <body>
@@ -472,7 +485,13 @@
       </select>
     </div>
     
-    <div class="products-grid" id="productsGrid">
+    <div style="display:none;" class="mobile-filter-btn-wrap">
+  <button onclick="document.querySelector('.shop-sidebar').classList.toggle('open');document.querySelector('.filter-overlay').classList.toggle('active');" style="background:var(--teal);color:white;border:none;padding:10px 20px;border-radius:25px;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:12px;width:100%;">
+    🔧 الفلاتر
+  </button>
+  <div class="filter-overlay" onclick="document.querySelector('.shop-sidebar').classList.remove('open');this.classList.remove('active');" style="display:none;"></div>
+</div>
+<div class="products-grid" id="productsGrid">
       <div class="product-card">
         <div class="product-badge badge-hot">🔥 رائج</div>
         <div class="product-img"><img src="data:image/jpeg;base64,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" style="width:100%;height:100%;object-fit:cover;border-radius:8px 8px 0 0;" alt="حذاء"></div>
@@ -483,7 +502,7 @@
           <div class="product-stars">★★★★★ <span>(128)</span></div>
           <div class="product-footer">
             <div class="product-price"><span class="old-price">640 درهم</span>470 درهم</div>
-            <button class="add-cart-btn" onclick="addToCart(event,1)">+</button>
+            <button id="btn-1" class="add-cart-btn" onclick="addToCart(event,1)">+</button>
           </div>
         </div>
       </div>
@@ -497,7 +516,7 @@
           <div class="product-stars">★★★★★ <span>(84)</span></div>
           <div class="product-footer">
             <div class="product-price">720 درهم</div>
-            <button class="add-cart-btn" onclick="addToCart(event,2)">+</button>
+            <button id="btn-2" class="add-cart-btn" onclick="addToCart(event,2)">+</button>
           </div>
         </div>
       </div>
@@ -511,7 +530,7 @@
           <div class="product-stars">★★★★☆ <span>(210)</span></div>
           <div class="product-footer">
             <div class="product-price"><span class="old-price">390 درهم</span>320 درهم</div>
-            <button class="add-cart-btn" onclick="addToCart(event,3)">+</button>
+            <button id="btn-3" class="add-cart-btn" onclick="addToCart(event,3)">+</button>
           </div>
         </div>
       </div>
@@ -525,7 +544,7 @@
           <div class="product-stars">★★★★★ <span>(67)</span></div>
           <div class="product-footer">
             <div class="product-price">570 درهم</div>
-            <button class="add-cart-btn" onclick="addToCart(event,4)">+</button>
+            <button id="btn-4" class="add-cart-btn" onclick="addToCart(event,4)">+</button>
           </div>
         </div>
       </div>
@@ -539,7 +558,7 @@
           <div class="product-stars">★★★★☆ <span>(155)</span></div>
           <div class="product-footer">
             <div class="product-price"><span class="old-price">510 درهم</span>420 درهم</div>
-            <button class="add-cart-btn" onclick="addToCart(event,5)">+</button>
+            <button id="btn-5" class="add-cart-btn" onclick="addToCart(event,5)">+</button>
           </div>
         </div>
       </div>
@@ -553,7 +572,7 @@
           <div class="product-stars">★★★★★ <span>(93)</span></div>
           <div class="product-footer">
             <div class="product-price">200 درهم</div>
-            <button class="add-cart-btn" onclick="addToCart(event,6)">+</button>
+            <button id="btn-6" class="add-cart-btn" onclick="addToCart(event,6)">+</button>
           </div>
         </div>
       </div>
@@ -567,7 +586,7 @@
           <div class="product-stars">★★★★★ <span>(42)</span></div>
           <div class="product-footer">
             <div class="product-price">800 درهم</div>
-            <button class="add-cart-btn" onclick="addToCart(event,7)">+</button>
+            <button id="btn-7" class="add-cart-btn" onclick="addToCart(event,7)">+</button>
           </div>
         </div>
       </div>
@@ -581,7 +600,7 @@
           <div class="product-stars">★★★★☆ <span>(189)</span></div>
           <div class="product-footer">
             <div class="product-price"><span class="old-price">470 درهم</span>400 درهم</div>
-            <button class="add-cart-btn" onclick="addToCart(event,8)">+</button>
+            <button id="btn-8" class="add-cart-btn" onclick="addToCart(event,8)">+</button>
           </div>
         </div>
       </div>
@@ -594,7 +613,7 @@
           <div class="product-stars">★★★★☆ <span>(76)</span></div>
           <div class="product-footer">
             <div class="product-price">270 درهم</div>
-            <button class="add-cart-btn" onclick="addToCart(event,9)">+</button>
+            <button id="btn-9" class="add-cart-btn" onclick="addToCart(event,9)">+</button>
           </div>
         </div>
       </div>
@@ -608,7 +627,7 @@
           <div class="product-stars">★★★★★ <span>(118)</span></div>
           <div class="product-footer">
             <div class="product-price"><span class="old-price">210 درهم</span>170 درهم</div>
-            <button class="add-cart-btn" onclick="addToCart(event,10)">+</button>
+            <button id="btn-10" class="add-cart-btn" onclick="addToCart(event,10)">+</button>
           </div>
         </div>
       </div>
@@ -622,7 +641,7 @@
           <div class="product-stars">★★★★★ <span>(61)</span></div>
           <div class="product-footer">
             <div class="product-price">490 درهم</div>
-            <button class="add-cart-btn" onclick="addToCart(event,11)">+</button>
+            <button id="btn-11" class="add-cart-btn" onclick="addToCart(event,11)">+</button>
           </div>
         </div>
       </div>
@@ -636,7 +655,7 @@
           <div class="product-stars">★★★★★ <span>(300)</span></div>
           <div class="product-footer">
             <div class="product-price"><span class="old-price">990 درهم</span>990 درهم</div>
-            <button class="add-cart-btn" onclick="addToCart(event,12)">+</button>
+            <button id="btn-12" class="add-cart-btn" onclick="addToCart(event,12)">+</button>
           </div>
         </div>
       </div>
@@ -652,7 +671,7 @@
           <div class="product-stars">★★★★★ <span>(145)</span></div>
           <div class="product-footer">
             <div class="product-price"><span class="old-price">690 درهم</span>530 درهم</div>
-            <button class="add-cart-btn" onclick="addToCart(event,13)">+</button>
+            <button id="btn-13" class="add-cart-btn" onclick="addToCart(event,13)">+</button>
           </div>
         </div>
       </div>
@@ -667,7 +686,7 @@
           <div class="product-stars">★★★★★ <span>(88)</span></div>
           <div class="product-footer">
             <div class="product-price"><span class="old-price">990 درهم</span>800 درهم</div>
-            <button class="add-cart-btn" onclick="addToCart(event,14)">+</button>
+            <button id="btn-14" class="add-cart-btn" onclick="addToCart(event,14)">+</button>
           </div>
         </div>
       </div>
@@ -682,7 +701,7 @@
           <div class="product-stars">★★★★★ <span>(201)</span></div>
           <div class="product-footer">
             <div class="product-price">590 درهم</div>
-            <button class="add-cart-btn" onclick="addToCart(event,15)">+</button>
+            <button id="btn-15" class="add-cart-btn" onclick="addToCart(event,15)">+</button>
           </div>
         </div>
       </div>
@@ -697,7 +716,7 @@
           <div class="product-stars">★★★★☆ <span>(167)</span></div>
           <div class="product-footer">
             <div class="product-price"><span class="old-price">360 درهم</span>280 درهم</div>
-            <button class="add-cart-btn" onclick="addToCart(event,16)">+</button>
+            <button id="btn-16" class="add-cart-btn" onclick="addToCart(event,16)">+</button>
           </div>
         </div>
       </div>
@@ -712,7 +731,7 @@
           <div class="product-stars">★★★★★ <span>(132)</span></div>
           <div class="product-footer">
             <div class="product-price"><span class="old-price">240 درهم</span>180 درهم</div>
-            <button class="add-cart-btn" onclick="addToCart(event,17)">+</button>
+            <button id="btn-17" class="add-cart-btn" onclick="addToCart(event,17)">+</button>
           </div>
         </div>
       </div>
@@ -727,7 +746,7 @@
           <div class="product-stars">★★★★★ <span>(94)</span></div>
           <div class="product-footer">
             <div class="product-price">740 درهم</div>
-            <button class="add-cart-btn" onclick="addToCart(event,18)">+</button>
+            <button id="btn-18" class="add-cart-btn" onclick="addToCart(event,18)">+</button>
           </div>
         </div>
       </div>
@@ -742,7 +761,7 @@
           <div class="product-stars">★★★★☆ <span>(178)</span></div>
           <div class="product-footer">
             <div class="product-price"><span class="old-price">460 درهم</span>360 درهم</div>
-            <button class="add-cart-btn" onclick="addToCart(event,19)">+</button>
+            <button id="btn-19" class="add-cart-btn" onclick="addToCart(event,19)">+</button>
           </div>
         </div>
       </div>
@@ -757,7 +776,7 @@
           <div class="product-stars">★★★★★ <span>(113)</span></div>
           <div class="product-footer">
             <div class="product-price">490 درهم</div>
-            <button class="add-cart-btn" onclick="addToCart(event,20)">+</button>
+            <button id="btn-20" class="add-cart-btn" onclick="addToCart(event,20)">+</button>
           </div>
         </div>
       </div>
@@ -772,7 +791,7 @@
           <div class="product-stars">★★★★★ <span>(57)</span></div>
           <div class="product-footer">
             <div class="product-price"><span class="old-price">990 درهم</span>940 درهم</div>
-            <button class="add-cart-btn" onclick="addToCart(event,21)">+</button>
+            <button id="btn-21" class="add-cart-btn" onclick="addToCart(event,21)">+</button>
           </div>
         </div>
       </div>
@@ -787,7 +806,7 @@
           <div class="product-stars">★★★★★ <span>(256)</span></div>
           <div class="product-footer">
             <div class="product-price"><span class="old-price">310 درهم</span>230 درهم</div>
-            <button class="add-cart-btn" onclick="addToCart(event,22)">+</button>
+            <button id="btn-22" class="add-cart-btn" onclick="addToCart(event,22)">+</button>
           </div>
         </div>
       <div class="product-card">
@@ -800,7 +819,7 @@
           <div class="product-stars">★★★★★ <span>(189)</span></div>
           <div class="product-footer">
             <div class="product-price"><span class="old-price">990 درهم</span>750 درهم</div>
-            <button class="add-cart-btn" onclick="addToCart(event,23)">+</button>
+            <button id="btn-23" class="add-cart-btn" onclick="addToCart(event,23)">+</button>
           </div>
         </div>
       </div>
@@ -815,7 +834,7 @@
           <div class="product-stars">★★★★★ <span>(143)</span></div>
           <div class="product-footer">
             <div class="product-price"><span class="old-price">900 درهم</span>680 درهم</div>
-            <button class="add-cart-btn" onclick="addToCart(event,24)">+</button>
+            <button id="btn-24" class="add-cart-btn" onclick="addToCart(event,24)">+</button>
           </div>
         </div>
       </div>
@@ -830,7 +849,7 @@
           <div class="product-stars">★★★★★ <span>(312)</span></div>
           <div class="product-footer">
             <div class="product-price"><span class="old-price">1500 درهم</span><span style="color:#e67e22;font-weight:900;">900 درهم</span></div>
-            <button class="add-cart-btn" style="background:#f0b942;" onclick="addToCart(event,25)">+</button>
+            <button id="btn-25" class="add-cart-btn" style="background:#f0b942;" onclick="addToCart(event,25)">+</button>
           </div>
         </div>
       </div>

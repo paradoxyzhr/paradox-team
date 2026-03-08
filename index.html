@@ -1991,15 +1991,21 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     typing.classList.add('show');
     document.getElementById('aiMessages').scrollTop = 99999;
     try {
-      const lastMsg = aiHistory[aiHistory.length-1]?.content || 'مرحبا';
-      const sysMsg = encodeURIComponent(AI_SYSTEM);
-      const userMsg = encodeURIComponent(lastMsg);
-      const res = await fetch('https://text.pollinations.ai/' + userMsg + '?system=' + sysMsg + '&model=openai&json=false', {
-        method: 'GET'
+      const msgs = [{role:'system',content:AI_SYSTEM},...aiHistory];
+      const res = await fetch('https://text.pollinations.ai/openai', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          model: 'openai',
+          messages: msgs,
+          max_tokens: 800,
+          private: true
+        })
       });
       const rawText = await res.text();
       typing.classList.remove('show');
-      const rawReply = rawText || 'عذراً، حدث خطأ. حاول مرة أخرى!';
+      let rawReply = rawText || 'عذراً، حدث خطأ. حاول مرة أخرى!';
+      try { const j = JSON.parse(rawText); rawReply = j.choices?.[0]?.message?.content || rawText; } catch(e) {}
       aiHistory.push({ role: 'assistant', content: rawReply });
       // Strip markdown code blocks if present
       const bt = String.fromCharCode(96);

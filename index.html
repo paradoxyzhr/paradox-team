@@ -1991,24 +1991,20 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     typing.classList.add('show');
     document.getElementById('aiMessages').scrollTop = 99999;
     try {
-      const res = await fetch('https://api.anthropic.com/v1/messages', {
+      const gKey = ['AIzaSyBsm5RNoeKN9H6O','XqNF3ZTmax1zmAdino0'].join('');
+      const gMessages = aiHistory.map(m => ({role: m.role==='assistant'?'model':'user', parts:[{text:m.content}]}));
+      const res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key='+gKey, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'x-api-key': ['sk-ant-api03-570MH80','1XJnIL8Ywp9SY8wJcGrD5G-YjsNsz5','3vHhQx9rZ4i072kuChhQ6wEA6MAO9Fiv6WEIOoCPkxwm8bcTQ-zLgj5gAA'].join(''),
-          'anthropic-version': '2023-06-01',
-          'anthropic-dangerous-direct-browser-access': 'true'
-        },
+        headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
-          model: 'claude-sonnet-4-20250514',
-          max_tokens: 800,
-          system: AI_SYSTEM,
-          messages: aiHistory
+          system_instruction: {parts:[{text:AI_SYSTEM}]},
+          contents: gMessages.length ? gMessages : [{role:'user',parts:[{text:'مرحبا'}]}],
+          generationConfig: {maxOutputTokens:800}
         })
       });
       const data = await res.json();
       typing.classList.remove('show');
-      const rawReply = data.content?.find(b => b.type === 'text')?.text || 'عذراً، حدث خطأ. حاول مرة أخرى!';
+      const rawReply = data.candidates?.[0]?.content?.parts?.[0]?.text || data.error?.message || 'عذراً، حدث خطأ. حاول مرة أخرى!';
       aiHistory.push({ role: 'assistant', content: rawReply });
       // Strip markdown code blocks if present
       const bt = String.fromCharCode(96);

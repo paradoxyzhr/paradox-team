@@ -1991,21 +1991,15 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     typing.classList.add('show');
     document.getElementById('aiMessages').scrollTop = 99999;
     try {
-      const cohKey = ['mEp2w2eSNEipyKEMtmv5','vqQBewRB5n9OlS4cpCeR'].join('');
-      const cohMessages = aiHistory.map(m => ({role: m.role, content: m.content}));
-      const res = await fetch('https://api.cohere.com/v2/chat', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json', 'Authorization': 'Bearer '+cohKey},
-        body: JSON.stringify({
-          model: 'command-r-plus-08-2024',
-          system_prompt: AI_SYSTEM,
-          messages: cohMessages.length ? cohMessages : [{role:'user',content:'مرحبا'}],
-          max_tokens: 800
-        })
+      const lastMsg = aiHistory[aiHistory.length-1]?.content || 'مرحبا';
+      const sysMsg = encodeURIComponent(AI_SYSTEM);
+      const userMsg = encodeURIComponent(lastMsg);
+      const res = await fetch('https://text.pollinations.ai/' + userMsg + '?system=' + sysMsg + '&model=openai&json=false', {
+        method: 'GET'
       });
-      const data = await res.json();
+      const rawText = await res.text();
       typing.classList.remove('show');
-      const rawReply = data.message?.content?.[0]?.text || data.error?.message || 'عذراً، حدث خطأ. حاول مرة أخرى!';
+      const rawReply = rawText || 'عذراً، حدث خطأ. حاول مرة أخرى!';
       aiHistory.push({ role: 'assistant', content: rawReply });
       // Strip markdown code blocks if present
       const bt = String.fromCharCode(96);

@@ -2339,34 +2339,34 @@
 <script>
   // ===== SHOP JS =====
   const allProducts = [
-    { id:1, name:'كروس ترينر برو', brand:'AirZone', cat:'رياضي', price:4200, oldPrice:5800, stars:5, reviews:128, badge:'hot', emoji:'👟', desc:'حذاء رياضي خفيف الوزن مناسب للجري والتدريب اليومي' },
-    { id:2, name:'كلاسيك ليذر أوكسفورد', brand:'AirZone', cat:'كلاسيك', price:6500, oldPrice:null, stars:5, reviews:84, badge:'new', emoji:'👞', desc:'حذاء جلدي أنيق للمناسبات الرسمية والعمل' },
-    { id:3, name:'أورا كاجوال سليب-أون', brand:'AirZone', cat:'كاجوال', price:2900, oldPrice:3500, stars:4, reviews:210, badge:'sale', emoji:'🥿', desc:'راحة تامة للاستخدام اليومي بتصميم عصري' },
-    { id:4, name:'ستار رن ماكس', brand:'AirZone', cat:'رياضي', price:5100, oldPrice:null, stars:5, reviews:67, badge:'new', emoji:'👟', desc:'تقنية امتصاص الصدمات للجري المحترف' },
-    { id:5, name:'روز هيل لاديز', brand:'AirZone', cat:'نسائي', price:3800, oldPrice:4600, stars:4, reviews:155, badge:'sale', emoji:'👠', desc:'كعب أنيق بألوان متعددة للمرأة العصرية' },
-    { id:6, name:'ميني ستارز أطفال', brand:'AirZone', cat:'أطفال', price:1800, oldPrice:null, stars:5, reviews:93, badge:'hot', emoji:'👟', desc:'ألوان مبهجة وراحة فائقة لأطفالك الصغار' },
-    { id:7, name:'أورثو ووك كلاسيك', brand:'AirZone', cat:'كلاسيك', price:7200, oldPrice:null, stars:5, reviews:42, badge:'new', emoji:'👞', desc:'دعم متكامل للقدم من الجلد الإيطالي الأصلي' },
-    { id:8, name:'سبيد ليت رانر', brand:'AirZone', cat:'رياضي', price:3600, oldPrice:4200, stars:4, reviews:189, badge:'sale', emoji:'👟', desc:'وزن خفيف جداً وتهوية ممتازة للرياضيين' },
-    { id:9, name:'بوهيمي كاجوال', brand:'AirZone', cat:'كاجوال', price:2400, oldPrice:null, stars:4, reviews:76, badge:null, emoji:'🥾', desc:'تصميم بوهيمي فريد يناسب جميع الإطلالات' },
-    { id:10, name:'فلاور كيدز', brand:'AirZone', cat:'أطفال', price:1500, oldPrice:1900, stars:5, reviews:118, badge:'sale', emoji:'👟', desc:'متين وخفيف للأطفال في سن المدرسة' },
-    { id:11, name:'غلام هيلز نسائي', brand:'AirZone', cat:'نسائي', price:4400, oldPrice:null, stars:5, reviews:61, badge:'new', emoji:'👡', desc:'كعب مستدير مريح بتصميم فاخر لكل المناسبات' },
-    { id:12, name:'أولترا بوست 360', brand:'AirZone', cat:'رياضي', price:8900, oldPrice:10500, stars:5, reviews:300, badge:'hot', emoji:'👟', desc:'أفضل حذاء رياضي لعام 2024 — تقنية بوست المتطورة' },
-    { id:13, name:'نايت رانر X', brand:'AirZone', cat:'رياضي', price:4800, oldPrice:6200, stars:5, reviews:145, badge:'new', emoji:'👟', desc:'حذاء رياضي بتصميم ليلي عاكس للضوء مثالي للجري الليلي' },
-    { id:14, name:'موناكو ليذر كلاسيك', brand:'AirZone', cat:'كلاسيك', price:7200, oldPrice:9500, stars:5, reviews:88, badge:'sale', emoji:'👞', desc:'حذاء كلاسيك جلد طبيعي إيطالي بنعل مطاطي مريح للأعمال' },
-    { id:15, name:'لونا هيلز نسائي', brand:'AirZone', cat:'نسائي', price:5300, oldPrice:null, stars:5, reviews:201, badge:'hot', emoji:'👠', desc:'كعب عالي أنيق بتصميم مستوحى من باريس للمناسبات الراقية' },
-    { id:16, name:'أوربان كاجوال لوفر', brand:'AirZone', cat:'كاجوال', price:2500, oldPrice:3200, stars:4, reviews:167, badge:'new', emoji:'🥿', desc:'لوفر عصري خفيف يناسب الجامعة والتنزه اليومي بألوان متعددة' },
-    { id:17, name:'سوبر كيدز جامب', brand:'AirZone', cat:'أطفال', price:1600, oldPrice:2200, stars:5, reviews:132, badge:'sale', emoji:'👟', desc:'حذاء أطفال بنعل نابض ممتاز للقفز واللعب في الملاعب' },
-    { id:18, name:'ترايل بلاست رياضي', brand:'AirZone', cat:'رياضي', price:6700, oldPrice:null, stars:5, reviews:94, badge:'new', emoji:'👟', desc:'حذاء تضاريس احترافي مقاوم للماء للمشي في الجبال والغابات' },
-    { id:19, name:'فيلفيت نسائي', brand:'AirZone', cat:'نسائي', price:3200, oldPrice:4100, stars:4, reviews:178, badge:'hot', emoji:'👡', desc:'حذاء مخملي فاخر بألوان الخريف مريح وأنيق لكل يوم' },
-    { id:20, name:'ديزرت بوت كاجوال', brand:'AirZone', cat:'كاجوال', price:4400, oldPrice:null, stars:5, reviews:113, badge:'new', emoji:'🥾', desc:'بوت صحراوي بجلد الغزال الناعم عصري ومريح للشتاء' },
-    { id:21, name:'رويال ديربي كلاسيك', brand:'AirZone', cat:'كلاسيك', price:8500, oldPrice:11000, stars:5, reviews:57, badge:'sale', emoji:'👞', desc:'حذاء ديربي ملكي بخياطة يدوية دقيقة لرجال الأعمال' },
-    { id:22, name:'نانو كيدز سبورت', brand:'AirZone', cat:'أطفال', price:2100, oldPrice:2800, stars:5, reviews:256, badge:'hot', emoji:'👟', desc:'حذاء رياضي للأطفال بإضاءة LED في النعل يضيء عند المشي' },
-    { id:23, name:'ستيليتو روز فاخر', brand:'AirZone', cat:'نسائي', price:750, oldPrice:990, stars:5, reviews:189, badge:'new', emoji:'👠', desc:'كعب عالي ساتان وردي فاخر بحزام فضي للسهرات الراقية' },
-    { id:24, name:'ديربي بلاك إيليت', brand:'AirZone', cat:'كلاسيك', price:680, oldPrice:900, stars:5, reviews:143, badge:'sale', emoji:'👞', desc:'حذاء جلد أسود لامع فاخر للمناسبات الرسمية والأعمال' },
-    { id:25, name:'مجموعة AirZone العائلية', brand:'AirZone', cat:'عائلي', price:900, oldPrice:1500, stars:5, reviews:312, badge:'sale', emoji:'👨‍👩‍👧', desc:'اشترِ 3 أحذية للعائلة واحصل على تخفيض 40%' },
-    { id:26, name:'كيدز ستار أزرق', brand:'AirZone', cat:'أطفال', price:190, oldPrice:280, stars:5, reviews:174, badge:'new', emoji:'👟', desc:'حذاء أطفال بخطوط بيضاء مريح للمدرسة' },
-    { id:27, name:'بلاك ماستر كلاسيك', brand:'AirZone', cat:'كلاسيك', price:620, oldPrice:850, stars:5, reviews:98, badge:'sale', emoji:'👞', desc:'حذاء جلد أسود أنيق للمناسبات الرسمية' },
-    { id:28, name:'تيك براون كاجوال', brand:'AirZone', cat:'كاجوال', price:390, oldPrice:null, stars:4, reviews:136, badge:'new', emoji:'🥿', desc:'حذاء كاجوال بني سويدي ناعم للتنقل اليومي' },
+    { id:1,  name:'كروس ترينر برو',           brand:'AirZone', cat:'رياضي',  price:470,  oldPrice:640,  stars:5, reviews:128, badge:'hot',  emoji:'👟', desc:'حذاء رياضي خفيف الوزن مناسب للجري والتدريب اليومي' },
+    { id:2,  name:'كلاسيك ليذر أوكسفورد',     brand:'AirZone', cat:'كلاسيك', price:720,  oldPrice:null, stars:5, reviews:84,  badge:'new',  emoji:'👞', desc:'حذاء جلدي أنيق للمناسبات الرسمية والعمل' },
+    { id:3,  name:'أورا كاجوال سليب-أون',     brand:'AirZone', cat:'كاجوال', price:320,  oldPrice:390,  stars:4, reviews:210, badge:'sale', emoji:'🥿', desc:'راحة تامة للاستخدام اليومي بتصميم عصري' },
+    { id:4,  name:'ستار رن ماكس',              brand:'AirZone', cat:'رياضي',  price:570,  oldPrice:null, stars:5, reviews:67,  badge:'new',  emoji:'👟', desc:'تقنية امتصاص الصدمات للجري المحترف' },
+    { id:5,  name:'روز هيل لاديز',             brand:'AirZone', cat:'نسائي',  price:420,  oldPrice:510,  stars:4, reviews:155, badge:'sale', emoji:'👠', desc:'كعب أنيق بألوان متعددة للمرأة العصرية' },
+    { id:6,  name:'ميني ستارز أطفال',          brand:'AirZone', cat:'أطفال',  price:200,  oldPrice:null, stars:5, reviews:93,  badge:'hot',  emoji:'👟', desc:'ألوان مبهجة وراحة فائقة لأطفالك الصغار' },
+    { id:7,  name:'أورثو ووك كلاسيك',         brand:'AirZone', cat:'كلاسيك', price:800,  oldPrice:null, stars:5, reviews:42,  badge:'new',  emoji:'👞', desc:'دعم متكامل للقدم من الجلد الإيطالي الأصلي' },
+    { id:8,  name:'سبيد ليت رانر',             brand:'AirZone', cat:'رياضي',  price:400,  oldPrice:470,  stars:4, reviews:189, badge:'sale', emoji:'👟', desc:'وزن خفيف جداً وتهوية ممتازة للرياضيين' },
+    { id:9,  name:'بوهيمي كاجوال',             brand:'AirZone', cat:'كاجوال', price:270,  oldPrice:null, stars:4, reviews:76,  badge:null,   emoji:'🥾', desc:'تصميم بوهيمي فريد يناسب جميع الإطلالات' },
+    { id:10, name:'فلاور كيدز',                brand:'AirZone', cat:'أطفال',  price:170,  oldPrice:210,  stars:5, reviews:118, badge:'sale', emoji:'👟', desc:'متين وخفيف للأطفال في سن المدرسة' },
+    { id:11, name:'غلام هيلز نسائي',           brand:'AirZone', cat:'نسائي',  price:490,  oldPrice:null, stars:5, reviews:61,  badge:'new',  emoji:'👡', desc:'كعب مستدير مريح بتصميم فاخر لكل المناسبات' },
+    { id:12, name:'أولترا بوست 360',           brand:'AirZone', cat:'رياضي',  price:990,  oldPrice:null, stars:5, reviews:300, badge:'hot',  emoji:'👟', desc:'أفضل حذاء رياضي لعام 2024 — تقنية بوست المتطورة' },
+    { id:13, name:'نايت رانر X',               brand:'AirZone', cat:'رياضي',  price:530,  oldPrice:690,  stars:5, reviews:145, badge:'new',  emoji:'👟', desc:'حذاء رياضي بتصميم ليلي عاكس للضوء مثالي للجري الليلي' },
+    { id:14, name:'موناكو ليذر كلاسيك',        brand:'AirZone', cat:'كلاسيك', price:800,  oldPrice:990,  stars:5, reviews:88,  badge:'sale', emoji:'👞', desc:'حذاء كلاسيك جلد طبيعي إيطالي بنعل مطاطي مريح للأعمال' },
+    { id:15, name:'لونا هيلز نسائي',           brand:'AirZone', cat:'نسائي',  price:590,  oldPrice:null, stars:5, reviews:201, badge:'hot',  emoji:'👠', desc:'كعب عالي أنيق بتصميم مستوحى من باريس للمناسبات الراقية' },
+    { id:16, name:'أوربان كاجوال لوفر',        brand:'AirZone', cat:'كاجوال', price:280,  oldPrice:360,  stars:4, reviews:167, badge:'new',  emoji:'🥿', desc:'لوفر عصري خفيف يناسب الجامعة والتنزه اليومي بألوان متعددة' },
+    { id:17, name:'سوبر كيدز جامب',            brand:'AirZone', cat:'أطفال',  price:180,  oldPrice:240,  stars:5, reviews:132, badge:'sale', emoji:'👟', desc:'حذاء أطفال بنعل نابض ممتاز للقفز واللعب في الملاعب' },
+    { id:18, name:'ترايل بلاست رياضي',         brand:'AirZone', cat:'رياضي',  price:740,  oldPrice:null, stars:5, reviews:94,  badge:'new',  emoji:'👟', desc:'حذاء تضاريس احترافي مقاوم للماء للمشي في الجبال والغابات' },
+    { id:19, name:'فيلفيت نسائي',              brand:'AirZone', cat:'نسائي',  price:360,  oldPrice:460,  stars:4, reviews:178, badge:'hot',  emoji:'👡', desc:'حذاء مخملي فاخر بألوان الخريف مريح وأنيق لكل يوم' },
+    { id:20, name:'ديزرت بوت كاجوال',          brand:'AirZone', cat:'كاجوال', price:490,  oldPrice:null, stars:5, reviews:113, badge:'new',  emoji:'🥾', desc:'بوت صحراوي بجلد الغزال الناعم عصري ومريح للشتاء' },
+    { id:21, name:'رويال ديربي كلاسيك',        brand:'AirZone', cat:'كلاسيك', price:940,  oldPrice:990,  stars:5, reviews:57,  badge:'sale', emoji:'👞', desc:'حذاء ديربي ملكي بخياطة يدوية دقيقة لرجال الأعمال' },
+    { id:22, name:'نانو كيدز سبورت',           brand:'AirZone', cat:'أطفال',  price:230,  oldPrice:310,  stars:5, reviews:256, badge:'hot',  emoji:'👟', desc:'حذاء رياضي للأطفال بإضاءة LED في النعل يضيء عند المشي' },
+    { id:23, name:'ستيليتو روز فاخر',          brand:'AirZone', cat:'نسائي',  price:750,  oldPrice:990,  stars:5, reviews:189, badge:'new',  emoji:'👠', desc:'كعب عالي ساتان وردي فاخر بحزام فضي للسهرات الراقية' },
+    { id:24, name:'ديربي بلاك إيليت',          brand:'AirZone', cat:'كلاسيك', price:680,  oldPrice:900,  stars:5, reviews:143, badge:'sale', emoji:'👞', desc:'حذاء جلد أسود لامع فاخر للمناسبات الرسمية والأعمال' },
+    { id:25, name:'مجموعة AirZone العائلية',   brand:'AirZone', cat:'عائلي',  price:900,  oldPrice:null, stars:5, reviews:312, badge:'sale', emoji:'👨‍👩‍👧', desc:'اشترِ 3 أحذية للعائلة واحصل على تخفيض 40%' },
+    { id:26, name:'كيدز ستار أزرق',            brand:'AirZone', cat:'أطفال',  price:190,  oldPrice:280,  stars:5, reviews:174, badge:'new',  emoji:'👟', desc:'حذاء أطفال بخطوط بيضاء مريح للمدرسة' },
+    { id:27, name:'بلاك ماستر كلاسيك',         brand:'AirZone', cat:'كلاسيك', price:620,  oldPrice:850,  stars:5, reviews:98,  badge:'sale', emoji:'👞', desc:'حذاء جلد أسود أنيق للمناسبات الرسمية' },
+    { id:28, name:'تيك براون كاجوال',          brand:'AirZone', cat:'كاجوال', price:390,  oldPrice:null, stars:4, reviews:136, badge:'new',  emoji:'🥿', desc:'حذاء كاجوال بني سويدي ناعم للتنقل اليومي' },
               ];
 
   let cart = [];
@@ -2870,33 +2870,33 @@
 
 المنتجات:
 id:1 كروس ترينر برو رياضي 470 👟
-id:2 ستار رن ماكس رياضي 510 👟
-id:3 سبيد ليت رانر رياضي 360 👟
-id:4 أولترا بوست 360 رياضي 890 👟
-id:5 نايت رانر X رياضي 480 👟
-id:6 ترايل بلاست رياضي 670 👟
-id:7 كلاسيك ليذر أوكسفورد كلاسيك 580 👞
-id:8 أورثو ووك كلاسيك كلاسيك 720 👞
-id:9 موناكو ليذر كلاسيك كلاسيك 720 👞
-id:10 رويال ديربي كلاسيك كلاسيك 850 👞
-id:11 ديربي بلاك إيليت كلاسيك 680 👞
-id:12 بلاك ماستر كلاسيك كلاسيك 620 👞
-id:13 أورا كاجوال سليب-أون كاجوال 290 🥿
-id:14 بوهيمي كاجوال كاجوال 240 🥿
-id:15 أوربان كاجوال لوفر كاجوال 250 🥿
-id:16 ديزرت بوت كاجوال كاجوال 440 🥿
-id:17 تيك براون كاجوال كاجوال 390 🥿
-id:18 روز هيل لاديز نسائي 380 👠
-id:19 غلام هيلز نسائي نسائي 440 👠
-id:20 لونا هيلز نسائي نسائي 530 👠
-id:21 فيلفيت نسائي نسائي 320 👠
-id:22 ستيليتو روز فاخر نسائي 750 👠
-id:23 ميني ستارز أطفال أطفال 180 👶
-id:24 فلاور كيدز أطفال 150 👶
-id:25 سوبر كيدز جامب أطفال 160 👶
-id:26 نانو كيدز سبورت أطفال 210 👶
-id:27 كيدز ستار أزرق أطفال 190 👶
-id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
+id:2 كلاسيك ليذر أوكسفورد كلاسيك 720 👞
+id:3 أورا كاجوال سليب-أون كاجوال 320 🥿
+id:4 ستار رن ماكس رياضي 570 👟
+id:5 روز هيل لاديز نسائي 420 👠
+id:6 ميني ستارز أطفال أطفال 200 👟
+id:7 أورثو ووك كلاسيك كلاسيك 800 👞
+id:8 سبيد ليت رانر رياضي 400 👟
+id:9 بوهيمي كاجوال كاجوال 270 🥾
+id:10 فلاور كيدز أطفال 170 👟
+id:11 غلام هيلز نسائي نسائي 490 👡
+id:12 أولترا بوست 360 رياضي 990 👟
+id:13 نايت رانر X رياضي 530 👟
+id:14 موناكو ليذر كلاسيك كلاسيك 800 👞
+id:15 لونا هيلز نسائي نسائي 590 👠
+id:16 أوربان كاجوال لوفر كاجوال 280 🥿
+id:17 سوبر كيدز جامب أطفال 180 👟
+id:18 ترايل بلاست رياضي رياضي 740 👟
+id:19 فيلفيت نسائي نسائي 360 👡
+id:20 ديزرت بوت كاجوال كاجوال 490 🥾
+id:21 رويال ديربي كلاسيك كلاسيك 940 👞
+id:22 نانو كيدز سبورت أطفال 230 👟
+id:23 ستيليتو روز فاخر نسائي 750 👠
+id:24 ديربي بلاك إيليت كلاسيك 680 👞
+id:25 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
+id:26 كيدز ستار أزرق أطفال 190 👟
+id:27 بلاك ماستر كلاسيك كلاسيك 620 👞
+id:28 تيك براون كاجوال كاجوال 390 🥿
 
 المقاسات: 38-44 | توصيل مجاني فوق 500 درهم | إرجاع 30 يوم`
 

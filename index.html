@@ -355,19 +355,17 @@
   .sort-select { padding: 8px 14px; border: 1px solid var(--line); border-radius: 8px; font-family: 'Segoe UI', Tahoma, 'Arabic Typesetting', 'Traditional Arabic', sans-serif; font-size: 13px; outline: none; cursor: pointer; }
 
   .products-grid {
-    column-count: 2;
-    column-gap: 12px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
   }
+  @media (min-width: 768px) { .products-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; } }
+  @media (min-width: 1100px) { .products-grid { grid-template-columns: repeat(4, 1fr); gap: 18px; } }
   .products-grid > .product-card {
-    break-inside: avoid;
-    -webkit-column-break-inside: avoid;
-    display: block;
-    width: 100%;
-    margin-bottom: 12px;
+    width: 100% !important;
     box-sizing: border-box;
+    margin: 0 !important;
   }
-  @media (min-width: 768px) { .products-grid { column-count: 3; column-gap: 16px; } }
-  @media (min-width: 1100px) { .products-grid { column-count: 4; column-gap: 18px; } }
 
   .product-card {
     background: white; border-radius: 18px; overflow: hidden;
@@ -2444,7 +2442,7 @@
       const cardCat = card.getAttribute('data-cat');
       const match = (cat === 'all') || (cardCat === cat);
       if (match) {
-        card.style.setProperty('display', 'inline-block', 'important');
+        card.style.removeProperty('display');
         card.style.width = '100%';
         card.style.marginBottom = '10px';
         shown++;

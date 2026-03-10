@@ -386,6 +386,10 @@
     border: 1px solid var(--line); transition: transform 0.3s, box-shadow 0.3s;
     cursor: pointer; position: relative;
     width: 100%; box-sizing: border-box;
+    break-inside: avoid !important;
+    -webkit-column-break-inside: avoid !important;
+    page-break-inside: avoid !important;
+    display: inline-block !important;
   }
   .product-card.family-card { border: 3px solid #f0b942; }
   .product-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(26,35,50,0.12); }

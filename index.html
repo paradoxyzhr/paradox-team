@@ -355,21 +355,19 @@
   .sort-select { padding: 8px 14px; border: 1px solid var(--line); border-radius: 8px; font-family: 'Segoe UI', Tahoma, 'Arabic Typesetting', 'Traditional Arabic', sans-serif; font-size: 13px; outline: none; cursor: pointer; }
 
   .products-grid {
-    column-count: 2 !important;
-    column-gap: 10px !important;
-    display: block !important;
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+    align-items: start !important;
   }
   .products-grid > .product-card {
-    display: inline-block !important;
+    display: block !important;
     width: 100% !important;
-    margin-bottom: 10px !important;
-    break-inside: avoid !important;
-    -webkit-column-break-inside: avoid !important;
-    page-break-inside: avoid !important;
     box-sizing: border-box !important;
+    margin: 0 !important;
   }
-  @media (min-width: 768px) { .products-grid { column-count: 3 !important; column-gap: 18px !important; } }
-  @media (min-width: 1100px) { .products-grid { column-count: 4 !important; column-gap: 18px !important; } }
+  @media (min-width: 768px) { .products-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 16px !important; } }
+  @media (min-width: 1100px) { .products-grid { grid-template-columns: repeat(4, 1fr) !important; gap: 18px !important; } }
 
   .product-card {
     background: white; border-radius: 18px; overflow: hidden;
@@ -391,7 +389,7 @@
   .product-info { padding: 10px; }
   .product-brand { font-size: 10px; color: var(--teal-dark); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
   .product-name { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; line-height: 1.4; }
-  .products-grid > .product-card[style*="display: none"] { display: none !important; width: 0 !important; height: 0 !important; overflow: hidden !important; margin: 0 !important; padding: 0 !important; }
+  .products-grid > .product-card[style*="display: none"] { display: none !important; }
   .product-desc { font-size: 11px; color: var(--muted); line-height: 1.7; margin-bottom: 10px; }
   .product-stars { color: var(--gold); font-size: 13px; margin-bottom: 8px; }
   .product-stars span { color: var(--muted); font-size: 11px; margin-right: 4px; }

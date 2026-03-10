@@ -2677,6 +2677,11 @@
 
     // Add loyalty points
     addLoyaltyPoints(10 * cart.length);
+    // Mark coupon as used (one-time use)
+    if (appliedCoupon && appliedCoupon.code) {
+      markCodeUsed(appliedCoupon.code);
+      appliedCoupon = null;
+    }
 
     // Clear cart
     closeCart();
@@ -3710,12 +3715,17 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
 
 
   // ===== COUPON SYSTEM =====
-  const COUPONS = {
-    'FLASH15':  { discount: 0.15, label: 'خصم 15%' },
+  // Static coupons
+  const STATIC_COUPONS = {
+    'FLASH15':   { discount: 0.15, label: 'خصم 15%' },
     'AIRZONE10': { discount: 0.10, label: 'خصم 10%' },
     'WELCOME20': { discount: 0.20, label: 'خصم 20% للمشتركين الجدد' },
-    'VIP30':    { discount: 0.30, label: 'خصم 30% VIP' },
+    'VIP30':     { discount: 0.30, label: 'خصم 30% VIP' },
   };
+  function getUsedCodes() { try { return JSON.parse(localStorage.getItem('az_used_codes') || '[]'); } catch { return []; } }
+  function getWheelCodes() { try { return JSON.parse(localStorage.getItem('az_wheel_codes') || '{}'); } catch { return {}; } }
+  function markCodeUsed(code) { const u = getUsedCodes(); if (!u.includes(code)) { u.push(code); localStorage.setItem('az_used_codes', JSON.stringify(u)); } }
+  function saveWheelCode(code, discount, label) { const c = getWheelCodes(); c[code] = { discount, label }; localStorage.setItem('az_wheel_codes', JSON.stringify(c)); }
   let appliedCoupon = null;
 
   function applyCoupon() {
@@ -3729,10 +3739,21 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       return;
     }
 
-    if (COUPONS[code]) {
-      appliedCoupon = { code, ...COUPONS[code] };
+    // Check if already used
+    if (getUsedCodes().includes(code)) {
+      appliedCoupon = null;
+      resultEl.className = 'coupon-result error';
+      resultEl.textContent = '❌ هذا الكود تم استخدامه ولا يمكن إعادة استخدامه';
+      discountRow.style.display = 'none';
+      renderCartModal();
+      return;
+    }
+
+    const couponData = STATIC_COUPONS[code] || getWheelCodes()[code];
+    if (couponData) {
+      appliedCoupon = { code, ...couponData };
       resultEl.className = 'coupon-result success';
-      resultEl.textContent = `✅ تم تطبيق الكود! ${COUPONS[code].label}`;
+      resultEl.textContent = `✅ تم تطبيق الكود! ${couponData.label}`;
       discountRow.style.display = 'flex';
       renderCartModal();
     } else {
@@ -3917,11 +3938,14 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
         const idx = Math.floor(normalized / sliceAngle) % WHEEL_PRIZES.length;
         const prize = WHEEL_PRIZES[idx];
         if (prize.code) {
+          // Generate unique code for this win
+          const uniqueCode = 'WHL-' + Math.random().toString(36).substr(2, 6).toUpperCase();
+          const discount = parseInt(prize.label) / 100;
+          const label = 'خصم ' + prize.label + ' (عجلة الحظ)';
+          saveWheelCode(uniqueCode, discount, label);
           document.getElementById('wheelResult').textContent = '🎉 ربحت خصم ' + prize.label + '!';
-          document.getElementById('wheelCode').textContent = prize.code;
+          document.getElementById('wheelCode').textContent = uniqueCode;
           document.getElementById('wheelWin').classList.add('show');
-          // Add to COUPONS
-          if (!COUPONS[prize.code]) COUPONS[prize.code] = { discount: parseInt(prize.label)/100, label: 'خصم ' + prize.label };
           setTimeout(() => closeGamesAndLock(), 3000);
         } else {
           document.getElementById('wheelResult').textContent = '😅 حظاً أوفر في المرة القادمة!';

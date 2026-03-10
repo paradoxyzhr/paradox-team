@@ -3013,6 +3013,29 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     // Show only 1 product
     const singleProduct = [products[0]];
     singleProduct.forEach(p => {
+      // ✅ FIX: Resolve the correct product from allProducts by name first, then by ID
+      // This ensures the cart always gets the exact product the AI recommended
+      let resolvedProduct = null;
+      // Try exact name match
+      resolvedProduct = allProducts.find(x => x.name === p.name);
+      // Try partial name match if exact fails
+      if (!resolvedProduct && p.name) {
+        resolvedProduct = allProducts.find(x => x.name.includes(p.name.split(' ')[0]) || p.name.includes(x.name.split(' ')[0]));
+      }
+      // Fallback to ID only if name match fails
+      if (!resolvedProduct) {
+        resolvedProduct = allProducts.find(x => x.id === p.id);
+      }
+      // Use resolved ID for cart — this is the key fix
+      const cartId = resolvedProduct ? resolvedProduct.id : p.id;
+      // Sync p fields with resolved product so card shows correct info
+      if (resolvedProduct) {
+        p.id = resolvedProduct.id;
+        p.name = resolvedProduct.name;
+        p.price = resolvedProduct.price;
+        p.emoji = resolvedProduct.emoji || p.emoji;
+      }
+
       // Match product card from shop by name (include hidden cards)
       let imgSrc = '', oldPrice = '', desc = '', stars = 5, reviews = 0;
       document.querySelectorAll('.product-card').forEach(card => {
@@ -3071,7 +3094,7 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
         (oldPrice ? '<div class="pc-old">' + oldPrice + '</div>' : '') +
         '<div class="pc-price">' + p.price.toLocaleString() + ' درهم</div>' +
         '<div class="pc-btns">' +
-          '<button class="pc-cart-btn" onclick="addToCartById(' + p.id + ');this.textContent=\'✅ تمت الإضافة\';this.style.background=\'var(--teal-dark)\';">🛒 أضف للسلة</button>' +
+          '<button class="pc-cart-btn" onclick="addToCartById(' + cartId + ');this.textContent=\'✅ تمت الإضافة\';this.style.background=\'var(--teal-dark)\';">🛒 أضف للسلة</button>' +
           '<button class="pc-wa-btn" onclick="window.open(\'https://wa.me/212621382780?text=أريد طلب: ' + encodeURIComponent(p.name) + '\',\'_blank\')">💬</button>' +
         '</div>';
       card.appendChild(body);

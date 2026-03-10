@@ -809,6 +809,27 @@
   .ref-float-btn { position:fixed; bottom:340px; right:20px; background:linear-gradient(135deg,#ff6b35,#f0b942); color:white; border:none; border-radius:50px; padding:11px 16px; font-size:13px; font-weight:700; font-family:inherit; cursor:pointer; z-index:800; box-shadow:0 4px 16px rgba(240,107,53,0.4); display:flex; align-items:center; gap:6px; transition:transform 0.2s; }
   .ref-float-btn:hover { transform:scale(1.05); }
 
+
+  /* ===== DELIVERY MAP ===== */
+  .delivery-map-wrap { margin-top:16px; border-radius:16px; overflow:hidden; border:2px solid var(--teal); }
+  .delivery-map-header { background:var(--teal); color:white; padding:10px 14px; font-size:13px; font-weight:700; display:flex; justify-content:space-between; align-items:center; }
+  #deliveryMap { width:100%; height:220px; background:#e8f4f8; position:relative; overflow:hidden; }
+  .map-road { position:absolute; background:#ccc; }
+  .map-store-pin { position:absolute; font-size:24px; transform:translate(-50%,-100%); filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3)); z-index:3; }
+  .map-driver { position:absolute; font-size:22px; transform:translate(-50%,-50%); z-index:4; transition:left 3s linear, top 3s linear; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3)); }
+  .map-dest-pin { position:absolute; font-size:24px; transform:translate(-50%,-100%); filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3)); z-index:3; }
+  .map-route { position:absolute; z-index:2; }
+  .map-label { position:absolute; background:white; border-radius:8px; padding:3px 8px; font-size:10px; font-weight:700; color:var(--ink); box-shadow:0 2px 6px rgba(0,0,0,0.15); z-index:5; white-space:nowrap; }
+  .delivery-info-grid { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; padding:12px; background:var(--bg); }
+  .delivery-info-item { text-align:center; }
+  .delivery-info-icon { font-size:20px; margin-bottom:2px; }
+  .delivery-info-val { font-size:13px; font-weight:800; color:var(--teal-dark); }
+  .delivery-info-label { font-size:10px; color:var(--muted); }
+  .delivery-status-bar { padding:10px 14px; display:flex; align-items:center; gap:8px; background:white; }
+  body.dark .delivery-status-bar { background:#1a2535; }
+  .delivery-status-dot { width:10px; height:10px; border-radius:50%; background:#22c55e; animation:pulse 1.5s infinite; flex-shrink:0; }
+  .delivery-status-text { font-size:12px; font-weight:700; color:#22c55e; }
+
 </style>
 </head>
 <body>
@@ -1886,6 +1907,36 @@
     <input class="track-input" id="trackInput" placeholder="مثال: AZ-2025-1234" />
     <button class="track-btn" onclick="trackOrder()">🔍 تتبع الطلب</button>
     <div class="track-result" id="trackResult"></div>
+    <div id="deliveryMapSection" style="display:none;">
+      <div class="delivery-map-wrap">
+        <div class="delivery-map-header">
+          <span>🗺️ تتبع عامل التوصيل</span>
+          <div class="delivery-status-dot" style="width:8px;height:8px;border-radius:50%;background:#22c55e;animation:pulse 1.5s infinite;"></div>
+        </div>
+        <div id="deliveryMap"></div>
+        <div class="delivery-info-grid">
+          <div class="delivery-info-item">
+            <div class="delivery-info-icon">⏱️</div>
+            <div class="delivery-info-val" id="deliveryTime">2-5 أيام</div>
+            <div class="delivery-info-label">وقت التوصيل</div>
+          </div>
+          <div class="delivery-info-item">
+            <div class="delivery-info-icon">📍</div>
+            <div class="delivery-info-val" id="deliveryDistance">~45 كم</div>
+            <div class="delivery-info-label">المسافة</div>
+          </div>
+          <div class="delivery-info-item">
+            <div class="delivery-info-icon">💰</div>
+            <div class="delivery-info-val">30 درهم</div>
+            <div class="delivery-info-label">سعر التوصيل</div>
+          </div>
+        </div>
+        <div class="delivery-status-bar">
+          <div class="delivery-status-dot"></div>
+          <div class="delivery-status-text" id="deliveryStatusText">🚴 عامل التوصيل في الطريق إليك...</div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -3438,8 +3489,20 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
           الحالة: ${order.status || 'تم التأكيد'}
         </div>
       `;
+      // Show delivery map
+      setTimeout(() => initDeliveryMap(order.status || ''), 300);
     } catch(e) {
-      result.innerHTML = '<div style="text-align:center;padding:20px;color:#ef4444;">❌ خطأ في الاتصال، حاول مجدداً</div>';
+      console.error('Track error:', e);
+      result.innerHTML = `<div style="text-align:center;padding:20px;">
+        <div style="font-size:32px;margin-bottom:8px;">⚠️</div>
+        <div style="font-weight:700;color:#ef4444;margin-bottom:8px;">تعذر الاتصال بالخادم</div>
+        <div style="font-size:12px;color:var(--muted);margin-bottom:14px;">تحقق من اتصالك بالإنترنت وأعد المحاولة</div>
+        <a href="https://wa.me/212621382780?text=مرحباً، أريد تتبع طلبي رقم: ${document.getElementById('trackInput').value.trim()}" 
+           target="_blank"
+           style="display:inline-block;background:#25D366;color:white;padding:10px 20px;border-radius:12px;font-size:13px;font-weight:700;text-decoration:none;">
+          💬 تتبع عبر واتساب
+        </a>
+      </div>`;
     }
   }
 
@@ -3709,6 +3772,17 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     initCards();
     initQuiz();
   }
+
+  function closeGamesAndLock() {
+    // Close modal
+    gamesModalOpen = false;
+    document.getElementById('gamesModal').classList.remove('open');
+    // Lock until tomorrow
+    const today = new Date().toDateString();
+    localStorage.setItem('airzone-game-date', today);
+    showToast('🔒 انتهت محاولتك اليومية! عد غداً للعب مجدداً 😊', 4000);
+  }
+
   function closeGames() {
     gamesModalOpen = false;
     document.getElementById('gamesModal').classList.remove('open');
@@ -3825,8 +3899,10 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
           document.getElementById('wheelWin').classList.add('show');
           // Add to COUPONS
           if (!COUPONS[prize.code]) COUPONS[prize.code] = { discount: parseInt(prize.label)/100, label: 'خصم ' + prize.label };
+          setTimeout(() => closeGamesAndLock(), 3000);
         } else {
           document.getElementById('wheelResult').textContent = '😅 حظاً أوفر في المرة القادمة!';
+          setTimeout(() => closeGamesAndLock(), 2000);
         }
       }
     }
@@ -3937,6 +4013,9 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     if (code) {
       document.getElementById('quizCode').textContent = code;
       document.getElementById('quizWin').classList.add('show');
+      setTimeout(() => closeGamesAndLock(), 4000);
+    } else {
+      setTimeout(() => closeGamesAndLock(), 2500);
     }
   }
 
@@ -4344,6 +4423,103 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       }
       showToast('👇 أدخل كود دعوة صديقك في الحقل أدناه', 4000);
     }, 400);
+  }
+
+
+  // ===== DELIVERY MAP =====
+  // Store location: Souk Sebt, Morocco (31.5710, -9.0087)
+  let driverAnimInterval = null;
+
+  function initDeliveryMap(orderStatus) {
+    const section = document.getElementById('deliveryMapSection');
+    if (section) section.style.display = 'block';
+
+    const map = document.getElementById('deliveryMap');
+    if (!map) return;
+
+    // Draw simple SVG map
+    const W = map.offsetWidth || 320;
+    const H = 220;
+
+    // Store is at ~30% from left, 40% from top
+    // Destination is at ~75% from left, 65% from top
+    const storeX = Math.round(W * 0.28);
+    const storeY = Math.round(H * 0.38);
+    const destX  = Math.round(W * 0.74);
+    const destY  = Math.round(H * 0.62);
+
+    // Bezier control points for route curve
+    const cpX = Math.round(W * 0.52);
+    const cpY = Math.round(H * 0.18);
+
+    map.innerHTML = `
+      <svg width="${W}" height="${H}" style="position:absolute;top:0;left:0;">
+        <!-- Background -->
+        <rect width="${W}" height="${H}" fill="#d4e9c2"/>
+        <!-- Fields/terrain -->
+        <rect x="0" y="0" width="${W}" height="${H*0.45}" fill="#c8e6a0" opacity="0.5"/>
+        <rect x="0" y="${H*0.55}" width="${W}" height="${H*0.45}" fill="#b8d98d" opacity="0.4"/>
+        <!-- Main roads -->
+        <line x1="0" y1="${H*0.5}" x2="${W}" y2="${H*0.5}" stroke="#e8e0c8" stroke-width="8"/>
+        <line x1="${W*0.35}" y1="0" x2="${W*0.4}" y2="${H}" stroke="#e8e0c8" stroke-width="6"/>
+        <line x1="${W*0.65}" y1="0" x2="${W*0.7}" y2="${H}" stroke="#ddd" stroke-width="4"/>
+        <line x1="0" y1="${H*0.25}" x2="${W}" y2="${H*0.3}" stroke="#ddd" stroke-width="3"/>
+        <!-- Route dashed line -->
+        <path d="M${storeX},${storeY} Q${cpX},${cpY} ${destX},${destY}" 
+          stroke="#2ab8c4" stroke-width="3" fill="none" stroke-dasharray="8,4" opacity="0.8"/>
+        <!-- Store circle -->
+        <circle cx="${storeX}" cy="${storeY}" r="18" fill="white" stroke="#2ab8c4" stroke-width="2" opacity="0.9"/>
+        <!-- Dest circle -->
+        <circle cx="${destX}" cy="${destY}" r="18" fill="white" stroke="#f0b942" stroke-width="2" opacity="0.9"/>
+      </svg>
+      <!-- Store pin -->
+      <div style="position:absolute;left:${storeX}px;top:${storeY - 8}px;transform:translate(-50%,-100%);font-size:22px;z-index:3;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3));">🏪</div>
+      <div style="position:absolute;left:${storeX}px;top:${storeY + 14}px;transform:translateX(-50%);background:#2ab8c4;color:white;border-radius:6px;padding:2px 7px;font-size:9px;font-weight:700;z-index:5;white-space:nowrap;">AirZone</div>
+      <!-- Dest pin -->
+      <div style="position:absolute;left:${destX}px;top:${destY - 8}px;transform:translate(-50%,-100%);font-size:22px;z-index:3;filter:drop-shadow(0 2px 4px rgba(0,0,0,0.3));">🏠</div>
+      <div style="position:absolute;left:${destX}px;top:${destY + 14}px;transform:translateX(-50%);background:#f0b942;color:white;border-radius:6px;padding:2px 7px;font-size:9px;font-weight:700;z-index:5;white-space:nowrap;">وجهتك</div>
+      <!-- Driver (starts near store) -->
+      <div id="driverPin" style="position:absolute;left:${storeX + 10}px;top:${storeY - 10}px;transform:translate(-50%,-50%);font-size:24px;z-index:6;filter:drop-shadow(0 2px 6px rgba(0,0,0,0.4));transition:left 2s ease-in-out,top 2s ease-in-out;">🛵</div>
+    `;
+
+    // Animate driver along bezier path
+    if (driverAnimInterval) clearInterval(driverAnimInterval);
+    let t = 0.05;
+    let dir = 1;
+    driverAnimInterval = setInterval(() => {
+      t += 0.012 * dir;
+      if (t >= 0.92) dir = -1;
+      if (t <= 0.05) dir = 1;
+      // Quadratic bezier point
+      const bx = Math.round((1-t)*(1-t)*storeX + 2*(1-t)*t*cpX + t*t*destX);
+      const by = Math.round((1-t)*(1-t)*storeY + 2*(1-t)*t*cpY + t*t*destY);
+      const driver = document.getElementById('driverPin');
+      if (driver) {
+        driver.style.left = bx + 'px';
+        driver.style.top = by + 'px';
+        // Flip based on direction
+        driver.style.transform = `translate(-50%,-50%) scaleX(${dir > 0 ? 1 : -1})`;
+      }
+    }, 80);
+
+    // Update info based on status
+    const timeEl = document.getElementById('deliveryTime');
+    const distEl = document.getElementById('deliveryDistance');
+    const statusEl = document.getElementById('deliveryStatusText');
+    
+    const dist = (35 + Math.floor(Math.random()*20));
+    if (distEl) distEl.textContent = '~' + dist + ' كم';
+
+    if (orderStatus && orderStatus.includes('تم التسليم')) {
+      if (timeEl) timeEl.textContent = 'تم التسليم ✅';
+      if (statusEl) { statusEl.textContent = '✅ تم تسليم الطلب بنجاح!'; statusEl.style.color = '#22c55e'; }
+    } else if (orderStatus && orderStatus.includes('جاهز')) {
+      if (timeEl) timeEl.textContent = '3-4 أيام';
+      if (statusEl) statusEl.textContent = '📦 يتم تجهيز طلبك في المخزن...';
+    } else {
+      if (timeEl) timeEl.textContent = '2-5 أيام';
+      if (statusEl) statusEl.textContent = '🛵 عامل التوصيل في الطريق إليك...';
+    }
   }
 
 </script>

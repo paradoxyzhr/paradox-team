@@ -2440,7 +2440,6 @@ nav > * { position:relative; z-index:2; }
 <div class="toast" id="toast">✅ تم حفظ بطاقة الزبون بنجاح!</div>
 
 <script>
-  // ===== SHOP JS =====
   const allProducts = [
     { id:1, name:'كروس ترينر برو', brand:'AirZone', cat:'رياضي', price:4200, oldPrice:5800, stars:5, reviews:128, badge:'hot', emoji:'👟', desc:'حذاء رياضي خفيف الوزن مناسب للجري والتدريب اليومي' },
     { id:2, name:'كلاسيك ليذر أوكسفورد', brand:'AirZone', cat:'كلاسيك', price:6500, oldPrice:null, stars:5, reviews:84, badge:'new', emoji:'👞', desc:'حذاء جلدي أنيق للمناسبات الرسمية والعمل' },
@@ -2619,7 +2618,6 @@ nav > * { position:relative; z-index:2; }
     const cartFloat = document.getElementById('cartFloat');
     if (cartCount) cartCount.textContent = cart.length;
     if (cartFloat) cartFloat.style.display = 'flex';
-    // mini toast
     const t = document.getElementById('toast');
     const p = allProducts.find(x => x.id===id);
     t.textContent = '✅ تمت إضافة ' + p.name + ' إلى السلة!';
@@ -2674,13 +2672,12 @@ nav > * { position:relative; z-index:2; }
       </div>`;
     });
     itemsDiv.innerHTML = html;
-    // Apply coupon discount
     const totalPriceEl = document.getElementById('cartTotalPrice');
     const discountRow = document.getElementById('discountRow');
     const discountAmount = document.getElementById('discountAmount');
     if (appliedCoupon && totalPriceEl) {
-      const discount = Math.round(total * appliedCoupon.discount);
-      const newTotal = total - discount;
+      const discount = appliedCoupon.fixed ? appliedCoupon.fixed : Math.round(total * appliedCoupon.discount);
+      const newTotal = Math.max(0, total - discount);
       if (discountRow) discountRow.style.display = 'flex';
       if (discountAmount) discountAmount.textContent = '-' + discount.toLocaleString() + ' درهم';
       totalPriceEl.textContent = newTotal.toLocaleString() + ' درهم';
@@ -2736,7 +2733,6 @@ nav > * { position:relative; z-index:2; }
     const method = selected ? selected.textContent.trim() : 'غير محدد';
     if (cart.length === 0) return;
 
-    // Build order items
     const items = {};
     cart.forEach(id => { items[id] = (items[id]||0)+1; });
     const orderItems = Object.entries(items).map(([id,qty]) => {
@@ -2759,7 +2755,6 @@ nav > * { position:relative; z-index:2; }
       steps: 1
     };
 
-    // Save to JSONBin
     try {
       const res = await fetch('https://api.jsonbin.io/v3/b/69b02f3bba8e1176f21debbb/latest', {
         headers: { 
@@ -2778,21 +2773,17 @@ nav > * { position:relative; z-index:2; }
       });
     } catch(e) { console.log('Order save error:', e); }
 
-    // Add loyalty points
     addLoyaltyPoints(10 * cart.length);
-    // Mark coupon as used (one-time use)
     if (appliedCoupon && appliedCoupon.code) {
       markCodeUsed(appliedCoupon.code);
       appliedCoupon = null;
     }
 
-    // Clear cart
     closeCart();
     cart = [];
     document.getElementById('cartCount').textContent = '0';
     document.getElementById('cartFloat').style.display = 'none';
 
-    // Show success modal
     showOrderSuccess(orderId, orderItems, total, method);
   }
 
@@ -2811,12 +2802,8 @@ nav > * { position:relative; z-index:2; }
     alert(`${p.emoji} ${p.name}\n\n${p.desc}\n\nالفئة: ${p.cat}\nالسعر: ${p.price.toLocaleString()} درهم\nالتقييم: ${renderStars(p.stars)} (${p.reviews} تقييم)`);
   }
 
-  // Products already rendered as static HTML
 
-  // ===== END SHOP JS =====
-  // animations disabled for offline compatibility
 
-  // ===== WHATSAPP NOTIFICATION =====
   (function() {
     function showWaLabel() {
       const el = document.getElementById('waLabel');
@@ -2824,12 +2811,10 @@ nav > * { position:relative; z-index:2; }
       el.style.opacity = '1';
       setTimeout(() => { el.style.opacity = '0'; }, 2000);
     }
-    // Show after 2s on load, then every 8s
     setTimeout(showWaLabel, 2000);
     setInterval(showWaLabel, 8000);
   })();
 
-  // ===== SCROLL ANIMATIONS =====
   const animEls = document.querySelectorAll('.review-card, .product-card, .cell, .trust-item, .hero-stat');
   animEls.forEach(el => el.classList.add('anim-fade'));
   const observer = new IntersectionObserver((entries) => {
@@ -2837,13 +2822,11 @@ nav > * { position:relative; z-index:2; }
   }, { threshold: 0.1 });
   animEls.forEach(el => observer.observe(el));
 
-  // ===== SCROLL TO TOP =====
   window.addEventListener('scroll', () => {
     const btn = document.getElementById('scrollTop');
     if (btn) btn.classList.toggle('show', window.scrollY > 400);
   });
 
-  // ===== SHARE =====
   function toggleShare() {
     const p = document.getElementById('sharePopup');
     p.classList.toggle('open');
@@ -2876,7 +2859,6 @@ nav > * { position:relative; z-index:2; }
     document.getElementById('sharePopup').classList.remove('open');
   }
 
-  // ===== COMPARE =====
   let compareList = [];
   function toggleCompare(id, btn) {
     const p = allProducts.find(x => x.id === id);
@@ -2950,7 +2932,6 @@ nav > * { position:relative; z-index:2; }
     document.getElementById('compareModal').classList.add('open');
   }
 
-  // ===== AI CHAT =====
   const AI_SYSTEM = `أنت مساعد ذكي لمتجر AirZone للأحذية في المغرب. اسمك "مساعد AirZone".
 إذا سألك أحد عن هويتك أو من صنعك، قل: "أنا نموذج ذكاء اصطناعي من صنع Paradox (Yassine) وفريقه 👟"
 لا تذكر أبداً Claude أو Anthropic.
@@ -3009,7 +2990,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
 
   function saveCurrentSession() {
     if (aiHistory.length === 0) return;
-    // Find existing session or create new
     const idx = aiSessions.findIndex(s => s.id === currentSessionId);
     const session = {
       id: currentSessionId,
@@ -3050,12 +3030,9 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
   function loadAiSession(id) {
     const session = aiSessions.find(s => s.id === id);
     if (!session) return;
-    // Save current session first
     saveCurrentSession();
-    // Load selected session
     currentSessionId = session.id;
     aiHistory = [...session.messages];
-    // Render messages
     const messagesDiv = document.getElementById('aiMessages');
     messagesDiv.innerHTML = '<div class="ai-msg bot">مرحباً! 👋 أنا مساعد AirZone الذكي. كيف يمكنني مساعدتك اليوم؟</div>';
     session.messages.forEach(msg => {
@@ -3065,7 +3042,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       messagesDiv.appendChild(div);
     });
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    // Close panel
     document.getElementById('aiHistoryPanel').classList.remove('open');
   }
 
@@ -3113,10 +3089,8 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     div.textContent = text;
     msgs.appendChild(div);
 
-    // Show only 1 product
     const singleProduct = [products[0]];
     singleProduct.forEach(p => {
-      // Match product card from shop by name (include hidden cards)
       let imgSrc = '', oldPrice = '', desc = '', stars = 5, reviews = 0;
       document.querySelectorAll('.product-card').forEach(card => {
         const nameEl = card.querySelector('.product-name');
@@ -3136,7 +3110,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
           }
         }
       });
-      // fallback: search by partial name
       if (!imgSrc) {
         document.querySelectorAll('.product-card').forEach(card => {
           const nameEl = card.querySelector('.product-name');
@@ -3151,7 +3124,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       const card = document.createElement('div');
       card.className = 'ai-product-card';
 
-      // Build img section
       const imgSection = document.createElement('div');
       imgSection.className = 'pc-img';
       if (imgSrc) {
@@ -3163,7 +3135,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       }
       card.appendChild(imgSection);
 
-      // Build body section
       const body = document.createElement('div');
       body.className = 'pc-body';
       body.innerHTML =
@@ -3183,7 +3154,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     msgs.scrollTop = msgs.scrollHeight;
   }
 
-  // Helper: add to cart by product id from allProducts array
   function addToCartById(id) {
     const p = allProducts.find(x => x.id === id);
     if (!p) return;
@@ -3226,12 +3196,10 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       let rawReply = rawText || 'عذراً، حدث خطأ. حاول مرة أخرى!';
       try { const j = JSON.parse(rawText); rawReply = j.choices?.[0]?.message?.content || rawText; } catch(e) {}
       aiHistory.push({ role: 'assistant', content: rawReply });
-      // Strip markdown code blocks if present
       const bt = String.fromCharCode(96);
       const btRe3j = new RegExp(bt+bt+bt+'json\\s*', 'gi');
       const btRe3 = new RegExp(bt+bt+bt+'\\s*', 'g');
       let reply = rawReply.replace(btRe3j, '').replace(btRe3, '').trim();
-      // Try to extract JSON object
       const jsonStart = reply.indexOf('{');
       const jsonEnd = reply.lastIndexOf('}');
       if (jsonStart !== -1 && jsonEnd !== -1) {
@@ -3250,7 +3218,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     }
   }
 
-  // ===== DARK MODE =====
   const SUN_ICON = "☀️";
   const MOON_ICON = "🌙";
   function toggleDark() {
@@ -3268,9 +3235,7 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     });
   }
 
-  // ===== COUNTDOWN =====
   (function() {
-    // Set deadline to end of today + 8 hours from now
     const deadline = new Date();
     deadline.setHours(deadline.getHours() + 8, deadline.getMinutes() + 30, 0, 0);
     function updateCD() {
@@ -3291,7 +3256,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     setInterval(updateCD, 1000);
   })();
 
-  // ===== FAVORITES =====
   let favorites = new Set();
   function toggleFav(id, btn) {
     if (favorites.has(id)) {
@@ -3319,7 +3283,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
   }
 
 
-  // Product picker for review form
   let revProductsData = [];
 
   function initRevProductPicker() {
@@ -3350,16 +3313,13 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     const p = revProductsData.find(x => x.id == id);
     if (!p) return;
     document.getElementById('rev-product').value = id;
-    // Highlight selected
     document.querySelectorAll('.rev-prod-card').forEach(c => c.classList.remove('selected'));
     const card = document.querySelector(`.rev-prod-card[data-id="${id}"]`);
     if (card) card.classList.add('selected');
-    // Show selected bar
     const bar = document.getElementById('rev-selected-product');
     bar.style.display = 'flex';
     document.getElementById('rev-sel-img').src = p.imgSrc || '';
     document.getElementById('rev-sel-name').textContent = '✅ ' + p.name;
-    // Hide search
     document.getElementById('rev-product-search').style.display = 'none';
     document.getElementById('rev-product-grid').style.display = 'none';
   }
@@ -3373,10 +3333,8 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     document.querySelectorAll('.rev-prod-card').forEach(c => c.classList.remove('selected'));
   }
 
-  // Init picker after products load
   setTimeout(initRevProductPicker, 500);
 
-  // ===== REVIEWS SYSTEM (JSONBin.io) =====
   const CARD_IMGS = {
     1: `data:image/jpeg;base64,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`,
     2: `data:image/jpeg;base64,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`,
@@ -3409,7 +3367,7 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
   };
 
   const JSONBIN_KEY = '$2a$10$2dHG8Ssq0MDuoHaqPtb3IONFcQH07EYBJcbds4xwHj4wC7je09Ggy';
-  const JSONBIN_ID = '69b02f5c1194a065489a74c0'; // سيتم استبداله
+  const JSONBIN_ID = '69b02f5c1194a065489a74c0';
   let userReviews = [];
   let selectedStars = 0;
 
@@ -3448,10 +3406,8 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     }
   }
 
-  // Load on start
   setTimeout(loadReviews, 400);
 
-  // Star selection
   document.querySelectorAll('#revStars span').forEach(star => {
     star.addEventListener('click', () => {
       selectedStars = parseInt(star.dataset.v);
@@ -3488,7 +3444,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     userReviews.unshift(review);
     renderUserReviews();
     
-    // Save with feedback
     showToast('⏳ جاري حفظ التقييم...', 10000);
     try {
       await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}`, {
@@ -3506,17 +3461,14 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       showToast('❌ خطأ في الحفظ، تحقق من الاتصال', 3500);
     }
 
-    // Reset form
     document.getElementById('rev-name').value = '';
     document.getElementById('rev-text').value = '';
     document.getElementById('rev-product').value = '';
     selectedStars = 0;
     document.querySelectorAll('#revStars span').forEach(s => { s.classList.remove('active'); s.style.color='#ddd'; });
 
-    // Show toast
     showToast('✅ تم نشر تقييمك بنجاح!', 3000);
 
-    // Scroll to reviews
     document.getElementById('userReviewsGrid').scrollIntoView({ behavior:'smooth', block:'start' });
   }
 
@@ -3551,17 +3503,14 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     }).join('');
   }
 
-  // Reviews loaded via loadReviews() above
 
 
-  // ===== FAQ =====
   function toggleFaq(item) {
     const isOpen = item.classList.contains('open');
     document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
     if (!isOpen) item.classList.add('open');
   }
 
-  // ===== TRACK ORDER =====
   function openTrack() { document.getElementById('trackModal').classList.add('open'); }
   function closeTrack() { document.getElementById('trackModal').classList.remove('open'); document.getElementById('trackResult').classList.remove('show'); }
 
@@ -3620,7 +3569,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
           الحالة: ${order.status || 'تم التأكيد'}
         </div>
       `;
-      // Show delivery map
       setTimeout(() => initDeliveryMap(order.status || ''), 300);
     } catch(e) {
       console.error('Track error:', e);
@@ -3637,7 +3585,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     }
   }
 
-  // ===== PROMO POPUP =====
   function closePromo() {
     document.getElementById('promoPopup').classList.remove('show');
     sessionStorage.setItem('promoClosed','1');
@@ -3648,13 +3595,11 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     document.getElementById('shop').scrollIntoView({ behavior:'smooth' });
   }
 
-  // Show promo after 4 seconds (once per session)
   if (!sessionStorage.getItem('promoClosed')) {
     setTimeout(() => document.getElementById('promoPopup').classList.add('show'), 4000);
   }
 
 
-  // ===== LOYALTY PROGRAM =====
   let loyaltyPoints = parseInt(localStorage.getItem('airzone-points') || '0');
 
   function updateLoyaltyUI() {
@@ -3662,7 +3607,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     const n = document.getElementById('loyaltyPointsNav');
     if (d) d.textContent = loyaltyPoints;
     if (n) n.textContent = loyaltyPoints;
-    // Levels
     let level, icon, sub, progress;
     if (loyaltyPoints < 500) {
       level='عضو برونزي'; icon='🥉'; sub=`اجمع ${500-loyaltyPoints} نقطة للوصول إلى الفضي`; progress=(loyaltyPoints/500)*100;
@@ -3687,7 +3631,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     loyaltyPoints += pts;
     localStorage.setItem('airzone-points', loyaltyPoints);
     updateLoyaltyUI();
-    // Toast
     showToast(`⭐ ربحت ${pts} نقطة! إجمالي: ${loyaltyPoints} نقطة`, 3000);
   }
 
@@ -3697,7 +3640,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
   }
 
 
-  // Add points on checkout (hook into existing checkout)
   const origCheckout = window.checkout;
   document.addEventListener('click', function(e) {
     if (e.target && e.target.textContent && e.target.textContent.includes('تأكيد الطلب')) {
@@ -3705,12 +3647,9 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     }
   });
 
-  // Add points on review submit (hook)
   const origSubmitReview = window.submitReview;
 
-  // ===== LIVE VISITORS COUNTER =====
   function initVisitors() {
-    // Simulate live visitors (3-18 range)
     let base = 8;
     function updateVisitors() {
       const live = base + Math.floor(Math.random() * 6) - 2;
@@ -3718,13 +3657,11 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       const el = document.getElementById('liveVisitors');
       if (el) el.textContent = base;
     }
-    // Total visits
     let total = parseInt(localStorage.getItem('airzone-total-visits') || '1247');
     total++;
     localStorage.setItem('airzone-total-visits', total);
     const totalEl = document.getElementById('totalVisitors');
     if (totalEl) totalEl.textContent = total.toLocaleString();
-    // Today orders (simulated)
     const orders = 12 + Math.floor(Math.random() * 8);
     const ordersEl = document.getElementById('todayOrders');
     if (ordersEl) ordersEl.textContent = orders;
@@ -3733,13 +3670,11 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     setInterval(updateVisitors, 4000);
   }
 
-  // Run all inits after DOM fully loaded
   window.addEventListener('load', function() {
     initVisitors();
     initFlashSale();
     updateLoyaltyUI();
     updateWalletUI();
-    // Check for new referral rewards (with delay to not block UI)
     setTimeout(checkReferralRewards, 3000);
   });
 
@@ -3752,7 +3687,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
   }
 
 
-  // ===== WA PRODUCT SHARE =====
   function shareProductWa(id, event) {
     event.stopPropagation();
     const p = allProducts.find(x => x.id === id);
@@ -3763,19 +3697,15 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
   }
 
-  // ===== SMART SUGGESTIONS =====
   function showSuggestions(productId) {
     const p = allProducts.find(x => x.id === productId);
     if (!p) return;
 
-    // Smart logic: same category + different price range
     let suggestions = allProducts.filter(x => x.id !== productId && x.cat === p.cat);
     if (suggestions.length < 3) {
-      // Add from other categories
       const others = allProducts.filter(x => x.id !== productId && x.cat !== p.cat);
       suggestions = [...suggestions, ...others].slice(0, 3);
     }
-    // Sort by rating then shuffle
     suggestions = suggestions
       .sort((a,b) => b.stars - a.stars || b.reviews - a.reviews)
       .slice(0, 6);
@@ -3814,11 +3744,8 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     showToast(`🛒 تمت إضافة ${p ? p.name : ''} للسلة!`, 2500);
   }
 
-  // Suggestions hook - called from original addToCart
 
 
-  // ===== COUPON SYSTEM =====
-  // Static coupons
   const STATIC_COUPONS = {
     'FLASH15':   { discount: 0.15, label: 'خصم 15%' },
     'AIRZONE10': { discount: 0.10, label: 'خصم 10%' },
@@ -3842,7 +3769,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       return;
     }
 
-    // Check if already used
     if (getUsedCodes().includes(code)) {
       appliedCoupon = null;
       resultEl.className = 'coupon-result error';
@@ -3852,7 +3778,7 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       return;
     }
 
-    const couponData = STATIC_COUPONS[code] || getWheelCodes()[code];
+    const couponData = STATIC_COUPONS[code] || getWheelCodes()[code] || COUPONS[code];
     if (couponData) {
       appliedCoupon = { code, ...couponData };
       resultEl.className = 'coupon-result success';
@@ -3868,11 +3794,8 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     }
   }
 
-  // Coupon applied in renderCartModal directly
 
-  // ===== FLASH SALE COUNTDOWN =====
   function initFlashSale() {
-    // Set end time: 6 hours from page load (or from localStorage)
     let endTime = localStorage.getItem('flashSaleEnd');
     if (!endTime || Date.now() > parseInt(endTime)) {
       endTime = Date.now() + 6 * 60 * 60 * 1000;
@@ -3902,10 +3825,9 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
 
 
 
-  // ===== GAMES =====
   let gamesModalOpen = false;
   function openGames() {
-    if (gamesModalOpen) return; // prevent spam
+    if (gamesModalOpen) return;
     const today = new Date().toDateString();
     const lastPlay = localStorage.getItem('airzone-game-date');
     if (lastPlay === today) {
@@ -3921,10 +3843,8 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
   }
 
   function closeGamesAndLock() {
-    // Close modal
     gamesModalOpen = false;
     document.getElementById('gamesModal').classList.remove('open');
-    // Lock until tomorrow
     const today = new Date().toDateString();
     localStorage.setItem('airzone-game-date', today);
     showToast('🔒 انتهت محاولتك اليومية! عد غداً للعب مجدداً 😊', 4000);
@@ -3949,7 +3869,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     });
   }
 
-  // ---- WHEEL ----
   const WHEEL_PRIZES = [
     { label:'5%',   code:'WHEEL5',   color:'#6c5ce7' },
     { label:'خسارة',code:null,       color:'#dfe6e9' },
@@ -3983,7 +3902,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       ctx.strokeStyle = 'white';
       ctx.lineWidth = 2;
       ctx.stroke();
-      // Label
       ctx.save();
       ctx.translate(cx,cy);
       ctx.rotate(start + sliceAngle/2);
@@ -3993,7 +3911,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       ctx.fillText(p.label, r-8, 5);
       ctx.restore();
     });
-    // Center
     ctx.beginPath();
     ctx.arc(cx,cy,16,0,2*Math.PI);
     ctx.fillStyle = 'white';
@@ -4002,7 +3919,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     ctx.arc(cx,cy,12,0,2*Math.PI);
     ctx.fillStyle = '#6c5ce7';
     ctx.fill();
-    // Arrow
     ctx.beginPath();
     ctx.moveTo(cx+r-4, cy);
     ctx.lineTo(cx+r+14, cy-8);
@@ -4035,13 +3951,11 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       } else {
         wheelSpinning = false;
         document.getElementById('wheelBtn').disabled = false;
-        // Determine prize
         const sliceAngle = (2 * Math.PI) / WHEEL_PRIZES.length;
         const normalized = ((2*Math.PI) - (wheelAngle % (2*Math.PI))) % (2*Math.PI);
         const idx = Math.floor(normalized / sliceAngle) % WHEEL_PRIZES.length;
         const prize = WHEEL_PRIZES[idx];
         if (prize.code) {
-          // Generate unique code for this win
           const uniqueCode = 'WHL-' + Math.random().toString(36).substr(2, 6).toUpperCase();
           const discount = parseInt(prize.label) / 100;
           const label = 'خصم ' + prize.label + ' (عجلة الحظ)';
@@ -4059,7 +3973,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     requestAnimationFrame(animate);
   }
 
-  // ---- CARDS ----
   const CARD_PRIZES = [
     { emoji:'🎁', label:'خصم 10%', code:'AIRZONE10' },
     { emoji:'⭐', label:'خصم 5%',  code:'WHEEL5' },
@@ -4102,7 +4015,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     }, 600);
   }
 
-  // ---- QUIZ ----
   const QUIZ_QUESTIONS = [
     { q:'كم عدد فئات الأحذية في AirZone؟', opts:['3','5','6','8'], correct:2 },
     { q:'ما هي عملة الدفع في المتجر؟', opts:['دولار','يورو','درهم مغربي','دينار'], correct:2 },
@@ -4170,7 +4082,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
   }
 
 
-  // ===== BROWSER NOTIFICATIONS =====
   const NOTIF_MESSAGES = [
     { title:'🔥 عرض محدود!', body:'خصم 15% على الأحذية الرياضية — استخدم كود FLASH15', icon:'👟' },
     { title:'⭐ منتج جديد!', body:'تم إضافة أحذية جديدة للمتجر — تفقدها الآن', icon:'✨' },
@@ -4182,20 +4093,17 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
   async function initNotifications() {
     if (!('Notification' in window)) return;
 
-    // If already granted, start sending
     if (Notification.permission === 'granted') {
       startNotificationSchedule();
       return;
     }
 
-    // Show custom permission banner
     if (Notification.permission !== 'denied') {
       setTimeout(showNotifBanner, 3000);
     }
   }
 
   function showNotifBanner() {
-    // Don't show if already asked
     if (localStorage.getItem('airzone-notif-asked')) return;
     const banner = document.getElementById('notifBanner');
     if (banner) banner.classList.add('show');
@@ -4234,22 +4142,20 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
   }
 
   function startNotificationSchedule() {
-    // Send random notification every 3 minutes while page is open
     let idx = 1;
     setInterval(() => {
-      if (document.visibilityState === 'visible') return; // only when tab is in background
+      if (document.visibilityState === 'visible') return;
       const msg = NOTIF_MESSAGES[idx % NOTIF_MESSAGES.length];
       sendNotification(msg);
       idx++;
     }, 3 * 60 * 1000);
 
-    // Also send on certain actions
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'hidden') {
         setTimeout(() => {
           const msg = NOTIF_MESSAGES[Math.floor(Math.random() * NOTIF_MESSAGES.length)];
           sendNotification(msg);
-        }, 30000); // 30s after leaving tab
+        }, 30000);
       }
     });
   }
@@ -4257,7 +4163,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
   initNotifications();
 
 
-  // ===== WALLET & TRANSACTIONS =====
   let walletTxs = JSON.parse(localStorage.getItem('airzone-wallet-txs') || '[]');
   let walletOrders = parseInt(localStorage.getItem('airzone-wallet-orders') || '0');
 
@@ -4282,7 +4187,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     if (wv) wv.textContent = '= ' + val + ' درهم خصم';
     if (wbp) wbp.textContent = pts;
 
-    // Level
     let level = pts < 500 ? 'برونزي' : pts < 1500 ? 'فضي' : pts < 3000 ? 'ذهبي' : 'بلاتيني';
     let nextReward = pts < 500 ? 500 - pts : pts < 1500 ? 1500 - pts : pts < 3000 ? 3000 - pts : 0;
     const wl = document.getElementById('walletLevel');
@@ -4294,7 +4198,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     if (wo) wo.textContent = walletOrders;
     if (wr) wr.textContent = parseInt(localStorage.getItem('airzone-ref-count') || '0');
 
-    // Transactions
     const txList = document.getElementById('walletTxList');
     if (!txList) return;
     if (walletTxs.length === 0) {
@@ -4320,19 +4223,61 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     const redeemable = Math.floor(loyaltyPoints / 500);
     const discount = redeemable * 50;
     const code = 'REDEEM' + Math.random().toString(36).substr(2,4).toUpperCase();
-    COUPONS[code] = { discount: discount / 100, label: 'خصم ' + discount + ' درهم' };
+    COUPONS[code] = { discount: 0, fixed: discount, label: 'خصم ' + discount + ' درهم' };
     loyaltyPoints -= redeemable * 500;
     localStorage.setItem('airzone-points', loyaltyPoints);
     addWalletTx('استبدال نقاط بخصم', -(redeemable * 500));
     updateLoyaltyUI();
     updateWalletUI();
     document.getElementById('walletModal').classList.remove('open');
-    // Show code
-    showToast('🎁 كود خصمك: ' + code + ' (' + discount + ' درهم)', 5000);
+    showRedeemCodeModal(code, discount);
     navigator.clipboard.writeText(code).catch(() => {});
   }
 
-  // ===== REFERRAL SYSTEM (JSONBin) =====
+  function showRedeemCodeModal(code, discount) {
+    const existing = document.getElementById('redeemCodeModal');
+    if (existing) existing.remove();
+
+    const modal = document.createElement('div');
+    modal.id = 'redeemCodeModal';
+    modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;';
+    modal.innerHTML = `
+      <div style="background:white;border-radius:24px;padding:32px 28px;max-width:380px;width:100%;text-align:center;box-shadow:0 24px 80px rgba(0,0,0,0.35);font-family:inherit;">
+        <div style="font-size:52px;margin-bottom:12px;">🎁</div>
+        <h3 style="font-size:20px;font-weight:900;color:#1a2332;margin-bottom:8px;">كود الخصم الخاص بك</h3>
+        <p style="color:#6b7a8d;font-size:14px;margin-bottom:20px;">استخدم هذا الكود في السلة للحصول على خصم <strong style="color:#f0b942;">${discount} درهم</strong></p>
+        <div id="redeemCodeDisplay" style="background:#f4f8fb;border:2px dashed #2ab8c4;border-radius:14px;padding:16px;font-size:26px;font-weight:900;color:#1a2332;letter-spacing:3px;cursor:pointer;margin-bottom:16px;transition:background 0.2s;" onclick="copyRedeemCode('${code}', this)">
+          ${code}
+        </div>
+        <p style="font-size:12px;color:#6b7a8d;margin-bottom:18px;">👆 انقر على الكود لنسخه</p>
+        <button onclick="copyRedeemCode('${code}', document.getElementById('redeemCodeDisplay'))" style="width:100%;padding:14px;background:linear-gradient(135deg,#f0b942,#e09020);color:white;border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:10px;">📋 نسخ الكود</button>
+        <button onclick="applyRedeemInCart('${code}')" style="width:100%;padding:14px;background:linear-gradient(135deg,#2ab8c4,#1a9aa6);color:white;border:none;border-radius:14px;font-size:15px;font-weight:700;cursor:pointer;font-family:inherit;margin-bottom:10px;">🛒 تطبيق مباشرة في السلة</button>
+        <button onclick="document.getElementById('redeemCodeModal').remove()" style="width:100%;padding:12px;background:transparent;border:2px solid #e0e0e0;border-radius:14px;font-size:14px;font-weight:600;cursor:pointer;font-family:inherit;color:#6b7a8d;">إغلاق</button>
+      </div>
+    `;
+    document.body.appendChild(modal);
+  }
+
+  function copyRedeemCode(code, el) {
+    navigator.clipboard.writeText(code).then(() => {
+      if (el) { el.style.background = '#dcfce7'; el.style.borderColor = '#22c55e'; }
+      showToast('📋 تم نسخ الكود: ' + code, 2500);
+      setTimeout(() => { if (el) { el.style.background = '#f4f8fb'; el.style.borderColor = '#2ab8c4'; } }, 1500);
+    }).catch(() => {
+      showToast('📋 الكود: ' + code + ' (انسخه يدوياً)', 4000);
+    });
+  }
+
+  function applyRedeemInCart(code) {
+    document.getElementById('redeemCodeModal').remove();
+    const couponInput = document.getElementById('couponInput');
+    if (couponInput) {
+      couponInput.value = code;
+      applyCoupon();
+    }
+    openCart();
+  }
+
   const REF_BIN = '69b02f828d9bd565842d1b3d';
   const REF_MASTER = '$2a$10$2dHG8Ssq0MDuoHaqPtb3IONFcQH07EYBJcbds4xwHj4wC7je09Ggy';
   const REF_ACCESS = '$2a$10$apu/MmCshaeQLnyaDCSuIuaz7n99VzpsTfHrz.rHw.x2d1oS2Tz4K';
@@ -4383,7 +4328,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       });
       const data = await res.json();
       const refs = (data.record && data.record.referrals) ? data.record.referrals : [];
-      // Check not already used
       if (refs.find(r => r.usedBy === usedBy)) return false;
       refs.push({ inviterCode, usedBy, date: new Date().toLocaleString('ar-MA') });
       await fetch(`https://api.jsonbin.io/v3/b/${REF_BIN}`, {
@@ -4412,7 +4356,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     })();
     const saved = await saveReferral(code, visitorId);
     if (saved) {
-      // Give discount to person who used the code
       COUPONS[code] = { discount: 0.10, label: 'خصم 10% - كود دعوة صديق' };
       appliedCoupon = { code, ...COUPONS[code] };
       renderCartModal();
@@ -4444,7 +4387,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     setTimeout(() => openReferral(), 300);
   }
 
-  // Auto-check referral code in coupon field
   document.addEventListener('DOMContentLoaded', () => {
     const ci = document.getElementById('couponInput');
     if (ci) ci.addEventListener('input', () => {
@@ -4454,14 +4396,12 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     });
   });
 
-  // ===== THANK YOU PAGE =====
   function showThankyouPage(orderId, pts) {
     const tyId = document.getElementById('tyOrderId');
     const tyPts = document.getElementById('tyPoints');
     if (tyId) tyId.textContent = orderId;
     if (tyPts) tyPts.textContent = pts;
     document.getElementById('thankyouModal').classList.add('open');
-    // Auto-copy order id
     setTimeout(() => {
       navigator.clipboard.writeText(orderId).then(() => {
         const sub = document.querySelector('.ty-order-id + div');
@@ -4488,22 +4428,18 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
   }
 
-  // Hook into showOrderSuccess to show thank you page
   const _origShowOrderSuccess = showOrderSuccess;
   function showOrderSuccess(orderId, orderItems, total, method) {
     walletOrders++;
     localStorage.setItem('airzone-wallet-orders', walletOrders);
     const pts = 10 * Math.max(1, orderItems.length);
     addWalletTx('شراء منتجات', pts);
-    // Go directly to thank you page with order id
     showThankyouPage(orderId, pts);
     updateWalletUI();
   }
 
-  // Init wallet on load
 
 
-  // ===== AUTO CHECK REFERRAL POINTS ON LOAD =====
   async function checkReferralRewards() {
     const myCode = generateRefCode();
     const lastChecked = parseInt(localStorage.getItem('airzone-ref-last-checked') || '0');
@@ -4519,7 +4455,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       const newCount = myRefs.length;
 
       if (newCount > lastCount) {
-        // New referrals since last check!
         const newRefs = newCount - lastCount;
         const ptsEarned = newRefs * 20;
         localStorage.setItem('airzone-ref-count', newCount);
@@ -4527,7 +4462,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
         addWalletTx(`دعوة صديق (${newRefs} جديد)`, ptsEarned);
         updateWalletUI();
 
-        // Notify user
         setTimeout(() => {
           showToast(`🎉 مبروك! ${newRefs} صديق استخدم كودك وربحت ${ptsEarned} نقطة!`, 5000);
         }, 2000);
@@ -4545,7 +4479,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     const input = document.getElementById('couponInput');
     if (!input) return;
     if (code) {
-      // If they have their own code, warn
       input.value = '';
       input.placeholder = 'أدخل كود صديقك هنا...';
       input.focus();
@@ -4559,16 +4492,13 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
 
   function openCartWithRefCode() {
     document.getElementById('referralModal').classList.remove('open');
-    // Open cart modal
     renderCartModal();
     document.getElementById('cartModal').classList.add('open');
-    // Focus coupon input after short delay
     setTimeout(() => {
       const input = document.getElementById('couponInput');
       if (input) {
         input.focus();
         input.placeholder = 'أدخل كود دعوة صديقك (AIR-XXXXX)...';
-        // Scroll to coupon field
         input.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
       showToast('👇 أدخل كود دعوة صديقك في الحقل أدناه', 4000);
@@ -4576,8 +4506,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
   }
 
 
-  // ===== DELIVERY MAP =====
-  // Store location: Souk Sebt, Morocco (31.5710, -9.0087)
   let driverAnimInterval = null;
 
   function initDeliveryMap(orderStatus) {
@@ -4587,18 +4515,14 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     const map = document.getElementById('deliveryMap');
     if (!map) return;
 
-    // Draw simple SVG map
     const W = map.offsetWidth || 320;
     const H = 220;
 
-    // Store is at ~30% from left, 40% from top
-    // Destination is at ~75% from left, 65% from top
     const storeX = Math.round(W * 0.28);
     const storeY = Math.round(H * 0.38);
     const destX  = Math.round(W * 0.74);
     const destY  = Math.round(H * 0.62);
 
-    // Bezier control points for route curve
     const cpX = Math.round(W * 0.52);
     const cpY = Math.round(H * 0.18);
 
@@ -4632,7 +4556,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       <div id="driverPin" style="position:absolute;left:${storeX + 10}px;top:${storeY - 10}px;transform:translate(-50%,-50%);font-size:24px;z-index:6;filter:drop-shadow(0 2px 6px rgba(0,0,0,0.4));transition:left 2s ease-in-out,top 2s ease-in-out;">🛵</div>
     `;
 
-    // Animate driver along bezier path
     if (driverAnimInterval) clearInterval(driverAnimInterval);
     let t = 0.05;
     let dir = 1;
@@ -4640,19 +4563,16 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       t += 0.012 * dir;
       if (t >= 0.92) dir = -1;
       if (t <= 0.05) dir = 1;
-      // Quadratic bezier point
       const bx = Math.round((1-t)*(1-t)*storeX + 2*(1-t)*t*cpX + t*t*destX);
       const by = Math.round((1-t)*(1-t)*storeY + 2*(1-t)*t*cpY + t*t*destY);
       const driver = document.getElementById('driverPin');
       if (driver) {
         driver.style.left = bx + 'px';
         driver.style.top = by + 'px';
-        // Flip based on direction
         driver.style.transform = `translate(-50%,-50%) scaleX(${dir > 0 ? 1 : -1})`;
       }
     }, 80);
 
-    // Update info based on status
     const timeEl = document.getElementById('deliveryTime');
     const distEl = document.getElementById('deliveryDistance');
     const statusEl = document.getElementById('deliveryStatusText');
@@ -4677,20 +4597,14 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
 <div id="cursor-glow"></div>
 
 <script>
-// ════════════════════════════════════════════════════════════
-//  AirZone 3D Effects — Non-destructive overlay
-// ════════════════════════════════════════════════════════════
 
-// ── Cursor glow follow ──
 const cursorGlow = document.getElementById('cursor-glow');
 document.addEventListener('mousemove', e => {
   cursorGlow.style.left = e.clientX + 'px';
   cursorGlow.style.top  = e.clientY + 'px';
 });
 
-// ── Click ripple + sparks ──
 document.addEventListener('click', e => {
-  // Ripple
   const r = document.createElement('div');
   r.className = 'click-ripple';
   r.style.left = e.clientX + 'px';
@@ -4698,7 +4612,6 @@ document.addEventListener('click', e => {
   document.body.appendChild(r);
   setTimeout(() => r.remove(), 700);
 
-  // Sparks
   const colors = ['#2ab8c4','#f0b942','#8b5cf6','#22c55e'];
   for(let i = 0; i < 8; i++) {
     const sp = document.createElement('div');
@@ -4716,7 +4629,6 @@ document.addEventListener('click', e => {
   }
 });
 
-// ── Product card 3D tilt on hover ──
 function initCardTilt() {
   document.querySelectorAll('.product-card').forEach(card => {
     card.addEventListener('mousemove', e => {
@@ -4732,17 +4644,12 @@ function initCardTilt() {
     });
   });
 }
-// Run now and again when products render
 initCardTilt();
 setTimeout(initCardTilt, 1500);
 setTimeout(initCardTilt, 4000);
 
-// ── Section glow lines ──
 document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow'));
 
-// ════════════════════════════════════════════════
-//  THREE.JS — NAV BAR particles
-// ════════════════════════════════════════════════
 (function initNavParticles() {
   const canvas = document.getElementById('nav-3d-canvas');
   if(!canvas) return;
@@ -4759,7 +4666,6 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
   const camera = new THREE.OrthographicCamera(0, W, H, 0, -100, 100);
   camera.position.z = 10;
 
-  // Floating mini spheres in nav
   const spheres = [];
   const cols = [0x2AB8C4, 0xF0B942, 0x8B5CF6, 0x22C55E];
   for(let i = 0; i < 14; i++) {
@@ -4781,7 +4687,6 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
     spheres.push(m);
   }
 
-  // Torus in nav (small, accent)
   const tGeo = new THREE.TorusGeometry(18, 3, 8, 40);
   const tMat = new THREE.MeshBasicMaterial({color:0x2AB8C4, transparent:true, opacity:.15, wireframe:true});
   const torus = new THREE.Mesh(tGeo, tMat);
@@ -4813,9 +4718,6 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
   });
 })();
 
-// ════════════════════════════════════════════════
-//  THREE.JS — HERO section
-// ════════════════════════════════════════════════
 (function initHero3D() {
   const canvas = document.getElementById('hero-3d-canvas');
   if(!canvas) return;
@@ -4833,7 +4735,6 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
   const camera = new THREE.PerspectiveCamera(60, W / H, 0.1, 500);
   camera.position.set(0, 0, 18);
 
-  // Lights
   scene.add(new THREE.AmbientLight(0xffffff, .4));
   const pt1 = new THREE.PointLight(0xffffff, 3, 40);
   pt1.position.set(5, 5, 8);
@@ -4847,13 +4748,11 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
     emissive:col, emissiveIntensity:emit, transparent:true, opacity:.85
   });
 
-  // Central rotating icosahedron
   const icoGeo = new THREE.IcosahedronGeometry(2.2, 1);
   const ico = new THREE.Mesh(icoGeo, mkMat(0xffffff, .3));
   ico.position.set(-5, 0, 0);
   scene.add(ico);
 
-  // Wire layer
   const icoW = new THREE.Mesh(
     new THREE.IcosahedronGeometry(2.4, 1),
     new THREE.MeshBasicMaterial({color:0xffffff, wireframe:true, transparent:true, opacity:.15})
@@ -4861,14 +4760,12 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
   icoW.position.copy(ico.position);
   scene.add(icoW);
 
-  // Torus ring
   const torusGeo = new THREE.TorusGeometry(3.8, .22, 12, 80);
   const torusMesh = new THREE.Mesh(torusGeo, mkMat(0xffffff, .4));
   torusMesh.position.set(5, 0, -2);
   torusMesh.rotation.x = Math.PI / 2.5;
   scene.add(torusMesh);
 
-  // Orbiting small spheres
   const orbs = [];
   const oc = [0xffffff, 0xF0B942, 0xffffff, 0xF0B942, 0xffffff, 0xF0B942];
   for(let i = 0; i < 8; i++) {
@@ -4884,7 +4781,6 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
     orbs.push(m);
   }
 
-  // Floating particles in hero
   const pN = 600;
   const pPos = new Float32Array(pN * 3);
   for(let i = 0; i < pN; i++) {
@@ -4899,7 +4795,6 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
   }));
   scene.add(pMesh);
 
-  // Mouse interaction
   let mx = 0, my = 0;
   hero.addEventListener('mousemove', e => {
     const r = hero.getBoundingClientRect();
@@ -4912,26 +4807,21 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
     requestAnimationFrame(animHero);
     t += .016;
 
-    // Camera subtle follow
     camera.position.x += (mx * 2 - camera.position.x) * .04;
     camera.position.y += (-my * 1.5 - camera.position.y) * .04;
     camera.lookAt(0, 0, 0);
 
-    // Ico rotate
     ico.rotation.y += .008;
     ico.rotation.x += .004;
     icoW.rotation.y = ico.rotation.y + .02;
     icoW.rotation.x = ico.rotation.x;
 
-    // Torus spin
     torusMesh.rotation.z += .006;
     torusMesh.rotation.y += .003;
 
-    // Pulse scale
     const pulse = 1 + Math.sin(t * 1.5) * .04;
     ico.scale.set(pulse, pulse, pulse);
 
-    // Orbs orbit
     orbs.forEach((o, i) => {
       o.userData.angle += o.userData.speed * .016;
       const a = o.userData.angle;
@@ -4942,11 +4832,9 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
       o.rotation.y += .03;
     });
 
-    // Drift particles
     pMesh.rotation.y += .0008;
     pMesh.rotation.x += .0003;
 
-    // Light pulse
     pt1.intensity = 3 + Math.sin(t * 2) * .5;
     pt2.intensity = 2 + Math.cos(t * 1.5) * .4;
 
@@ -4954,7 +4842,6 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
   }
   animHero();
 
-  // Resize
   const resizeHero = () => {
     const nW = hero.offsetWidth || window.innerWidth;
     const nH = hero.offsetHeight || 400;
@@ -4965,9 +4852,6 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
   window.addEventListener('resize', resizeHero);
 })();
 
-// ════════════════════════════════════════════════
-//  THREE.JS — SHOP HERO section
-// ════════════════════════════════════════════════
 (function initShopHero3D() {
   const canvas = document.getElementById('shop3d-canvas');
   if(!canvas) return;
@@ -4990,7 +4874,6 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
   spt.position.set(0, 5, 5);
   scene.add(spt);
 
-  // Cluster of fast-spinning toruses (shoe-ring feel)
   const rings = [];
   const ringCols = [0x2AB8C4, 0xF0B942, 0x1a9aa6, 0xF0B942];
   for(let i = 0; i < 4; i++) {
@@ -5009,14 +4892,12 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
     rings.push(ring);
   }
 
-  // Diamond in center
   const dGeo = new THREE.OctahedronGeometry(1.8, 0);
   const dMat = new THREE.MeshStandardMaterial({color:0x2AB8C4, metalness:1, roughness:0, emissive:0x2AB8C4, emissiveIntensity:.6, transparent:true, opacity:.7});
   const diamond = new THREE.Mesh(dGeo, dMat);
   diamond.scale.y = 1.3;
   scene.add(diamond);
 
-  // Particles
   const spN = 400;
   const spPos = new Float32Array(spN * 3);
   for(let i = 0; i < spN; i++) {
@@ -5063,9 +4944,6 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
   });
 })();
 
-// ════════════════════════════════════════════════
-//  Enhanced scroll reveal (replace original)
-// ════════════════════════════════════════════════
 (function() {
   const obs = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
@@ -5083,7 +4961,6 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
     obs.observe(el);
   });
 
-  // Re-run for dynamically added cards
   setTimeout(() => {
     document.querySelectorAll('.product-card').forEach(el => {
       if(el.style.opacity === '') {
@@ -5095,9 +4972,6 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
   }, 2000);
 })();
 
-// ════════════════════════════════════════════════
-//  Floating ambient particles (full page)
-// ════════════════════════════════════════════════
 (function() {
   const ambCanvas = document.createElement('canvas');
   ambCanvas.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.35';
@@ -5142,7 +5016,6 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
   });
 })();
 
-// ── Re-init card tilt after filter/search ──
 const _origFilter = window.filterProducts;
 if(typeof _origFilter === 'function') {
   window.filterProducts = function() {

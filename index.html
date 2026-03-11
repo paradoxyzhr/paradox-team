@@ -2,33 +2,25 @@
 <html lang="ar" dir="rtl">
 <head>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
 <style id="style-3d">
-/* ── NAV 3D canvas ── */
 #nav-3d-canvas {
   position:absolute;inset:0;width:100%;height:100%;
   pointer-events:none;z-index:0;opacity:.55;
 }
 nav { position:relative!important; overflow:hidden; }
 nav > * { position:relative; z-index:2; }
-
-/* ── HERO 3D canvas ── */
 #hero-3d-canvas {
   position:absolute;inset:0;width:100%;height:100%;
   pointer-events:none;z-index:0;
 }
 .hero { position:relative!important; overflow:hidden; }
 .hero > * { position:relative; z-index:2; }
-
-/* ── SHOP-HERO 3D canvas ── */
 #shop3d-canvas {
   position:absolute;inset:0;width:100%;height:100%;
   pointer-events:none;z-index:0;opacity:.6;
 }
 .shop-hero { position:relative!important; overflow:hidden; }
 .shop-hero > * { position:relative; z-index:2; }
-
-/* ── Floating 3D shapes CSS ── */
 .float-shape {
   position:fixed;pointer-events:none;z-index:1;
   animation:floatDrift 6s ease-in-out infinite;
@@ -40,8 +32,6 @@ nav > * { position:relative; z-index:2; }
   33%{transform:translateY(-18px) rotate(8deg)}
   66%{transform:translateY(10px) rotate(-5deg)}
 }
-
-/* ── CURSOR GLOW ── */
 #cursor-glow {
   position:fixed;width:300px;height:300px;
   border-radius:50%;pointer-events:none;z-index:0;
@@ -49,8 +39,6 @@ nav > * { position:relative; z-index:2; }
   transform:translate(-50%,-50%);
   transition:left .12s ease,top .12s ease;
 }
-
-/* ── Click ripple ── */
 .click-ripple {
   position:fixed;border-radius:50%;pointer-events:none;z-index:9999;
   border:2px solid rgba(42,184,196,.7);
@@ -60,8 +48,6 @@ nav > * { position:relative; z-index:2; }
   from{width:0;height:0;margin:0;opacity:.8}
   to{width:100px;height:100px;margin:-50px;opacity:0}
 }
-
-/* ── Product card 3D tilt ── */
 .product-card {
   transition:transform .2s ease, box-shadow .2s ease !important;
   transform-style:preserve-3d;
@@ -69,15 +55,11 @@ nav > * { position:relative; z-index:2; }
 .product-card:hover {
   box-shadow:0 20px 60px rgba(42,184,196,.18), 0 8px 24px rgba(0,0,0,.12) !important;
 }
-
-/* ── Scroll reveal enhanced ── */
 @keyframes revealUp {
   from{opacity:0;transform:translateY(40px) scale(.97)}
   to{opacity:1;transform:translateY(0) scale(1)}
 }
 .anim-3d-reveal { animation:revealUp .7s cubic-bezier(.16,1,.3,1) forwards; }
-
-/* ── Particle burst ── */
 .spark {
   position:fixed;pointer-events:none;z-index:9998;
   width:6px;height:6px;border-radius:50%;
@@ -87,8 +69,6 @@ nav > * { position:relative; z-index:2; }
   from{transform:translate(0,0) scale(1);opacity:1}
   to{transform:translate(var(--sx),var(--sy)) scale(0);opacity:0}
 }
-
-/* ── Section reveal glow ── */
 .section-glow {
   position:relative;
 }
@@ -129,8 +109,6 @@ nav > * { position:relative; z-index:2; }
   }
   html { scroll-behavior: smooth; }
   body { background: var(--bg); color: var(--ink); font-family: -apple-system, 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', Arial, 'Apple Color Emoji', sans-serif; transition: background 0.3s, color 0.3s; }
-
-  /* ===== DARK MODE ===== */
   body.dark { --bg:#0f1923; --white:#1a2535; --ink:#e8f0f8; --muted:#8ba3bc; --line:rgba(255,255,255,0.1); --teal-light:#0d3a3f; --gold-light:#2a2010; }
   body.dark nav { background:#1a2535; box-shadow:0 2px 20px rgba(0,0,0,0.4); }
   body.dark .product-card { background:#1a2535 !important; border-color:rgba(255,255,255,0.08); }
@@ -150,25 +128,17 @@ nav > * { position:relative; z-index:2; }
   .dark-float { position:fixed; bottom:164px; left:20px; width:46px; height:46px; border-radius:50%; background:var(--ink); color:white; border:none; cursor:pointer; font-size:20px; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 16px rgba(0,0,0,0.3); z-index:500; transition:transform 0.3s, background 0.3s; }
   .dark-float:hover { transform:scale(1.1); }
   body.dark .dark-float { background:var(--gold); }
-
-  /* ===== SCROLL ANIMATIONS ===== */
   .anim-fade { opacity:0; transform:translateY(30px); transition:opacity 0.6s ease, transform 0.6s ease; }
   .anim-fade.visible { opacity:1; transform:translateY(0); }
-
-  /* ===== SCROLL TO TOP ===== */
   .scroll-top { position:fixed; bottom:228px; left:20px; width:46px; height:46px; border-radius:50%; background:var(--teal); color:white; border:none; cursor:pointer; font-size:20px; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 16px rgba(42,184,196,0.4); z-index:500; opacity:0; pointer-events:none; transition:opacity 0.3s, transform 0.3s; }
   .scroll-top.show { opacity:1; pointer-events:all; }
   .scroll-top:hover { transform:scale(1.1) translateY(-3px); }
-
-  /* ===== SHARE BUTTON ===== */
   .share-btn { position:fixed; bottom:292px; left:20px; width:46px; height:46px; border-radius:50%; background:#6c5ce7; color:white; border:none; cursor:pointer; font-size:20px; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 16px rgba(108,92,231,0.4); z-index:500; transition:transform 0.3s; }
   .share-btn:hover { transform:scale(1.1); }
   .share-popup { position:fixed; top:76px; left:auto; right:120px; background:var(--ink); color:white; padding:10px 16px; border-radius:12px; font-size:12px; z-index:501; display:none; flex-direction:column; gap:8px; min-width:160px; box-shadow:0 8px 24px rgba(0,0,0,0.3); }
   .share-popup.open { display:flex; }
   .share-opt { display:flex; align-items:center; gap:8px; padding:6px 10px; border-radius:8px; cursor:pointer; transition:background 0.2s; font-weight:600; font-size:13px; }
   .share-opt:hover { background:rgba(255,255,255,0.12); }
-
-  /* ===== COMPARE ===== */
   .compare-btn { background:transparent; border:1px solid var(--teal); color:var(--teal); border-radius:8px; padding:5px 10px; font-size:11px; cursor:pointer; font-family:inherit; transition:all 0.2s; margin-top:6px; width:100%; }
   .compare-btn:hover, .compare-btn.selected { background:var(--teal); color:white; }
   .compare-bar { position:fixed; bottom:0; left:0; right:0; background:var(--ink); color:white; padding:14px 24px; display:flex; align-items:center; justify-content:space-between; z-index:600; transform:translateY(100%); transition:transform 0.4s; flex-wrap:wrap; gap:10px; }
@@ -191,8 +161,6 @@ nav > * { position:relative; z-index:2; }
   .compare-col .c-stars { color:var(--gold); font-size:15px; margin-bottom:8px; }
   .compare-col .c-desc { font-size:12px; color:var(--muted); line-height:1.75; }
   .compare-close { display:block; margin:24px auto 0; background:var(--ink); color:white; border:none; border-radius:50px; padding:11px 32px; font-weight:700; cursor:pointer; font-family:inherit; font-size:14px; }
-
-  /* ===== AI CHAT ===== */
   .ai-chat-btn { position:fixed; bottom:28px; right:20px; width:58px; height:58px; background:transparent; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:none; z-index:500; border:none; cursor:pointer; font-size:26px; transition:transform 0.3s; animation:aiPulse 3s infinite; padding:0; }
   .ai-chat-btn:hover { transform:scale(1.12); animation:none; }
   @keyframes aiPulse { 0%,100%{box-shadow:0 4px 20px rgba(108,92,231,0.5)} 50%{box-shadow:0 4px 30px rgba(108,92,231,0.8),0 0 0 10px rgba(108,92,231,0.1)} }
@@ -230,9 +198,6 @@ nav > * { position:relative; z-index:2; }
   body.dark .ai-msg.bot { background:#1e3a4a; }
   body.dark .ai-typing { background:#1e3a4a; }
   body.dark .ai-input { background:#0f1923; color:#e8f0f8; border-color:rgba(255,255,255,0.1); }
-
-
-  /* AI History */
   .ai-hist-btn { background:rgba(255,255,255,0.15); border:none; border-radius:10px; color:white; font-size:18px; cursor:pointer; padding:6px 10px; margin-left:6px; transition:background 0.2s; }
   .ai-hist-btn:hover { background:rgba(255,255,255,0.3); }
   .ai-history-panel { position:absolute; top:70px; right:0; left:0; background:white; z-index:10; border-bottom:2px solid var(--teal-light); max-height:320px; overflow-y:auto; display:none; flex-direction:column; }
@@ -248,8 +213,6 @@ nav > * { position:relative; z-index:2; }
   .ai-hist-msgs { font-size:11px; color:var(--muted); margin-top:2px; }
   .ai-hist-empty { text-align:center; padding:30px; color:var(--muted); font-size:13px; }
   .ai-inner { position:relative; }
-
-  /* AI Product Cards */
   .ai-product-card { background:white; border-radius:18px; overflow:hidden; border:1px solid var(--line); max-width:96%; width:96%; box-shadow:0 6px 24px rgba(0,0,0,0.12); margin-bottom:6px; flex-shrink:0; }
   .ai-product-card .pc-img { height:220px; min-height:220px; flex-shrink:0; overflow:hidden; position:relative; }
   .ai-product-card .pc-img img { width:100%; height:100%; object-fit:cover; display:block; }
@@ -273,23 +236,17 @@ nav > * { position:relative; z-index:2; }
   body.dark .dark-toggle { background:var(--gold); }
   body.dark .dark-toggle::after { transform:translateX(-20px); }
   .dark-toggle-wrap { display:flex; align-items:center; gap:8px; font-size:12px; color:var(--muted); }
-
-  /* ===== COUNTDOWN ===== */
   .countdown-banner { background:linear-gradient(135deg,#ff4444,#ff6b35); color:white; text-align:center; padding:10px 20px; font-size:14px; font-weight:700; display:flex; align-items:center; justify-content:center; gap:14px; flex-wrap:wrap; }
   .cd-boxes { display:flex; gap:6px; align-items:center; }
   .cd-box { background:rgba(0,0,0,0.25); border-radius:8px; padding:4px 10px; min-width:40px; text-align:center; }
   .cd-box span { font-size:20px; font-weight:900; display:block; line-height:1; }
   .cd-box small { font-size:9px; opacity:0.8; }
   .cd-sep { font-size:20px; font-weight:900; opacity:0.6; }
-
-  /* ===== TRUST BAR ===== */
   .trust-bar { background:var(--white); border-bottom:1px solid var(--line); display:flex; justify-content:center; flex-wrap:wrap; }
   .trust-item { display:flex; align-items:center; gap:8px; padding:12px 20px; font-size:12px; font-weight:600; color:var(--muted); border-left:1px solid var(--line); }
   .trust-item:last-child { border-left:none; }
   .trust-item .ti-icon { font-size:20px; }
   .trust-item strong { color:var(--ink); font-size:13px; display:block; }
-
-  /* ===== REVIEWS ===== */
   .reviews-section { background:var(--bg); padding:60px 40px; }
   .reviews-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:20px; max-width:1100px; margin:0 auto; }
   .review-card { background:var(--white); border-radius:18px; padding:24px; border:1px solid var(--line); transition:transform 0.3s,box-shadow 0.3s; }
@@ -301,20 +258,15 @@ nav > * { position:relative; z-index:2; }
   .review-stars { color:#f0b942; font-size:14px; margin-bottom:8px; }
   .review-text { font-size:13px; color:var(--muted); line-height:1.75; }
   .review-product { margin-top:10px; font-size:11px; background:var(--teal-light); color:var(--teal-dark); padding:4px 12px; border-radius:50px; display:inline-block; font-weight:600; }
-
-  /* ===== WHATSAPP ===== */
   .whatsapp-btn { position:fixed; bottom:90px; left:20px; width:58px; height:58px; background:#25D366; border-radius:50%; display:flex; align-items:center; justify-content:center; box-shadow:0 4px 20px rgba(37,211,102,0.5); z-index:500; text-decoration:none; transition:transform 0.3s; animation:waPulse 2.5s infinite; }
   .whatsapp-btn:hover { transform:scale(1.15); animation:none; box-shadow:0 8px 30px rgba(37,211,102,0.7); }
   @keyframes waPulse { 0%,100%{box-shadow:0 4px 20px rgba(37,211,102,0.5)} 50%{box-shadow:0 4px 30px rgba(37,211,102,0.8),0 0 0 10px rgba(37,211,102,0.12)} }
   .whatsapp-label { position:fixed; bottom:104px; left:86px; background:var(--ink); color:white; padding:7px 14px; border-radius:10px; font-size:12px; font-weight:600; white-space:nowrap; z-index:500; opacity:0; pointer-events:none; transition:opacity 0.3s; }
   .whatsapp-btn:hover + .whatsapp-label { opacity:1; }
-
-  /* ===== FAVORITES ===== */
   .fav-btn { position:absolute; top:8px; left:8px; width:32px; height:32px; border-radius:50%; background:rgba(255,255,255,0.92); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:15px; z-index:2; transition:transform 0.3s; box-shadow:0 2px 8px rgba(0,0,0,0.12); }
   .fav-btn:hover { transform:scale(1.2); }
   .fav-btn.fav-active { background:#ffe0e0; }
   .product-card { position:relative; }
-
   nav {
     background: var(--white);
     border-bottom: 3px solid var(--teal);
@@ -330,12 +282,10 @@ nav > * { position:relative; z-index:2; }
   .nav-links a:hover { color: var(--teal); }
   .nav-links a.shop-link { background: var(--gold); color: var(--ink); padding: 7px 18px; border-radius: 50px; font-weight: 700; }
   .nav-links a.shop-link:hover { background: #d4a030; color: var(--ink); }
-  /* Nav action buttons (dark + share) */
   .nav-actions { display: flex; align-items: center; gap: 8px; }
   .nav-icon-btn { width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--line); background: var(--white); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 17px; transition: all 0.2s; color: var(--ink); }
   .nav-icon-btn:hover { border-color: var(--teal); background: var(--teal-light); }
   body.dark .nav-icon-btn { background: #1a2535; border-color: rgba(255,255,255,0.15); color: #e8f0f8; }
-
   .hero {
     background: linear-gradient(135deg, #1a9aa6 0%, #2ab8c4 60%, #4dd0d8 100%);
     color: white; padding: 80px 40px; text-align: center; position: relative; overflow: hidden;
@@ -349,12 +299,10 @@ nav > * { position:relative; z-index:2; }
   .hero-stat { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 16px; padding: 18px 28px; min-width: 120px; text-align: center; }
   .hero-stat-num { font-size: 30px; font-weight: 900; display: block; }
   .hero-stat-label { font-size: 12px; opacity: 0.8; margin-top: 2px; }
-
   .section { padding: 72px 40px; }
   .section-header { text-align: center; margin-bottom: 52px; }
   .section-tag { display: inline-block; background: var(--teal-light); color: var(--teal-dark); padding: 6px 18px; border-radius: 50px; font-size: 13px; font-weight: 700; margin-bottom: 12px; }
   .section-title { font-size: clamp(26px,4vw,38px); font-weight: 900; }
-
   .canvas-section { background: var(--white); }
   .canvas-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
   .cell {
@@ -372,9 +320,7 @@ nav > * { position:relative; z-index:2; }
   .cell ul li { font-size: 12px; color: var(--muted); line-height: 1.85; padding-right: 14px; position: relative; }
   .cell ul li::before { content: '←'; position: absolute; right: 0; color: var(--teal); font-size: 10px; top: 4px; }
   .cell.gold ul li::before { color: var(--gold-dark, #c8902a); }
-
   .canvas-bottom { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
-
   .customer-section { background: var(--bg); }
   .customer-card { max-width: 680px; margin: 0 auto; background: var(--white); border-radius: 24px; overflow: hidden; box-shadow: 0 8px 40px rgba(26,35,50,0.08); border: 2px solid var(--teal-light); }
   .customer-header { background: linear-gradient(135deg, var(--teal-dark), var(--teal)); padding: 30px 36px; color: white; display: flex; align-items: center; gap: 18px; }
@@ -395,23 +341,16 @@ nav > * { position:relative; z-index:2; }
   .gbtn:hover:not(.active) { border-color: var(--teal); color: var(--teal); }
   .save-btn { display: block; margin: 28px auto 0; background: linear-gradient(135deg, var(--teal-dark), var(--teal)); color: white; border: none; cursor: pointer; padding: 14px 44px; border-radius: 50px; font-family: 'Segoe UI', Tahoma, 'Arabic Typesetting', 'Traditional Arabic', sans-serif; font-size: 15px; font-weight: 700; box-shadow: 0 8px 24px rgba(42,184,196,0.3); transition: transform 0.3s, box-shadow 0.3s; }
   .save-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 32px rgba(42,184,196,0.4); }
-
   .toast { position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--ink); color: white; padding: 13px 30px; border-radius: 50px; font-size: 14px; font-weight: 600; transition: transform 0.4s ease; z-index: 999; }
   .toast.show { transform: translateX(-50%) translateY(0); }
-
   footer { background: var(--ink); color: rgba(255,255,255,0.5); text-align: center; padding: 28px 40px; font-size: 13px; }
   footer span { color: var(--teal); }
-
   .reveal { opacity: 1 !important; transform: translateY(0) !important; visibility: visible !important; display: block; }
   .reveal.visible { opacity: 1; transform: translateY(0); }
   .d1 { transition-delay: 0.1s; } .d2 { transition-delay: 0.2s; } .d3 { transition-delay: 0.3s; } .d4 { transition-delay: 0.4s; }
-
   @media (max-width: 900px) { .canvas-grid { grid-template-columns: 1fr 1fr; } .canvas-bottom { grid-template-columns: 1fr; } }
   @media (max-width: 600px) { .canvas-grid { grid-template-columns: 1fr; } .nav-links { display: none; } .section { padding: 56px 20px; } .hero { padding: 56px 20px; } }
-
-  /* ===== SHOP STYLES ===== */
   .shop-section { background: #f8f9fa; }
-
   .shop-hero {
     background: linear-gradient(135deg, #1a9aa6 0%, #2ab8c4 60%, #0d7a85 100%);
     color: white; padding: 60px 40px; text-align: center; position: relative; overflow: hidden;
@@ -425,7 +364,6 @@ nav > * { position:relative; z-index:2; }
   .shop-search-bar input { flex: 1; padding: 14px 20px; border: none; outline: none; font-family: 'Segoe UI', Tahoma, 'Arabic Typesetting', 'Traditional Arabic', sans-serif; font-size: 14px; }
   .shop-search-bar button { background: var(--gold); border: none; padding: 14px 24px; cursor: pointer; font-size: 18px; transition: background 0.3s; }
   .shop-search-bar button:hover { background: #d4a030; }
-
   .shop-bar {
     background: var(--ink); padding: 12px 40px;
     display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;
@@ -434,10 +372,8 @@ nav > * { position:relative; z-index:2; }
   .cat-btn { padding: 7px 18px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.2); background: transparent; color: rgba(255,255,255,0.7); font-family: 'Segoe UI', Tahoma, 'Arabic Typesetting', 'Traditional Arabic', sans-serif; font-size: 13px; cursor: pointer; transition: all 0.3s; }
   .cat-btn.active, .cat-btn:hover { background: var(--teal); border-color: var(--teal); color: white; }
   .shop-bar-info { font-size: 12px; color: rgba(255,255,255,0.5); }
-
   .shop-layout { display: grid; grid-template-columns: 240px 1fr; gap: 24px; padding: 32px 40px; }
   @media (max-width: 860px) { .shop-layout { grid-template-columns: 1fr; } }
-
   .shop-sidebar { position: sticky; top: 88px; align-self: start; }
   @media (max-width: 767px) {
     .shop-sidebar { display: none; }
@@ -454,12 +390,10 @@ nav > * { position:relative; z-index:2; }
   .price-input:focus { border-color: var(--teal); }
   .apply-filter { width: 100%; margin-top: 12px; padding: 9px; background: var(--teal); color: white; border: none; border-radius: 8px; font-family: 'Segoe UI', Tahoma, 'Arabic Typesetting', 'Traditional Arabic', sans-serif; font-size: 13px; font-weight: 700; cursor: pointer; transition: background 0.3s; }
   .apply-
-
   .shop-products { }
   .products-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
   .products-count { font-size: 14px; color: var(--muted); font-weight: 600; }
   .sort-select { padding: 8px 14px; border: 1px solid var(--line); border-radius: 8px; font-family: 'Segoe UI', Tahoma, 'Arabic Typesetting', 'Traditional Arabic', sans-serif; font-size: 13px; outline: none; cursor: pointer; }
-
   .products-grid {
     column-count: 2;
     column-gap: 12px;
@@ -486,7 +420,6 @@ nav > * { position:relative; z-index:2; }
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
   }
-
   .product-card {
     background: white; border-radius: 18px; overflow: hidden;
     border: 1px solid var(--line); transition: transform 0.3s, box-shadow 0.3s;
@@ -499,15 +432,12 @@ nav > * { position:relative; z-index:2; }
   }
   .product-card.family-card { border: 3px solid #f0b942; }
   .product-card:hover { transform: translateY(-6px); box-shadow: 0 16px 48px rgba(26,35,50,0.12); }
-
   .product-badge { position: absolute; top: 12px; right: 12px; padding: 4px 12px; border-radius: 50px; font-size: 11px; font-weight: 700; z-index: 2; }
   .badge-new { background: var(--teal); color: white; }
   .badge-sale { background: #ef4444; color: white; }
   .badge-hot { background: var(--gold); color: var(--ink); }
-
   .product-img { height: 180px; display: flex; align-items: center; justify-content: center; font-size: 80px; background: linear-gradient(135deg, #f0f4f8, #e8f0f5); position: relative; overflow: hidden; }
   .product-img::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.04)); }
-
   .product-info { padding: 10px; }
   .product-brand { font-size: 10px; color: var(--teal-dark); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 4px; }
   .product-name { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 6px; line-height: 1.4; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; height: 2.8em; }
@@ -522,12 +452,9 @@ nav > * { position:relative; z-index:2; }
   .add-cart-btn:hover { background: var(--teal-dark); transform: scale(1.1); }
   .add-cart-btn.added { background: #22c55e; animation: popIn 0.4s ease; }
   @keyframes popIn { 0%{transform:scale(1)} 50%{transform:scale(1.3)} 100%{transform:scale(1)} }
-
   .cart-float { position: fixed; bottom: 28px; left: 28px; background: var(--ink); color: white; padding: 14px 22px; border-radius: 50px; font-size: 14px; font-weight: 700; box-shadow: 0 8px 28px rgba(26,35,50,0.3); cursor: pointer; display: flex; align-items: center; gap: 10px; z-index: 200; transition: transform 0.3s; }
   .cart-float:hover { transform: translateY(-3px); }
   .cart-count { background: var(--gold); color: var(--ink); width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 900; }
-
-  /* CART MODAL */
   .cart-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 500; display: none; align-items: center; justify-content: center; padding: 20px; }
   .cart-overlay.open { display: flex; }
   .cart-modal { background: white; border-radius: 24px; width: 100%; max-width: 520px; max-height: 90vh; overflow-y: auto; box-shadow: 0 24px 80px rgba(0,0,0,0.3); animation: slideUp 0.3s ease; }
@@ -551,8 +478,6 @@ nav > * { position:relative; z-index:2; }
   .cart-item-remove { color: #ef4444; background: none; border: none; font-size: 18px; cursor: pointer; padding: 4px; }
   .cart-total-row { display: flex; justify-content: space-between; align-items: center; padding: 16px 0 8px; font-size: 16px; font-weight: 700; border-top: 2px solid var(--teal-light); margin-top: 8px; }
   .cart-total-price { font-size: 22px; color: var(--teal-dark); font-weight: 900; }
-
-  /* PAYMENT */
   .payment-section { margin-top: 20px; }
   .payment-title { font-size: 13px; font-weight: 700; color: var(--muted); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; }
   .payment-options { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
@@ -571,8 +496,6 @@ nav > * { position:relative; z-index:2; }
   .checkout-btn { width: 100%; padding: 16px; background: linear-gradient(135deg, var(--teal-dark), var(--teal)); color: white; border: none; border-radius: 14px; font-family: 'Segoe UI', Tahoma, Arial, sans-serif; font-size: 16px; font-weight: 700; cursor: pointer; transition: all 0.3s; box-shadow: 0 6px 20px rgba(42,184,196,0.35); }
   .checkout-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(42,184,196,0.45); }
   .secure-badge { text-align: center; margin-top: 12px; font-size: 11px; color: var(--muted); }
-
-  /* FORCE VISIBILITY */
   section, .section, .hero, .canvas-section, .customer-section, #shop, #canvas, #customer {
     opacity: 1 !important;
     visibility: visible !important;
@@ -580,14 +503,10 @@ nav > * { position:relative; z-index:2; }
   }
   .hero { display: block !important; }
   .canvas-grid { display: grid !important; }
-
   @media (max-width: 767px) {
     .mobile-filter-btn-wrap { display: block !important; }
     .filter-overlay.active { display: block; }
   }
-
-
-  /* Product Picker in Review Form */
   .rev-prod-card { border:2px solid var(--line); border-radius:12px; padding:8px 6px; cursor:pointer; text-align:center; transition:all 0.2s; background:var(--bg); }
   .rev-prod-card:hover { border-color:var(--teal); transform:translateY(-2px); }
   .rev-prod-card.selected { border-color:var(--teal); background:var(--teal-light); }
@@ -596,8 +515,6 @@ nav > * { position:relative; z-index:2; }
   body.dark .rev-prod-card { background:#0f1923; }
   body.dark .rev-prod-card.selected { background:#0d3a3f; }
   body.dark .rpname { color:#e8f0f8; }
-
-  /* ===== USER REVIEWS SECTION ===== */
   .user-reviews-section { background: var(--bg); padding: 60px 40px; }
   .user-reviews-section .section-tag { display:inline-block; background:linear-gradient(135deg,#f0b942,#e09020); color:white; padding:6px 20px; border-radius:50px; font-size:12px; font-weight:700; margin-bottom:12px; }
   .review-form-box { background:white; border-radius:24px; padding:32px; max-width:600px; margin:0 auto 50px; box-shadow:0 8px 32px rgba(0,0,0,0.08); border:1px solid rgba(42,184,196,0.15); }
@@ -629,9 +546,6 @@ nav > * { position:relative; z-index:2; }
   .urc-product img { width:40px; height:40px; object-fit:cover; border-radius:8px; }
   .urc-product-name { font-size:12px; font-weight:600; color:var(--teal); }
   .no-reviews { text-align:center; color:var(--muted); padding:40px; font-size:15px; }
-
-
-  /* ===== FAQ SECTION ===== */
   .faq-section { background:var(--bg); padding:60px 40px; }
   .faq-list { max-width:750px; margin:0 auto; display:flex; flex-direction:column; gap:12px; }
   .faq-item { background:white; border-radius:16px; border:1px solid var(--line); overflow:hidden; transition:box-shadow 0.2s; }
@@ -643,8 +557,6 @@ nav > * { position:relative; z-index:2; }
   .faq-item.open .faq-icon { transform:rotate(45deg); }
   .faq-a { max-height:0; overflow:hidden; transition:max-height 0.35s ease, padding 0.3s; padding:0 20px; color:var(--muted); font-size:14px; line-height:1.9; }
   .faq-item.open .faq-a { max-height:200px; padding:0 20px 18px; }
-
-  /* ===== TRACK ORDER MODAL ===== */
   .track-modal { position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:900; display:none; align-items:flex-start; justify-content:center; overflow-y:auto; padding:20px 0; }
   .track-modal.open { display:flex; }
   .track-inner { background:white; border-radius:24px; padding:24px; width:90%; max-width:440px; text-align:center; margin:auto; max-height:none; }
@@ -665,8 +577,6 @@ nav > * { position:relative; z-index:2; }
   .track-step.active .track-step-dot { background:var(--gold); animation:pulse 1.5s infinite; }
   .track-step-label { font-size:10px; color:var(--muted); text-align:center; }
   .track-close { margin-top:16px; background:none; border:1px solid var(--line); border-radius:10px; padding:8px 20px; cursor:pointer; font-family:inherit; color:var(--muted); }
-
-  /* ===== PROMO POPUP ===== */
   .promo-popup { position:fixed; bottom:100px; left:20px; background:white; border-radius:20px; padding:20px; width:280px; box-shadow:0 8px 32px rgba(0,0,0,0.15); z-index:850; transform:translateX(-320px); transition:transform 0.5s cubic-bezier(0.34,1.56,0.64,1); border:2px solid var(--teal-light); }
   .promo-popup.show { transform:translateX(0); }
   body.dark .promo-popup { background:#1a2535; }
@@ -676,13 +586,8 @@ nav > * { position:relative; z-index:2; }
   body.dark .promo-popup-title { color:#e8f0f8; }
   .promo-popup-sub { font-size:12px; color:var(--muted); margin-bottom:12px; }
   .promo-popup-btn { width:100%; padding:10px; background:var(--teal); color:white; border:none; border-radius:10px; font-size:13px; font-weight:700; font-family:inherit; cursor:pointer; }
-
-  /* Track floating btn */
   .track-float-btn { position:fixed; bottom:100px; right:20px; background:var(--ink); color:white; border:none; border-radius:50px; padding:12px 18px; font-size:13px; font-weight:700; font-family:inherit; cursor:pointer; z-index:800; box-shadow:0 4px 16px rgba(0,0,0,0.3); display:flex; align-items:center; gap:8px; transition:transform 0.2s; }
   .track-float-btn:hover { transform:scale(1.05); }
-
-
-  /* ===== LOYALTY PROGRAM ===== */
   .loyalty-btn { position:fixed; bottom:160px; right:20px; background:linear-gradient(135deg,#f0b942,#e09020); color:white; border:none; border-radius:50px; padding:11px 16px; font-size:13px; font-weight:700; font-family:inherit; cursor:pointer; z-index:800; box-shadow:0 4px 16px rgba(240,185,66,0.4); display:flex; align-items:center; gap:6px; transition:transform 0.2s; }
   .loyalty-btn:hover { transform:scale(1.05); }
   .loyalty-modal { position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:900; display:none; align-items:center; justify-content:center; }
@@ -708,14 +613,10 @@ nav > * { position:relative; z-index:2; }
   .loyalty-how-item .lhi-text { font-size:11px; color:var(--muted); }
   .loyalty-how-item .lhi-pts { font-size:13px; font-weight:800; color:var(--teal); }
   .loyalty-close-btn { width:100%; padding:12px; background:var(--teal); color:white; border:none; border-radius:0 0 24px 24px; font-size:14px; font-weight:700; font-family:inherit; cursor:pointer; }
-
-  /* ===== VISITORS COUNTER ===== */
   .visitors-bar { background:linear-gradient(135deg,#0d1f3c,#1a3a6b); color:white; padding:10px 20px; display:flex; align-items:center; justify-content:center; gap:24px; flex-wrap:wrap; font-size:13px; }
   .visitors-item { display:flex; align-items:center; gap:8px; }
   .visitors-dot { width:8px; height:8px; border-radius:50%; background:#22c55e; animation:pulse 2s infinite; }
   .visitors-num { font-weight:900; font-size:16px; color:#f0b942; }
-
-  /* ===== PRICE COMPARE ===== */
   .compare-prices-section { background:var(--bg); padding:50px 40px; }
   .compare-prices-table { max-width:800px; margin:0 auto; background:white; border-radius:20px; overflow:hidden; box-shadow:0 4px 24px rgba(0,0,0,0.08); }
   body.dark .compare-prices-table { background:#1a2535; }
@@ -731,13 +632,8 @@ nav > * { position:relative; z-index:2; }
   .cpt-price.best { color:#22c55e; }
   .cpt-price.high { color:#ef4444; }
   .cpt-badge { display:inline-block; background:#22c55e; color:white; padding:2px 8px; border-radius:50px; font-size:10px; font-weight:700; margin-right:6px; }
-
-
-  /* ===== WA SHARE BUTTON ON CARD ===== */
   .card-wa-share { background:#25D366; color:white; border:none; border-radius:8px; padding:5px 10px; font-size:12px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:transform 0.2s; font-family:inherit; font-weight:700; }
   .card-wa-share:hover { transform:scale(1.05); background:#1ebe5d; }
-
-  /* ===== SMART SUGGESTIONS ===== */
   .suggestions-modal { position:fixed; bottom:90px; left:20px; z-index:900; display:none; }
   .suggestions-modal.open { display:block; animation: sugPopIn 0.35s cubic-bezier(0.34,1.56,0.64,1); }
   @keyframes sugPopIn { from { opacity:0; transform:translateY(20px) scale(0.9); } to { opacity:1; transform:translateY(0) scale(1); } }
@@ -759,9 +655,6 @@ nav > * { position:relative; z-index:2; }
   .sug-card-price { font-size:12px; font-weight:900; color:var(--teal); }
   .sug-card-add { background:var(--teal); color:white; border:none; border-radius:8px; padding:5px 10px; font-size:11px; font-weight:700; font-family:inherit; cursor:pointer; flex-shrink:0; }
   .suggestions-close { display:none; }
-
-
-  /* ===== COUPON SYSTEM ===== */
   .coupon-row { display:flex; gap:8px; margin:12px 0; }
   .coupon-input { flex:1; padding:10px 14px; border:2px solid var(--line); border-radius:12px; font-family:inherit; font-size:13px; outline:none; background:var(--bg); color:var(--ink); transition:border 0.2s; }
   .coupon-input:focus { border-color:var(--teal); }
@@ -770,8 +663,6 @@ nav > * { position:relative; z-index:2; }
   .coupon-result.success { background:#dcfce7; color:#16a34a; display:block; }
   .coupon-result.error { background:#fee2e2; color:#dc2626; display:block; }
   .cart-discount-row { display:flex; justify-content:space-between; padding:6px 0; font-size:13px; color:#16a34a; font-weight:600; }
-
-  /* ===== FLASH SALE TIMER ===== */
   .flash-sale-bar { background:linear-gradient(135deg,#6c5ce7,#a855f7); color:white; padding:12px 20px; display:flex; align-items:center; justify-content:center; gap:16px; flex-wrap:wrap; font-size:13px; font-weight:700; }
   .flash-timer-boxes { display:flex; gap:6px; align-items:center; }
   .flash-box { background:rgba(0,0,0,0.25); border-radius:10px; padding:6px 12px; text-align:center; min-width:48px; }
@@ -779,9 +670,6 @@ nav > * { position:relative; z-index:2; }
   .flash-box small { font-size:10px; opacity:0.8; }
   .flash-sep { font-size:20px; font-weight:900; opacity:0.7; }
   .flash-sale-badge { background:white; color:#6c5ce7; padding:4px 12px; border-radius:50px; font-size:11px; font-weight:900; }
-
-
-  /* ===== GAMES MODAL ===== */
   .games-float-btn { position:fixed; bottom:220px; right:20px; background:linear-gradient(135deg,#6c5ce7,#a855f7); color:white; border:none; border-radius:50px; padding:11px 16px; font-size:13px; font-weight:700; font-family:inherit; cursor:pointer; z-index:800; box-shadow:0 4px 16px rgba(108,92,231,0.4); display:flex; align-items:center; gap:6px; transition:transform 0.2s; }
   .games-float-btn:hover { transform:scale(1.05); }
   .games-modal { position:fixed; inset:0; background:rgba(0,0,0,0.7); z-index:950; display:none; align-items:center; justify-content:center; padding:16px; }
@@ -797,16 +685,12 @@ nav > * { position:relative; z-index:2; }
   .games-body { padding:24px; min-height:280px; }
   .game-panel { display:none; }
   .game-panel.active { display:block; }
-
-  /* Wheel */
   .wheel-wrap { display:flex; flex-direction:column; align-items:center; gap:16px; }
   #wheelCanvas { border-radius:50%; box-shadow:0 8px 32px rgba(108,92,231,0.3); cursor:pointer; }
   .wheel-btn { padding:12px 32px; background:linear-gradient(135deg,#6c5ce7,#a855f7); color:white; border:none; border-radius:50px; font-size:15px; font-weight:700; font-family:inherit; cursor:pointer; transition:transform 0.2s; }
   .wheel-btn:hover { transform:scale(1.05); }
   .wheel-btn:disabled { opacity:0.5; cursor:not-allowed; transform:none; }
   .wheel-result { font-size:16px; font-weight:800; color:#6c5ce7; text-align:center; min-height:24px; }
-
-  /* Cards */
   .cards-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:16px; }
   .flip-card { height:80px; cursor:pointer; perspective:600px; }
   .flip-card-inner { width:100%; height:100%; transition:transform 0.5s; transform-style:preserve-3d; position:relative; }
@@ -817,8 +701,6 @@ nav > * { position:relative; z-index:2; }
   body.dark .flip-back { color:#e8f0f8; }
   .cards-result { text-align:center; font-size:15px; font-weight:800; color:#6c5ce7; min-height:24px; }
   .cards-reset { width:100%; padding:10px; background:none; border:2px solid #6c5ce7; border-radius:12px; color:#6c5ce7; font-size:13px; font-weight:700; font-family:inherit; cursor:pointer; margin-top:8px; }
-
-  /* Quiz */
   .quiz-question { font-size:15px; font-weight:700; color:var(--ink); margin-bottom:16px; line-height:1.6; }
   body.dark .quiz-question { color:#e8f0f8; }
   .quiz-options { display:flex; flex-direction:column; gap:8px; margin-bottom:16px; }
@@ -829,16 +711,11 @@ nav > * { position:relative; z-index:2; }
   .quiz-opt.wrong { border-color:#ef4444; background:#fee2e2; color:#dc2626; }
   .quiz-result { text-align:center; font-size:15px; font-weight:800; min-height:24px; }
   .quiz-progress { font-size:12px; color:var(--muted); text-align:center; margin-bottom:12px; }
-
-  /* Win banner */
   .win-banner { background:linear-gradient(135deg,#f0b942,#ff6b35); color:white; border-radius:16px; padding:16px; text-align:center; margin-top:12px; display:none; }
   .win-banner.show { display:block; }
   .win-banner-title { font-size:18px; font-weight:900; margin-bottom:4px; }
   .win-banner-code { font-size:22px; font-weight:900; letter-spacing:3px; background:rgba(255,255,255,0.2); border-radius:10px; padding:8px 16px; display:inline-block; margin:8px 0; cursor:pointer; }
   .win-banner-sub { font-size:12px; opacity:0.9; }
-
-
-  /* ===== NOTIFICATION BANNER ===== */
   .notif-banner { position:fixed; bottom:20px; left:50%; transform:translateX(-50%) translateY(120px); background:white; border-radius:20px; padding:16px 20px; box-shadow:0 8px 32px rgba(0,0,0,0.15); z-index:1000; display:flex; align-items:center; gap:14px; width:90%; max-width:400px; border:2px solid var(--teal-light); transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1); }
   .notif-banner.show { transform:translateX(-50%) translateY(0); }
   body.dark .notif-banner { background:#1a2535; }
@@ -850,9 +727,6 @@ nav > * { position:relative; z-index:2; }
   .notif-banner-actions { display:flex; flex-direction:column; gap:6px; flex-shrink:0; }
   .notif-allow-btn { padding:8px 14px; background:var(--teal); color:white; border:none; border-radius:10px; font-size:12px; font-weight:700; font-family:inherit; cursor:pointer; white-space:nowrap; }
   .notif-deny-btn { padding:6px 14px; background:none; border:1px solid var(--line); border-radius:10px; font-size:11px; font-family:inherit; cursor:pointer; color:var(--muted); white-space:nowrap; }
-
-
-  /* ===== THANK YOU PAGE ===== */
   .thankyou-modal { position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:1000; display:none; align-items:center; justify-content:center; padding:16px; }
   .thankyou-modal.open { display:flex; }
   .thankyou-inner { background:white; border-radius:28px; width:100%; max-width:480px; overflow:hidden; text-align:center; }
@@ -873,8 +747,6 @@ nav > * { position:relative; z-index:2; }
   .ty-btn-secondary { padding:12px; background:none; border:2px solid var(--line); border-radius:14px; font-size:14px; font-family:inherit; cursor:pointer; color:var(--muted); }
   .ty-share-row { display:flex; gap:8px; margin-top:8px; }
   .ty-share-btn { flex:1; padding:10px; border:none; border-radius:12px; font-size:13px; font-weight:700; font-family:inherit; cursor:pointer; color:white; }
-
-  /* ===== REFERRAL SYSTEM ===== */
   .referral-modal { position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:900; display:none; align-items:center; justify-content:center; padding:16px; }
   .referral-modal.open { display:flex; }
   .referral-inner { background:white; border-radius:24px; width:100%; max-width:440px; overflow:hidden; }
@@ -896,8 +768,6 @@ nav > * { position:relative; z-index:2; }
   .ref-stat { text-align:center; }
   .ref-stat-num { font-size:24px; font-weight:900; color:var(--teal); }
   .ref-stat-label { font-size:11px; color:var(--muted); }
-
-  /* ===== WALLET MODAL ===== */
   .wallet-modal { position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:900; display:none; align-items:center; justify-content:center; padding:16px; }
   .wallet-modal.open { display:flex; }
   .wallet-inner { background:white; border-radius:24px; width:100%; max-width:440px; overflow:hidden; max-height:90vh; overflow-y:auto; }
@@ -928,9 +798,6 @@ nav > * { position:relative; z-index:2; }
   .wallet-btn:hover { transform:scale(1.05); }
   .ref-float-btn { position:fixed; bottom:340px; right:20px; background:linear-gradient(135deg,#ff6b35,#f0b942); color:white; border:none; border-radius:50px; padding:11px 16px; font-size:13px; font-weight:700; font-family:inherit; cursor:pointer; z-index:800; box-shadow:0 4px 16px rgba(240,107,53,0.4); display:flex; align-items:center; gap:6px; transition:transform 0.2s; }
   .ref-float-btn:hover { transform:scale(1.05); }
-
-
-  /* ===== DELIVERY MAP ===== */
   .delivery-map-wrap { margin-top:16px; border-radius:16px; overflow:hidden; border:2px solid var(--teal); }
   .delivery-map-header { background:var(--teal); color:white; padding:10px 14px; font-size:13px; font-weight:700; display:flex; justify-content:space-between; align-items:center; }
   #deliveryMap { width:100%; height:220px; background:#e8f4f8; position:relative; overflow:hidden; }
@@ -949,11 +816,9 @@ nav > * { position:relative; z-index:2; }
   body.dark .delivery-status-bar { background:#1a2535; }
   .delivery-status-dot { width:10px; height:10px; border-radius:50%; background:#22c55e; animation:pulse 1.5s infinite; flex-shrink:0; }
   .delivery-status-text { font-size:12px; font-weight:700; color:#22c55e; }
-
 </style>
 </head>
 <body>
-
 <nav>
 <canvas id="nav-3d-canvas"></canvas>
   <div class="nav-logo"><img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAUDBAQEAwUEBAQFBQUGBwwIBwcHBw8LCwkMEQ8SEhEPERETFhwXExQaFRERGCEYGh0dHx8fExciJCIeJBweHx7/2wBDAQUFBQcGBw4ICA4eFBEUHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh4eHh7/wAARCABQAFADASIAAhEBAxEB/8QAHAABAAEFAQEAAAAAAAAAAAAAAAcBBAUGCAID/8QANhAAAQQBAwMBBAUNAAAAAAAAAQACAwQFBgcREhMhURQiMUEIYXFykRUyQkNSYoGCkqGiscH/xAAZAQEBAQEBAQAAAAAAAAAAAAAAAgMBBQT/xAAlEQACAgECBQUBAAAAAAAAAAAAAQIDEQQSIVFhcZEFFCMxQYH/2gAMAwEAAhEDEQA/AOykREAREQBERAEREAREQBERAERQP9JTfV23eaxOndOPxNrMvkbZyEV2ZrGRVvkzqLmhr3/I+eAOePIQE8KiiDN/SQ2lxemvysdUVbll0IkZjqbu/Yc8jnt8M5aDz4JJ6frXMuxm6msRu7l9bWbdiXFWXTWs9DJI58McTuTDDHyeBL1dLIwPkHc+7yVyUlFZZdVU7ZquCy3wS6nfSLVYNxNDSS+zS6swlW61rTLTs3oop4XFoPS+NzgWuHI5B8hZyll8VdaHU8nSsg/AxWGP/wBFE0w65L7RfIqcj1VV0gKi1Td3WTdv9usvq92LsZQY6Jr/AGaE8F/Lg3kng9LR1ck8HgArjvcPf3eTVNX2bHYzIafp2W+4zGY6fuStPw4mLSSD6s4QHTW8++Wi9umS46zl60mdLOY6wjfK2Ik+O72wSz14+J9OPK4L3Y17ndx9RzQtsPuiWUvJ73chPo6Mysa+FoHggnjgfIK+wOym7WtbYmj0tfpQSuJfcywNZnn4u5k9538rSSpi0/sjoDa2k3LbhZehkr4AcI8iHR02kfsVAe/aP3+2z1UymorLNqNPZfLbBZZFG2+09fLwuuClmdWOiBMrMSG1cdCR8RNfn6WfaGAjx4cpKqY7Jx148Vp/PaUwDa3vRV9PVrWctV3H85zXxR9lknH6znr/AHlnqep8luZebQ0Zpa/nqtUiOO3k6rZa1fgcDtVQWU4B98vd4+alrTWzeTvQsfrTJutsHDhTfbklib9Qij7UDfs6Hj6yvnc3Y+EfJ7EdPVoo/Jbx5Rxnzyf86ogzR2lbOnXPgrag1d3ZZDLL3cdQqOle48lx9psl/J9SFNOksDraWGOeKzq3t8+Hm/iWj8GwvP8AdS9pzSundOwMiw+Fx1LpHHVXqRRE/wBDQs2qWn/WzGz1ZtKMYppczUcDitRRlvt2Uy5Hz7t2vIf8YGra4mFjA10j5CP0nccn8AF7RbRjtR5ltrtllpLseJ4op4JIJ42SxSNLHse0Oa5pHBBB+II+Siu9sZp6vPJPozUOqdDukcXugwWTdHVc4/E9h/VGPsaAFK6KjIhW5sxrK80w3N9dcOrHwWRCKJxH3mj/AIvppr6NW2WLujIZWrktT3eeozZm4ZgT6ljelh/iCpmRTsjnODb3Fu3bueO5b0KVPH046dCrBUrRDpjhhjDGMHoGjwFcIioxCIiAIiIAiIgCIiAIiIAiIgCIiA//2Q==" style="height:42px;width:auto;object-fit:contain;" alt="AirZone Logo"><span style="color:var(--teal-dark);font-weight:900;font-size:18px;">AirZone</span></div>
@@ -978,8 +843,6 @@ nav > * { position:relative; z-index:2; }
   <div class="visitors-item">👁️ إجمالي الزيارات: <span class="visitors-num" id="totalVisitors">0</span></div>
   <div class="visitors-item">🛒 طلبات اليوم: <span class="visitors-num" id="todayOrders">0</span></div>
 </div>
-
-
 <!-- Countdown Banner -->
 <div class="countdown-banner">
   <span>🔥 عروض محدودة الوقت! ينتهي العرض خلال:</span>
@@ -992,7 +855,6 @@ nav > * { position:relative; z-index:2; }
   </div>
   <span>⚡ خصم حتى 40%</span>
 </div>
-
 <!-- Trust Bar -->
 <div class="trust-bar">
   <div class="trust-item"><span class="ti-icon">🚚</span><div><strong>توصيل مجاني</strong>فوق 500 درهم</div></div>
@@ -1000,7 +862,6 @@ nav > * { position:relative; z-index:2; }
   <div class="trust-item"><span class="ti-icon">🔒</span><div><strong>دفع آمن 100%</strong>بطاقة أو كاش</div></div>
   <div class="trust-item"><span class="ti-icon">⭐</span><div><strong>+500 زبون سعيد</strong>تقييم 4.9/5</div></div>
 </div>
-
 <section class="hero" id="main-hero" style="display:block!important;opacity:1!important;background:linear-gradient(135deg,#1a9aa6,#2ab8c4)!important;color:white!important;padding:80px 40px!important;">
 <canvas id="hero-3d-canvas"></canvas>
   <div class="hero-badge">✦ مشروعي الريادي</div>
@@ -1012,14 +873,12 @@ nav > * { position:relative; z-index:2; }
     <div class="hero-stat"><span class="hero-stat-num">✦</span><div class="hero-stat-label">مشروع ناجح</div></div>
   </div>
 </section>
-
 <!-- CANVAS -->
 <section class="section canvas-section" id="canvas" style="display:block!important;opacity:1!important;background:white!important;padding:72px 40px!important;">
   <div class="section-header reveal">
     <div class="section-tag">📋 نموذج العمل التجاري</div>
     <h2 class="section-title">مخطط مشروعي</h2>
   </div>
-
   <div class="canvas-grid">
     <div class="cell reveal d1">
       <div class="cell-icon bg-blue">🔧</div>
@@ -1067,7 +926,6 @@ nav > * { position:relative; z-index:2; }
       </div>
     </div>
   </div>
-
   <div class="canvas-bottom">
     <div class="cell gold reveal d1">
       <div class="cell-icon bg-gold">📊</div>
@@ -1081,14 +939,12 @@ nav > * { position:relative; z-index:2; }
     </div>
   </div>
 </section>
-
 <!-- CUSTOMER -->
 <section class="section customer-section" id="customer">
   <div class="section-header reveal">
     <div class="section-tag">👤 بطاقة الزبون</div>
     <h2 class="section-title">تعرّف على عميلك المثالي</h2>
   </div>
-
   <div class="customer-card reveal">
     <div class="customer-header">
       <div class="customer-avatar">👤</div>
@@ -1140,10 +996,8 @@ nav > * { position:relative; z-index:2; }
     </div>
   </div>
 </section>
-
 <!-- ===== SHOE SHOP ===== -->
 <div id="shop">
-
 <!-- Shop Hero -->
 <div class="shop-hero">
 <canvas id="shop3d-canvas"></canvas>
@@ -1154,7 +1008,6 @@ nav > * { position:relative; z-index:2; }
     <button>🔍</button>
   </div>
 </div>
-
 <!-- Category Bar -->
 <div class="shop-bar">
   <div class="shop-bar-cats">
@@ -1168,10 +1021,8 @@ nav > * { position:relative; z-index:2; }
   </div>
   <div class="shop-bar-info" id="resultCount">عرض 22 منتج</div>
 </div>
-
 <!-- Shop Layout -->
 <div class="shop-layout">
-
   <!-- Sidebar -->
   <div class="shop-sidebar">
     <div class="sidebar-box">
@@ -1202,7 +1053,6 @@ nav > * { position:relative; z-index:2; }
       <button class="apply-filter" onclick="filterProducts()">تطبيق الفلتر</button>
     </div>
   </div>
-
   <!-- Products -->
   <div class="shop-products">
     <div class="products-header">
@@ -1214,7 +1064,6 @@ nav > * { position:relative; z-index:2; }
         <option value="rating">الأعلى تقييماً</option>
       </select>
     </div>
-    
     <div style="display:none;" class="mobile-filter-btn-wrap">
   <button onclick="document.querySelector('.shop-sidebar').classList.toggle('open');document.querySelector('.filter-overlay').classList.toggle('active');" style="background:var(--teal);color:white;border:none;padding:10px 20px;border-radius:25px;font-size:14px;font-weight:700;cursor:pointer;margin-bottom:12px;width:100%;">
     🔧 الفلاتر
@@ -1449,7 +1298,6 @@ nav > * { position:relative; z-index:2; }
         </div>
         </div>
       </div>
-
       <!-- 10 NEW PRODUCTS -->
       <div class="product-card" data-cat="رياضي">
         <button class="fav-btn" id="fav-13" onclick="toggleFav(13,this)" title="المفضلة">🤍</button>
@@ -1470,7 +1318,6 @@ nav > * { position:relative; z-index:2; }
         </div>
         </div>
       </div>
-
       <div class="product-card" data-cat="كلاسيك">
         <button class="fav-btn" id="fav-14" onclick="toggleFav(14,this)" title="المفضلة">🤍</button>
         <div class="product-badge badge-sale">تخفيض</div>
@@ -1490,7 +1337,6 @@ nav > * { position:relative; z-index:2; }
         </div>
         </div>
       </div>
-
       <div class="product-card" data-cat="نسائي">
         <button class="fav-btn" id="fav-15" onclick="toggleFav(15,this)" title="المفضلة">🤍</button>
         <div class="product-badge badge-hot">🔥 رائج</div>
@@ -1510,7 +1356,6 @@ nav > * { position:relative; z-index:2; }
         </div>
         </div>
       </div>
-
       <div class="product-card" data-cat="كاجوال">
         <button class="fav-btn" id="fav-16" onclick="toggleFav(16,this)" title="المفضلة">🤍</button>
         <div class="product-badge badge-new">جديد</div>
@@ -1530,7 +1375,6 @@ nav > * { position:relative; z-index:2; }
         </div>
         </div>
       </div>
-
       <div class="product-card" data-cat="أطفال">
         <button class="fav-btn" id="fav-17" onclick="toggleFav(17,this)" title="المفضلة">🤍</button>
         <div class="product-badge badge-sale">تخفيض</div>
@@ -1550,7 +1394,6 @@ nav > * { position:relative; z-index:2; }
         </div>
         </div>
       </div>
-
       <div class="product-card" data-cat="رياضي">
         <button class="fav-btn" id="fav-18" onclick="toggleFav(18,this)" title="المفضلة">🤍</button>
         <div class="product-badge badge-new">جديد</div>
@@ -1570,7 +1413,6 @@ nav > * { position:relative; z-index:2; }
         </div>
         </div>
       </div>
-
       <div class="product-card" data-cat="نسائي">
         <button class="fav-btn" id="fav-19" onclick="toggleFav(19,this)" title="المفضلة">🤍</button>
         <div class="product-badge badge-hot">🔥 رائج</div>
@@ -1590,7 +1432,6 @@ nav > * { position:relative; z-index:2; }
         </div>
         </div>
       </div>
-
       <div class="product-card" data-cat="كاجوال">
         <button class="fav-btn" id="fav-20" onclick="toggleFav(20,this)" title="المفضلة">🤍</button>
         <div class="product-badge badge-new">جديد</div>
@@ -1610,7 +1451,6 @@ nav > * { position:relative; z-index:2; }
         </div>
         </div>
       </div>
-
       <div class="product-card" data-cat="كلاسيك">
         <button class="fav-btn" id="fav-21" onclick="toggleFav(21,this)" title="المفضلة">🤍</button>
         <div class="product-badge badge-sale">تخفيض</div>
@@ -1630,7 +1470,6 @@ nav > * { position:relative; z-index:2; }
         </div>
         </div>
       </div>
-
       <div class="product-card" data-cat="أطفال">
         <button class="fav-btn" id="fav-22" onclick="toggleFav(22,this)" title="المفضلة">🤍</button>
         <div class="product-badge badge-hot">🔥 رائج</div>
@@ -1664,7 +1503,6 @@ nav > * { position:relative; z-index:2; }
         </div>
         </div>
       </div>
-
       <div class="product-card" data-cat="كلاسيك">
         <button class="fav-btn" id="fav-24" onclick="toggleFav(24,this)" title="المفضلة">🤍</button>
         <div class="product-badge badge-sale">تخفيض</div>
@@ -1684,7 +1522,6 @@ nav > * { position:relative; z-index:2; }
         </div>
         </div>
       </div>
-
       <div class="product-card family-card" data-cat="عائلي">
         <button class="fav-btn" id="fav-25" onclick="toggleFav(25,this)" title="المفضلة">🤍</button>
         <div class="product-badge" style="background:linear-gradient(135deg,#f0b942,#e67e22);color:white;font-weight:900;">⭐ عرض العائلة</div>
@@ -1704,7 +1541,6 @@ nav > * { position:relative; z-index:2; }
         </div>
         </div>
       </div>
-
       <div class="product-card" data-cat="أطفال">
         <button class="fav-btn" id="fav-26" onclick="toggleFav(26,this)" title="المفضلة">🤍</button>
         <div class="product-badge badge-new">جديد</div>
@@ -1724,7 +1560,6 @@ nav > * { position:relative; z-index:2; }
         </div>
         </div>
       </div>
-
       <div class="product-card" data-cat="كلاسيك">
         <button class="fav-btn" id="fav-27" onclick="toggleFav(27,this)" title="المفضلة">🤍</button>
         <div class="product-badge badge-sale">تخفيض</div>
@@ -1744,7 +1579,6 @@ nav > * { position:relative; z-index:2; }
         </div>
         </div>
       </div>
-
       <div class="product-card" data-cat="كاجوال" data-id="28">
         <button class="fav-btn" id="fav-28" onclick="toggleFav(28,this)" title="المفضلة">🤍</button>
         <div class="product-badge badge-new">جديد</div>
@@ -1764,22 +1598,16 @@ nav > * { position:relative; z-index:2; }
         </div>
         </div>
       </div>
-
       </div>
-
     </div>
   </div>
-
-
 </div>
 </div>
-
 <!-- Cart Float -->
 <div class="cart-float" onclick="showCart()" id="cartFloat" style="display:none">
   🛒 سلة الشراء
   <div class="cart-count" id="cartCount">0</div>
 </div>
-
 <!-- CART MODAL -->
 <div class="cart-overlay" id="cartOverlay" onclick="closeCartOutside(event)">
   <div class="cart-modal">
@@ -1852,7 +1680,6 @@ nav > * { position:relative; z-index:2; }
     </div>
   </div>
 </div>
-
   <p>✦ الثقافة المقاولاتية — <span>AirZone للأحذية</span> ✦</p>
   <p style="margin-top:6px;font-size:11px;">Powered by Paradox ⚡</p>
   <p style="margin-top:12px;font-size:14px;"><a href="tel:0621382780" style="color:#2ab8c4;text-decoration:none;font-weight:700;">📞 0621382780</a></p>
@@ -1865,7 +1692,6 @@ nav > * { position:relative; z-index:2; }
     </a>
   </div>
 </footer>
-
 <!-- Reviews Section -->
 <section class="reviews-section">
   <div style="text-align:center;margin-bottom:40px;">
@@ -1939,8 +1765,6 @@ nav > * { position:relative; z-index:2; }
     </div>
   </div>
 </section>
-
-
 <!-- USER REVIEWS SECTION -->
 <section class="user-reviews-section">
   <div style="text-align:center;margin-bottom:36px;">
@@ -1948,12 +1772,10 @@ nav > * { position:relative; z-index:2; }
     <h2 class="section-title" style="margin-top:10px;">شاركنا تجربتك</h2>
     <p style="color:var(--muted);font-size:14px;margin-top:8px;">رأيك يساعدنا على التحسين المستمر</p>
   </div>
-
   <!-- Review Form -->
   <div class="review-form-box">
     <div class="review-form-title">✍️ اكتب تقييمك</div>
     <input class="review-form-input" id="rev-name" placeholder="اسمك (مثال: أحمد م.)" style="margin-bottom:14px;" />
-    
     <div style="margin-bottom:6px;font-size:13px;font-weight:700;color:var(--ink);">اختر المنتج الذي اشتريته:</div>
     <input class="review-form-input" id="rev-product-search" placeholder="🔍 ابحث عن منتج..." oninput="filterRevProducts()" style="margin-bottom:10px;" />
     <input type="hidden" id="rev-product" value="" />
@@ -1973,7 +1795,6 @@ nav > * { position:relative; z-index:2; }
     <textarea class="review-form-input" id="rev-text" rows="3" placeholder="اكتب رأيك في المنتج... (الجودة، المقاس، التوصيل...)" style="resize:none;margin-bottom:4px;"></textarea>
     <button class="review-submit-btn" onclick="submitReview()">🌟 نشر التقييم</button>
   </div>
-
   <!-- Reviews Grid -->
   <div style="text-align:center;margin-bottom:24px;">
     <div class="section-tag" style="background:linear-gradient(135deg,var(--teal),var(--teal-dark));">💬 آراء الزبائن</div>
@@ -1982,8 +1803,6 @@ nav > * { position:relative; z-index:2; }
     <div class="no-reviews">لا توجد تقييمات بعد — كن أول من يقيّم! 🌟</div>
   </div>
 </section>
-
-
 <!-- FAQ SECTION -->
 <section class="faq-section">
   <div style="text-align:center;margin-bottom:36px;">
@@ -2018,7 +1837,6 @@ nav > * { position:relative; z-index:2; }
     </div>
   </div>
 </section>
-
 <!-- Track Order Modal -->
 <div class="track-modal" id="trackModal">
   <div class="track-inner">
@@ -2062,7 +1880,6 @@ nav > * { position:relative; z-index:2; }
     </div>
   </div>
 </div>
-
 <!-- Promo Popup -->
 <div class="promo-popup" id="promoPopup">
   <button class="promo-popup-close" onclick="closePromo()">✕</button>
@@ -2071,11 +1888,8 @@ nav > * { position:relative; z-index:2; }
   <div class="promo-popup-sub">العرض ينتهي اليوم — لا تفوّت الفرصة 🏃</div>
   <button class="promo-popup-btn" onclick="closePromoAndShop()">تسوق الآن ←</button>
 </div>
-
 <!-- Track Float Button -->
 <button class="track-float-btn" onclick="openTrack()">📦 تتبع طلبك</button>
-
-
 <!-- PRICE COMPARE SECTION -->
 <section class="compare-prices-section">
   <div style="text-align:center;margin-bottom:30px;">
@@ -2117,7 +1931,6 @@ nav > * { position:relative; z-index:2; }
   </div>
   <p style="text-align:center;color:var(--muted);font-size:12px;margin-top:16px;">* الأسعار تقريبية بناءً على متوسط السوق المحلي</p>
 </section>
-
 <!-- LOYALTY MODAL -->
 <div class="loyalty-modal" id="loyaltyModal">
   <div class="loyalty-inner">
@@ -2148,11 +1961,8 @@ nav > * { position:relative; z-index:2; }
     <button class="loyalty-close-btn" onclick="document.getElementById('loyaltyModal').classList.remove('open')">حسناً ✓</button>
   </div>
 </div>
-
 <!-- LOYALTY FLOAT BUTTON -->
 <button class="loyalty-btn" onclick="openLoyalty()">⭐ نقاطي: <span id="loyaltyPointsNav">0</span></button>
-
-
 <!-- ORDER SUCCESS MODAL -->
 <div class="track-modal" id="orderSuccessModal">
   <div class="track-inner" style="text-align:right;">
@@ -2172,8 +1982,6 @@ nav > * { position:relative; z-index:2; }
     <button onclick="document.getElementById('orderSuccessModal').classList.remove('open')" style="width:100%;padding:12px;background:none;border:1px solid var(--line);border-radius:12px;font-size:14px;font-family:inherit;cursor:pointer;color:var(--muted);">إغلاق</button>
   </div>
 </div>
-
-
 <!-- SMART SUGGESTIONS MODAL -->
 <div class="suggestions-modal" id="suggestionsModal">
   <div class="suggestions-inner">
@@ -2187,8 +1995,6 @@ nav > * { position:relative; z-index:2; }
     <div class="suggestions-grid" id="suggestionsGrid"></div>
   </div>
 </div>
-
-
 <!-- GAMES MODAL -->
 <div class="games-modal" id="gamesModal">
   <div class="games-inner">
@@ -2202,7 +2008,6 @@ nav > * { position:relative; z-index:2; }
       <button class="games-tab" onclick="switchGame('quiz',this)">🎯 السؤال</button>
     </div>
     <div class="games-body">
-
       <!-- WHEEL GAME -->
       <div class="game-panel active" id="game-wheel">
         <div class="wheel-wrap">
@@ -2216,7 +2021,6 @@ nav > * { position:relative; z-index:2; }
           </div>
         </div>
       </div>
-
       <!-- CARDS GAME -->
       <div class="game-panel" id="game-cards">
         <p style="text-align:center;color:var(--muted);font-size:13px;margin-bottom:12px;">اختر بطاقة واحدة واكشف خصمك!</p>
@@ -2229,7 +2033,6 @@ nav > * { position:relative; z-index:2; }
         </div>
         <button class="cards-reset" onclick="initCards()">🔄 العب مجدداً</button>
       </div>
-
       <!-- QUIZ GAME -->
       <div class="game-panel" id="game-quiz">
         <div class="quiz-progress" id="quizProgress">سؤال 1 من 3</div>
@@ -2242,15 +2045,11 @@ nav > * { position:relative; z-index:2; }
           <div class="win-banner-sub">انقر على الكود لنسخه وطبّقه في السلة</div>
         </div>
       </div>
-
     </div>
   </div>
 </div>
-
 <!-- GAMES FLOAT BUTTON -->
 <button class="games-float-btn" onclick="openGames()">🎮 العب واربح</button>
-
-
 <!-- NOTIFICATION PERMISSION BANNER -->
 <div class="notif-banner" id="notifBanner">
   <div class="notif-banner-icon">🔔</div>
@@ -2263,8 +2062,6 @@ nav > * { position:relative; z-index:2; }
     <button class="notif-deny-btn" onclick="dismissNotifBanner()">لا شكراً</button>
   </div>
 </div>
-
-
 <!-- THANK YOU MODAL -->
 <div class="thankyou-modal" id="thankyouModal">
   <div class="thankyou-inner">
@@ -2296,7 +2093,6 @@ nav > * { position:relative; z-index:2; }
     </div>
   </div>
 </div>
-
 <!-- REFERRAL MODAL -->
 <div class="referral-modal" id="referralModal">
   <div class="referral-inner">
@@ -2329,7 +2125,6 @@ nav > * { position:relative; z-index:2; }
     </div>
   </div>
 </div>
-
 <!-- WALLET MODAL -->
 <div class="wallet-modal" id="walletModal">
   <div class="wallet-inner">
@@ -2355,22 +2150,18 @@ nav > * { position:relative; z-index:2; }
     </div>
   </div>
 </div>
-
 <!-- FLOAT BUTTONS -->
 <button class="wallet-btn" onclick="openWallet()">💼 <span id="walletBtnPts">0</span> نقطة</button>
 <button class="ref-float-btn" onclick="openReferral()">👥 ادعُ صديق</button>
-
 <!-- WhatsApp Floating Button -->
 <a href="https://wa.me/212621382780?text=مرحباً%20AirZone!%20أريد%20الاستفسار%20عن%20منتج" target="_blank" class="whatsapp-btn">
   <svg width="30" height="30" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </a>
 <div class="whatsapp-label" id="waLabel">اطلب عبر واتساب 💬</div>
-
 <!-- WhatsApp only floating -->
 <!-- AI Chat Button -->
 <button class="ai-chat-btn" onclick="openAiChat()" title="مساعد AirZone الذكي"><img src="data:image/jpeg;base64,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" style="width:58px;height:58px;object-fit:cover;border-radius:50%;" alt="AI"></button>
 <div class="ai-chat-label">مساعد AirZone الذكي ✨</div>
-
 <!-- AI Chat Modal -->
 <div class="ai-modal" id="aiModal">
   <div class="ai-inner">
@@ -2415,7 +2206,6 @@ nav > * { position:relative; z-index:2; }
   <div class="share-opt" onclick="shareCopy()">📋 نسخ الرابط</div>
   <div class="share-opt" onclick="shareNative()">📤 مشاركة</div>
 </div>
-
 <!-- Compare Bar -->
 <div class="compare-bar" id="compareBar">
   <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
@@ -2427,7 +2217,6 @@ nav > * { position:relative; z-index:2; }
     <button class="compare-go" onclick="showCompare()">قارن الآن ✨</button>
   </div>
 </div>
-
 <!-- Compare Modal -->
 <div class="compare-modal" id="compareModal">
   <div class="compare-inner">
@@ -2436,9 +2225,7 @@ nav > * { position:relative; z-index:2; }
     <button class="compare-close" onclick="document.getElementById('compareModal').classList.remove('open')">إغلاق</button>
   </div>
 </div>
-
 <div class="toast" id="toast">✅ تم حفظ بطاقة الزبون بنجاح!</div>
-
 <script>
   const allProducts = [
     { id:1, name:'كروس ترينر برو', brand:'AirZone', cat:'رياضي', price:4200, oldPrice:5800, stars:5, reviews:128, badge:'hot', emoji:'👟', desc:'حذاء رياضي خفيف الوزن مناسب للجري والتدريب اليومي' },
@@ -2470,14 +2257,11 @@ nav > * { position:relative; z-index:2; }
     { id:27, name:'بلاك ماستر كلاسيك', brand:'AirZone', cat:'كلاسيك', price:620, oldPrice:850, stars:5, reviews:98, badge:'sale', emoji:'👞', desc:'حذاء جلد أسود أنيق للمناسبات الرسمية' },
     { id:28, name:'تيك براون كاجوال', brand:'AirZone', cat:'كاجوال', price:390, oldPrice:null, stars:4, reviews:136, badge:'new', emoji:'🥿', desc:'حذاء كاجوال بني سويدي ناعم للتنقل اليومي' },
               ];
-
   let cart = [];
   let currentCat = 'all';
-
   function renderStars(n) {
     return '★'.repeat(n) + '☆'.repeat(5-n);
   }
-
   function renderProducts(list) {
     const grid = document.getElementById('productsGrid');
     if (!grid) return;
@@ -2513,7 +2297,6 @@ nav > * { position:relative; z-index:2; }
       </div>
     `).join('');
   }
-
   function filterProducts() {
     const searchEl = document.getElementById('searchInput');
     const q = searchEl ? searchEl.value.trim() : '';
@@ -2521,22 +2304,18 @@ nav > * { position:relative; z-index:2; }
     const maxEl = document.getElementById('maxPrice');
     const min = minEl ? (parseFloat(minEl.value) || 0) : 0;
     const max = maxEl ? (parseFloat(maxEl.value) || Infinity) : Infinity;
-
     const grid = document.getElementById('productsGrid');
     if (!grid) return;
     const cards = Array.from(grid.querySelectorAll('.product-card'));
     let shown = 0;
-
     cards.forEach(card => {
       const cardCat = card.getAttribute('data-cat') || '';
       const matchCat = currentCat === 'all' || cardCat === currentCat;
-
       const nameEl = card.querySelector('.product-name');
       const descEl = card.querySelector('.product-desc');
       const nameText = nameEl ? nameEl.textContent : '';
       const descText = descEl ? descEl.textContent : '';
       const matchQ = !q || nameText.includes(q) || descText.includes(q) || cardCat.includes(q);
-
       const priceEl = card.querySelector('.product-price');
       let price = 0;
       if (priceEl) {
@@ -2544,18 +2323,15 @@ nav > * { position:relative; z-index:2; }
         price = nums.length ? nums[nums.length - 1] : 0;
       }
       const matchPrice = price >= min && price <= max;
-
       const show = matchCat && matchQ && matchPrice;
       card.style.setProperty('display', show ? 'inline-block' : 'none', 'important');
       if (show) { card.style.width = '100%'; card.style.marginBottom = '10px'; shown++; }
     });
-
     const pcount = document.getElementById('pcount');
     const resultCount = document.getElementById('resultCount');
     if (pcount) pcount.textContent = shown + ' منتج متاح';
     if (resultCount) resultCount.textContent = 'عرض ' + shown + ' منتج';
   }
-
   function setCategory(btn, cat) {
     document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
@@ -2581,7 +2357,6 @@ nav > * { position:relative; z-index:2; }
     if (pcount) pcount.textContent = shown + ' منتج متاح';
     if (resultCount) resultCount.textContent = 'عرض ' + shown + ' منتج';
   }
-
   function sortProducts(val) {
     const grid = document.getElementById('productsGrid');
     if (!grid) return;
@@ -2607,7 +2382,6 @@ nav > * { position:relative; z-index:2; }
     });
     cards.forEach(card => grid.appendChild(card));
   }
-
   function addToCart(e, id) {
     e.stopPropagation();
     cart.push(id);
@@ -2624,21 +2398,17 @@ nav > * { position:relative; z-index:2; }
     t.classList.add('show');
     setTimeout(() => t.classList.remove('show'), 2500);
   }
-
   function showCart() {
     const overlay = document.getElementById('cartOverlay');
     overlay.classList.add('open');
     renderCartModal();
   }
-
   function closeCart() {
     document.getElementById('cartOverlay').classList.remove('open');
   }
-
   function closeCartOutside(e) {
     if (e.target === document.getElementById('cartOverlay')) closeCart();
   }
-
   function renderCartModal() {
     const itemsDiv = document.getElementById('cartItems');
     const totalRow = document.getElementById('cartTotalRow');
@@ -2687,7 +2457,6 @@ nav > * { position:relative; z-index:2; }
     }
     totalRow.style.display = 'block';
   }
-
   function changeQty(id, delta) {
     const idx = delta > 0 ? cart.indexOf(-1) : cart.lastIndexOf(id);
     if (delta > 0) cart.push(id);
@@ -2698,19 +2467,16 @@ nav > * { position:relative; z-index:2; }
     document.getElementById('cartCount').textContent = cart.length;
     renderCartModal();
   }
-
   function removeItem(id) {
     cart = cart.filter(x => x != id);
     document.getElementById('cartCount').textContent = cart.length;
     if (cart.length === 0) document.getElementById('cartFloat').style.display = 'none';
     renderCartModal();
   }
-
   function selectPayment(el) {
     document.querySelectorAll('.payment-opt').forEach(o => o.classList.remove('selected'));
     el.classList.add('selected');
   }
-
   function generateOrderId() {
     const num = Math.floor(1000 + Math.random() * 9000);
     const date = new Date();
@@ -2718,7 +2484,6 @@ nav > * { position:relative; z-index:2; }
     const m = String(date.getMonth()+1).padStart(2,'0');
     return `AZ-${y}${m}-${num}`;
   }
-
   let checkoutInProgress = false;
   async function checkout() {
     if (checkoutInProgress) return;
@@ -2732,18 +2497,15 @@ nav > * { position:relative; z-index:2; }
     const selected = document.querySelector('.payment-opt.selected .payment-opt-label');
     const method = selected ? selected.textContent.trim() : 'غير محدد';
     if (cart.length === 0) return;
-
     const items = {};
     cart.forEach(id => { items[id] = (items[id]||0)+1; });
     const orderItems = Object.entries(items).map(([id,qty]) => {
       const p = allProducts.find(x => x.id==id);
       return p ? `${p.name} x${qty}` : '';
     }).filter(Boolean);
-
     const total = cart.reduce((s,id) => {
       const p = allProducts.find(x=>x.id==id); return s+(p?p.price:0);
     }, 0);
-
     const orderId = generateOrderId();
     const order = {
       id: orderId,
@@ -2754,7 +2516,6 @@ nav > * { position:relative; z-index:2; }
       status: 'تم التأكيد',
       steps: 1
     };
-
     try {
       const res = await fetch('https://api.jsonbin.io/v3/b/69b02f3bba8e1176f21debbb/latest', {
         headers: { 
@@ -2772,21 +2533,17 @@ nav > * { position:relative; z-index:2; }
         body: JSON.stringify({ orders })
       });
     } catch(e) { console.log('Order save error:', e); }
-
     addLoyaltyPoints(10 * cart.length);
     if (appliedCoupon && appliedCoupon.code) {
       markCodeUsed(appliedCoupon.code);
       appliedCoupon = null;
     }
-
     closeCart();
     cart = [];
     document.getElementById('cartCount').textContent = '0';
     document.getElementById('cartFloat').style.display = 'none';
-
     showOrderSuccess(orderId, orderItems, total, method);
   }
-
   function showOrderSuccess(orderId, items, total, method) {
     const modal = document.getElementById('orderSuccessModal');
     document.getElementById('orderSuccessId').textContent = orderId;
@@ -2795,15 +2552,10 @@ nav > * { position:relative; z-index:2; }
     document.getElementById('orderSuccessMethod').textContent = method;
     modal.classList.add('open');
   }
-
-
   function quickView(id) {
     const p = allProducts.find(x => x.id===id);
     alert(`${p.emoji} ${p.name}\n\n${p.desc}\n\nالفئة: ${p.cat}\nالسعر: ${p.price.toLocaleString()} درهم\nالتقييم: ${renderStars(p.stars)} (${p.reviews} تقييم)`);
   }
-
-
-
   (function() {
     function showWaLabel() {
       const el = document.getElementById('waLabel');
@@ -2814,19 +2566,16 @@ nav > * { position:relative; z-index:2; }
     setTimeout(showWaLabel, 2000);
     setInterval(showWaLabel, 8000);
   })();
-
   const animEls = document.querySelectorAll('.review-card, .product-card, .cell, .trust-item, .hero-stat');
   animEls.forEach(el => el.classList.add('anim-fade'));
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
   }, { threshold: 0.1 });
   animEls.forEach(el => observer.observe(el));
-
   window.addEventListener('scroll', () => {
     const btn = document.getElementById('scrollTop');
     if (btn) btn.classList.toggle('show', window.scrollY > 400);
   });
-
   function toggleShare() {
     const p = document.getElementById('sharePopup');
     p.classList.toggle('open');
@@ -2858,7 +2607,6 @@ nav > * { position:relative; z-index:2; }
     } else { shareCopy(); }
     document.getElementById('sharePopup').classList.remove('open');
   }
-
   let compareList = [];
   function toggleCompare(id, btn) {
     const p = allProducts.find(x => x.id === id);
@@ -2931,27 +2679,22 @@ nav > * { position:relative; z-index:2; }
     `).join('');
     document.getElementById('compareModal').classList.add('open');
   }
-
   const AI_SYSTEM = `أنت مساعد ذكي لمتجر AirZone للأحذية في المغرب. اسمك "مساعد AirZone".
 إذا سألك أحد عن هويتك أو من صنعك، قل: "أنا نموذج ذكاء اصطناعي من صنع Paradox (Yassine) وفريقه 👟"
 لا تذكر أبداً Claude أو Anthropic.
 تحدث باللغة العربية دائماً.
-
 ⚠️ قاعدة صارمة جداً:
 كل رسالة تذكر حذاء أو أحذية أو طلب أو مناسبة (مدرسة، عمل، رياضة، نزهة...) → يجب أن يكون ردّك JSON فقط.
 لا تكتب نصاً عادياً إذا كان الشخص يحتاج حذاء — حتى لو السؤال غير مباشر.
 ردّك يجب أن يكون JSON خام فقط — بدون أي نص قبله أو بعده، وبدون أي علامات اقتباس ثلاثية.
 فقط هذا الشكل:
 {"text":"رسالة قصيرة ومناسبة 😊","products":[{"id":7,"name":"كلاسيك ليذر أوكسفورد","cat":"كلاسيك","price":580,"emoji":"👞"}]}
-
 اختر منتج واحد فقط مناسب للطلب. لا تكتب أي شيء آخر غير JSON عندما تقترح منتجات.
 للأسئلة العامة البحتة فقط (مثل: ما اسمك؟ كيف حالك؟ ما المقاسات؟) أجب بجملة قصيرة عادية بدون JSON.
-
 معلومات المتجر:
 - التواصل: واتساب 0621382780
 - الموقع: https://paradoxyzhr.github.io/paradox-team/
 - انستغرام: @paradox_yzhr
-
 المنتجات:
 id:1 كروس ترينر برو رياضي 470 👟
 id:2 ستار رن ماكس رياضي 510 👟
@@ -2981,13 +2724,10 @@ id:25 سوبر كيدز جامب أطفال 160 👶
 id:26 نانو كيدز سبورت أطفال 210 👶
 id:27 كيدز ستار أزرق أطفال 190 👶
 id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
-
 المقاسات: 38-44 | توصيل مجاني فوق 500 درهم | إرجاع 30 يوم`
-
   let aiHistory = [];
   let aiSessions = JSON.parse(localStorage.getItem('airzone-ai-sessions') || '[]');
   let currentSessionId = Date.now();
-
   function saveCurrentSession() {
     if (aiHistory.length === 0) return;
     const idx = aiSessions.findIndex(s => s.id === currentSessionId);
@@ -3005,13 +2745,11 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     }
     localStorage.setItem('airzone-ai-sessions', JSON.stringify(aiSessions));
   }
-
   function toggleAiHistory() {
     const panel = document.getElementById('aiHistoryPanel');
     panel.classList.toggle('open');
     if (panel.classList.contains('open')) renderAiHistory();
   }
-
   function renderAiHistory() {
     const list = document.getElementById('aiHistoryList');
     if (aiSessions.length === 0) {
@@ -3026,7 +2764,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       </div>
     `).join('');
   }
-
   function loadAiSession(id) {
     const session = aiSessions.find(s => s.id === id);
     if (!session) return;
@@ -3044,14 +2781,12 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
     document.getElementById('aiHistoryPanel').classList.remove('open');
   }
-
   function clearAiHistory() {
     if (!confirm('هل تريد مسح كل المحادثات؟')) return;
     aiSessions = [];
     localStorage.removeItem('airzone-ai-sessions');
     renderAiHistory();
   }
-
   function showToast(msg, duration=3000) {
     const t = document.getElementById('toast');
     if (!t) return;
@@ -3060,7 +2795,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     clearTimeout(window._toastTimer);
     window._toastTimer = setTimeout(() => t.classList.remove('show'), duration);
   }
-
   function openAiChat() {
     document.getElementById('aiModal').classList.add('open');
     document.getElementById('aiInput').focus();
@@ -3081,14 +2815,12 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     msgs.appendChild(div);
     msgs.scrollTop = msgs.scrollHeight;
   }
-
   function aiAddProductCards(text, products) {
     const msgs = document.getElementById('aiMessages');
     const div = document.createElement('div');
     div.className = 'ai-msg bot';
     div.textContent = text;
     msgs.appendChild(div);
-
     const singleProduct = [products[0]];
     singleProduct.forEach(p => {
       let imgSrc = '', oldPrice = '', desc = '', stars = 5, reviews = 0;
@@ -3119,11 +2851,9 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
           }
         });
       }
-
       const starsHTML = '★'.repeat(stars) + '☆'.repeat(5-stars);
       const card = document.createElement('div');
       card.className = 'ai-product-card';
-
       const imgSection = document.createElement('div');
       imgSection.className = 'pc-img';
       if (imgSrc) {
@@ -3134,7 +2864,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
         imgSection.innerHTML = '<div class="pc-emoji-fallback">' + p.emoji + '</div>';
       }
       card.appendChild(imgSection);
-
       const body = document.createElement('div');
       body.className = 'pc-body';
       body.innerHTML =
@@ -3153,7 +2882,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     });
     msgs.scrollTop = msgs.scrollHeight;
   }
-
   function addToCartById(id) {
     const p = allProducts.find(x => x.id === id);
     if (!p) return;
@@ -3167,7 +2895,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     t.classList.add('show');
     setTimeout(() => t.classList.remove('show'), 2500);
   }
-
   async function aiSend() {
     const input = document.getElementById('aiInput');
     const text = input.value.trim();
@@ -3217,7 +2944,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       aiAddMsg('عذراً، حدث خطأ في الاتصال. يمكنك التواصل معنا عبر واتساب 📱 0621382780', 'bot');
     }
   }
-
   const SUN_ICON = "☀️";
   const MOON_ICON = "🌙";
   function toggleDark() {
@@ -3234,7 +2960,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       if (img) img.textContent = SUN_ICON;
     });
   }
-
   (function() {
     const deadline = new Date();
     deadline.setHours(deadline.getHours() + 8, deadline.getMinutes() + 30, 0, 0);
@@ -3255,7 +2980,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     updateCD();
     setInterval(updateCD, 1000);
   })();
-
   let favorites = new Set();
   function toggleFav(id, btn) {
     if (favorites.has(id)) {
@@ -3272,26 +2996,20 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       setTimeout(() => t.classList.remove('show'), 2000);
     }
   }
-
   function setGender(btn) {
     btn.closest('.gender-row').querySelectorAll('.gbtn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
   }
-
   function saveCard() {
     showToast('✅ تم حفظ بطاقة الزبون بنجاح!', 3000);
   }
-
-
   let revProductsData = [];
-
   function initRevProductPicker() {
     revProductsData = allProducts.map(p => {
       return { ...p, imgSrc: CARD_IMGS[p.id] || '' };
     });
     renderRevProducts(revProductsData);
   }
-
   function renderRevProducts(list) {
     const grid = document.getElementById('rev-product-grid');
     if (!grid) return;
@@ -3302,13 +3020,11 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       </div>
     `).join('');
   }
-
   function filterRevProducts() {
     const q = document.getElementById('rev-product-search').value.trim().toLowerCase();
     const filtered = q ? revProductsData.filter(p => p.name.includes(q) || p.cat.includes(q)) : revProductsData;
     renderRevProducts(filtered);
   }
-
   function selectRevProduct(id) {
     const p = revProductsData.find(x => x.id == id);
     if (!p) return;
@@ -3323,7 +3039,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     document.getElementById('rev-product-search').style.display = 'none';
     document.getElementById('rev-product-grid').style.display = 'none';
   }
-
   function clearRevProduct() {
     document.getElementById('rev-product').value = '';
     document.getElementById('rev-selected-product').style.display = 'none';
@@ -3332,9 +3047,7 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     document.getElementById('rev-product-grid').style.display = 'grid';
     document.querySelectorAll('.rev-prod-card').forEach(c => c.classList.remove('selected'));
   }
-
   setTimeout(initRevProductPicker, 500);
-
   const CARD_IMGS = {
     1: `data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAA4KCw0LCQ4NDA0QDw4RFiQXFhQUFiwgIRokNC43NjMuMjI6QVNGOj1OPjIySGJJTlZYXV5dOEVmbWVabFNbXVn/2wBDAQ8QEBYTFioXFypZOzI7WVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVlZWVn/wAARCAEsASwDASIAAhEBAxEB/8QAHwAAAQUBAQEBAQEAAAAAAAAAAAECAwQFBgcICQoL/8QAtRAAAgEDAwIEAwUFBAQAAAF9AQIDAAQRBRIhMUEGE1FhByJxFDKBkaEII0KxwRVS0fAkM2JyggkKFhcYGRolJicoKSo0NTY3ODk6Q0RFRkdISUpTVFVWV1hZWmNkZWZnaGlqc3R1dnd4eXqDhIWGh4iJipKTlJWWl5iZmqKjpKWmp6ipqrKztLW2t7i5usLDxMXGx8jJytLT1NXW19jZ2uHi4+Tl5ufo6erx8vP09fb3+Pn6/8QAHwEAAwEBAQEBAQEBAQAAAAAAAAECAwQFBgcICQoL/8QAtREAAgECBAQDBAcFBAQAAQJ3AAECAxEEBSExBhJBUQdhcRMiMoEIFEKRobHBCSMzUvAVYnLRChYkNOEl8RcYGRomJygpKjU2Nzg5OkNERUZHSElKU1RVVldYWVpjZGVmZ2hpanN0dXZ3eHl6goOEhYaHiImKkpOUlZaXmJmaoqOkpaanqKmqsrO0tba3uLm6wsPExcbHyMnK0tPU1dbX2Nna4uPk5ebn6Onq8vP09fb3+Pn6/9oADAMBAAIRAxEAPwDngOKcBSCnUAApaKUUAFLRS0AFLRS0AGKUUUUAFLRS0AFLSUtABRS0UAFJS0UAJS0UUAJiilooAOaKKKAEpMUtFACYpKWigBMUlLSUAJSUtJTAQ0mKWkoAQ02nGkpANIphHNSGkoAKUUlOFAAKUUUtABS0UUAKKUUlLQAtKKSloAKWkpaACloooAKWkpaACiiloASilooEJRS0lAwooooASiiigBKKKKAEpKWigBKSlpKAEpKWkNACGm06kNADTSUpooAKUUlLQAtLSUtACilpBS0ALRRRQAtLSUtABS0lLQAtFFFABS0UUAFFFFAC0lFFABRRRQAUUUUAFJS0lABSUtJQAlFFFACUlLSUAIaSlpKAENIaU0hoAaaSlooABS0lLQAtLSUooAWlpBS0ALS0lLQAUtJS0AFLSUtAC0UlLQAUtJS0AFFFFABRRRQAUUUUAFFFJQAUUUUAFJRRQAlFFJQAUlLSUAJSGlpKAENJSmkoASm06koABTqXFKBQAlLS4pcUAJS0YpcUAFFLiprO3+03sEHZ3AP07/pQBp6R4bu9TjEzEW9uejsMlvoP610kHhLTIk/emaZu5Z8foK2Ip0WJQoAUDAA7CsfXtUNpECvVjiqSJbHN4W0d+FSRD6rKaytR8INHG0lhOZSvPlyYyfoapQ65OHyWOK37HVfOA+bmiwrnCEEEhgQRwQe1KMkgAEk8ADqa6TWtFmutTjlsotwuPvdgrdyfQVvaNo1ppahgBNdH70rDp7D0FKxVzl7LwvqV0Azoluh/56nn8h/Wrx8F3GOLyIn0KH/GuzBzS0hnnGoeH9QsFLvEJYh1eI7sfUdaygQeleuVw3ivSFtJxeWybYZTh1A4VvX6H+dAjnaKUUYoGJRS4pcUANop2KTFADaKdikxQA2inYpMUANop2KTFADaSnYoxQAykp+KTFADDSU/FJigBhpDT8Um2gCbbS7amCUoSmBDtpdtTBKdsoAr7KXbVjZRsoAg21p6BDm9aXH+rXj6mqeyuj8PWhFmZCOZW4+goQmaPmGOMZ9K5vxDc+a0SHtk1014m2Mk9q4rVJPMuz/sjFUQVlNX7G4Mcg5rOBrW0qybzoLi4DLGWDRxqu6SbH91fT3PFAHYwyGOFYh97HzH39Kmjz3qpGLwn5EtbRT2lJlf8cEAfnU6TXUH/HzFHNF3ltwQV+qHt9CaRReQ1LUar3HSnikxoWoLu2ju7aSCUZSRSpqekyPWgDDi8Oab9he18oGYDBmb7+7+9/8AWrkdS02XTLswSkNxlXAwGFegPdW0crODucDDbecD3rHvNZt722dGsppbZiUMm3IB9eOlFgucbto21ZaMByFOQDgH1pPLoAr7aNtWNlGygCvtpNtWdlGygCttpNtWdlJ5dAFfZSbKs7KTZQBW2Um2rOyk2UDK22k21Z2UhSgCttpNtWNlJsoAg20m2pylNK0AXPLpwjqz5dOEdMRVEdOEdWhHS+VQBVEdL5dWhFS+XQBUEJdgqjknArttPt1hgijA4UVyNxO1jA1xHt8xfubhkZrq9Hkkks7aaabzGlTrtCgHr2p8r5eYnmV+UNUjxbuewFeaSyb5nbPU16X4iYxaNdS5xtjJNcDpukNLGtzfZgtAN3zcNIPb0Hv+WaFrsJ6FrQdKa9kE0gBiByoYcNjuf9kfqePWuqLJa7zFlpG+/I33m/8Are3SorS5gbTIZLVQEcYOOMEcbcdselRmTnJoas7Ma1VxlvOGmklnkPyEDZ+GeadP4jht1Kp87DpjgfkP8aoaraR3lws8SrHNgK7rnLgDAz9KdYadFC29huf1NIZYi1PW7zDRQpb2+fmkIyVHrjrWoWufO8pDOTgEuz/L+HFS2jgkKtWYojErJGV29Yxydue30oAyNSnurKIyvdi3QfdVjvZv8PpWWs+r6j921meM9CW2A1rjTIUvxdaheRzOvKoRgKfzrVF9agf6wYH+ycfyouKxz0Iis1Md/p80TMMeYCW/UVZ8PyRWsj2cU63EDkyRMPvAdww9vWtpLy3kOEmRj6ZqhqF3FpEE09tYgkguzIoAY+5HNAWMrWNGeKeSe3QeQfmYA/d9ePSsjy619K1C/wBftHube5jjAP8AqSvBHcZ+vFVXt3ikZHXawPIoGU/Lo8urnl+1Hle1Ayn5dJ5VXfL9qPLoApeXSeXV0x+1J5dAFIx0hjq6Y6b5dAFPy6Ty6uGOk8ugCkY6Ty6uGOkMdAFIx0hjq4Y6Qx0AUilJ5dXDHSeVQBfEVOEdWRHxThHQBWEdL5dWhHTvLoAqiOlEVWhHThHQBz/iFNlgp/6aCtjwpfw3Gm/ZJXIkj6c4OOxH0qn4itw+nhR1+9+VchFM0RyCQR3Brqw/LWpyp9n+hyVm6dRTXVHpupX6WUBNzfKFxwqxAu358fpXA63rT30mBlIgeFzkn3J7n/IrOmuJJXyWLE9yc1C0RI3OdqjqTXTTpRparVmM6kqmj2J7HWL3TZWNqytHJ9+KQbkb3x2PuK1B4wfOJNJiJ7lJmX+eawSAR8owPXuaZnHArKcYSdz08Nh5NXnojq7TxRYzSBbm2ns8/wDLTd5ij69DiumgQNtwVYMAyspyGB6EH0rzJBmuo8Jap5Drptw37t2Jt2J4Vj1T6Ht7/WsJ0rLmR0VcPyx5omtNqFxpdxcx3FvJt3gwMFJWRSOv4HjFRJLrOsNtDvawH+Loa6EhZQNwzj1FPj2oQB1PasDkKMNlcWdskNtJvlTiQuck5/iz1x7VZFslvE9xqlyZQB91jhV/Duav43FGD4ZTyBzkelUr20t57uKa6uh5cfKwkgDPqfWgLGS+jXGpS/aLYLp9ueVGMu/uR2+lXksNWskHkXUVyo6o42H8+RWr9utennJ+dKt7bMcLPEx9Awouwscza3MNtrLJbWktteOw8+3VPlOf4xjj6kcVuX9iLra6kK49fT0qS5uJ1B+zWrSnHLEgD/69cmuq38+ty6fqrz2SNnyjGu3cOxGeuO9AGi8BRirDBHWk8urzWJtkA81pl7O3X8aZ5dAyn5dHl1b8ujy6AKnl0nl1b8ukMdAFTy6Ty6t+XSGOgCoY6aY6uGOmmOgCn5dIY6uGOkMdAFIx00x1dMdNMdAFIx00pV0x0wx80AaATinBKnCUoSgCEJS7KnCUoWgCEJShKnC04LQBiauu9FHYZFce1qsrvt4dThh6Guxv/nVv96uV1K3Md4rqSvmr1U45H/1q56FV0sU4vaSHKkqsLdUVGhS3Pz8seijqagkRpG3SduijoKsiMISTksepJyTUchya9aU2y6GGjDV7lV17CoioFTtUZXPepTPThG40PjpUqneuDke4OCKjAA7U9ck/KM1omdCj0Z6F4e1T+0bL94QbqHCzgfxHs+Pfv7ireqWt5IbeWyKMFJ81GbaWXHY+ua4PTbmbT7tLqNdxXh4/+eid1/w98V6NZ3EdzbxywPvikUMjeo/x9RXHUhys8jE0HSl5MxEtdavnCSOLG3/uo25jWjaaBDpzfaYpZ3m2FXdnLHB7geo9K0iwjUsTgCnRXSsp2fNjqc8D8azOYpR6fBCrXF9ObgYzmQ/KB64qo+kHV5UlZRZ2Q+4kahZJPcnsPbrVm91DSlMUFzLGzlgUiDFiTn071Yn1RbZczRmMf7bqD+WaACPRbWJcRPcIfUTtn9TUF5YXZRY1KXsJbpNgNGezA98fgaU67Eqh2t59h6MF4ph16yuEZIrxYXPALDODRqGhaQrZ2KJfzxEqOWPA/DvVOC7tLx3+yTLKqddvauf1rR9QuZIL6wnju5Iz80aSbTIPXB4z+NdJpUsN5BueBYrtRtk+TY34j/PNADtlGyrBTBxSbaBlfbSFasbaNtAFbbSbas7aTbQBWKU0pVrZTdtAFYpSFKslKaVoArFKaUq0VppWgCqUphj5q2VpCvtQBcC04LTwtOC0ARhacFp+2nBaAGBacqDPNOC1DcTCKVB2IOaAMW5QujgdecVjanB51kZUGWj/AHq/h1H5ZrfZgs7Qtw3VT/eFVVjCySRkcA7h7g1x4mLVqi3RpTdmcqyhlyOQeRVSVOeK1JLY288tuRwhyvup6f4fhVeWMCvThNTipI6omU4IpmCatyx85qs+QatM9ClbqIEUcnmnBwo4pAhI5OKeoRe2T71VzrUSWJmPIBNdF4b1E2dwLWXiC4bKMf8AlnIe3sG/nj1rnVkNWI3DqUYZUjBFKVpKxNahGtBxZ6Tc2ovrCa3aR4TKhUOv3lPrWJJoGoSFIDqZNsoAyse1j698VL4e1VrmIwTnNzEPmY/8tV6B/r2b8D3roFNcjVj5qcHCTjLdFKx0LT7KICKAGXg+a3L59c0x7CzjmkurlAWQbjv+7/vAf07VYfUoY5jFnMg/hHX/APVVa91vT7Zd1zLGWxjaBknPakSQRK+vkySl49OU4VAcGX3PtWnDptjBHsjtIQv+4DWdFrazWq3EMflxElVEikFsegxTJ9XvYYxK8SRoegc4J/CmIt3Wh2silrctZyno0XT8V6GoTJp+kI09xO0kqLh5D8xx9BwKzo/EVzdMUjszcDvsUmpYbaO6yLjSUjDDndKc/kCTQA9ddnvU87T9OmuYQceYCPbtnPetvbxzWbo2ixaS8q2SypDKwJSRsrHjOdvfn3rYde460hkG2k21KvzDNGKAIdtG2pdtJtpgRbabtqbbSbaAIStJtqYrSbaAIStNK1OVppWgCErTdgqfbTSKALWKUCnYpcUAJilApQKcBSGNPCknoKx7mXfMc8HtWrcHCADuay7mIOPemIqXEYnj2tnjkEdVPtWdLevbEC7HKfdlA4YdwfQ1ob3jOHG4eo605oo50+YBgamUVJWYLQy9RVLiGO8hYMEHzEd0P+HX86oPGGFXp9Oms90tkcr/ABRHoRWXb3EZkaHlSvIVuoHp+HSs8NzU26ctuh105JleaPriqEq46VuzRBlyKy7mMiu2530ZWZQ5NPVCfajpQCao9GKRKkajqc1OhVegquu70qVR60Gi8i/bTyRSRywOEmjOUYjI9wfY9DXbaTqUd7BuAKOh2yRk5MbehPceh7iuAjbb0q/DMd6yxStBcKNokUZyP7rA8Mvsaicb6o8/G4T2q5o7nX3eg2l3eyXYlngnljEbmJgAwHTqKk0/w9p9g4kWIyzf89JTuP4elZFr4huIUH26zkKjrNafvE+pX7y/rV628VaVKMG+gVgPuu2w5+jAVg9Dw5QlF2aNt7eN2LDKuerLwT/jUD6dFLJvmxKQRyyKTj06VTfxLpKddQtSPUSqf5Ug8Qwzr/oUFxdHH/LGJiM/7xwP1pXsTY047aJFAxnGOvt7dKkVVUYUBR6AYrIN1rM3+qsoLcetxNk/koP86jFpqL83GplfVbeIL+rZNYVMRCG41Fs2mdR1PFZ1xrNhA2xrmMv/AHFO5vyGTVNtItXOZxLct6zys4/LOP0qeKCK3XbBFHEvoihf5V59TNVH4Ylql3GxanPLODHayJbAfM0o2s5/2V6/ia1Y3SVA6HKms1hRBKbdyyjKt94etc+HzWTqWq7P8C5UlbQ1MUmKWN1lQMhyDTsV76aaujAjxSYqTFJimIjxSYqTFJigCMikIqQikIpgREUhWpCKMUATYpQKKWkMMUtFB4pAUtRcoYiPU1UaZWHIOaq+ItUSxltjL9wvtb2B70Bt6B4nBVhkEc5piHPhjwKjEcy/dCge9IxlHVj+VR+dIp6E0wJWklt13TKrRd2Tqv1HpWVrWipdoLm0YLKPmVlrXhukkOw8N6GoXVrF98YJtmPzp/c9x7UDTtqc1ZXDOzW9wuydOo7EeoovIflJArY1jSlukE9uQsq/Mjj/AD0rNglNxEySLsmjO109D/hVp3O+jVv6mEy4Y5pRgdKs3kWx+KrKK1TPbpSuh4NOFIBTwtM1AVNETTFFTx+1MTL9pIUI5xWzbzRvjzFR/wDeUH+dYEZxV23lWNTI3RefrUyOOtTUldm9FHDcXscMcUarF+8kwoH0H4/0NbeeKytKiNvb5kGJpDvk9j6fgOK0lavIVdVJNrY8OpvoPI4qNlqSkIpzipIzRXZaiZatEVEy15GIodjWLKxFNIqZlqM8V5M4uLNUxsbvC+5Dj1HY1owXCTDA+V+6ms+mkcgjgjvXZhMfPDu28exMoKRr0mKqW95g7Zvwb/GrvbI5FfTUMRTrx5oM5pRcdxuKTFOpMV0CG4pMU/FJQAzFJin4pMUCJBS0lLQMKD0paSkBzXivR31GzJiP7xPmX61wdjr19pN01vNERGvWN/6V68ygjmsTWfD9lqse2eIbuzDgimBladr1jqKL5UgSQ/wPwfw9a0SR6Vw+qeEL3TctZYuYc529GFZ9l4h1PT5DFPu2D+CYHj8etAj0gbc52jNSgggg8g9RXK2HiyyuSElJgk/2jlfzroIpg6hlYMp6EHIpgEA+zzG3bmJ+Yz6eoqnqunOT9ttVzLGMOg/5aJ/iO1aMiiaPHRgcg+hqWFzwx69CKCoycXdHI3KJNAJEIIIyDWR0OK6/WNMFtuuoBm1lOXA/5Zse/wBD+h+tcvdxbHyBWkWe5hKyaGKakHNVw1SK9a3PSTJxT1NQB+KXfTuMuK9amkRm4uQWGYocOfdv4R/X8BXPiXByTxXXaVEbewjBGHf52+p/+tivKzXEeyocq3lp/mcWMnywsuprI+KsxyVmh6kWXHevmqGJdPRnjONzVVs0+s1LnFWUuVOOa9elioS6mTgyyRTGWgSKe9P3A966nGM0TqiuyVCyH0q9xSEL3xXHVwEZ9SlOxnEEUlW5TEByRVCSVd3FeNiML7J73NoyuOYZFOguzbNhsmL09PpVVph61DJMKmhUnSkpQY2k1ZnSqwdQykEHkEUtYmjXwMxtWPB5T69xW3X11CsqsFNHJJWdhKSnGm1uISm06kNAElFJS0ALSUUUgENMYVJSGgCpLECDxWJqmjW19GyzQq3vjmujZaheMEdKYHlOpeEXtmMloSR/dNZlnq1/o1zsIIjz80bdD/hXrk9sGyMVgatoUN2hDIN3YjqKBFjR9Qh1K2SaFuDwynqp9K0WQgFx2+9/jXn+l+f4b1xFuGItZzsJ7ex/CvR42wAwoAbDNtyjgNGwwynkEVh6voJjVprFTLb9Sg5aP/EfrWxMnl/Og/dH/wAdPoaSKdomyp/CmaU6kqbujzyWIqSV5HtUO4ivQb7TtP1Ni7qba4PWSMcMfcdD/Oub1Hw5e2wLrGLmIfxw84+q9R+tWpnr0cbGWj0MPzKPMoaHrg8jqPSoyjCrudirXLVoPOu4oj0dwD9O/wCldn54HFcVpW4ajH7An9DXQeeRXz+apzqpdkedi6nNNGuJh608TD1rG+0kU4XXvXk+xZy3NjzfelE3vWOLv3pftXvU+xYXNkXLD+Kni9cfxVhi796a9571ajUWzFob329/71RvfOer1h/bRjrUL33vWnLVe7YaG611kctVZ7wA9axHvWI61WM8kkgRAzM3QDqaccM5PUOY3Jb5R3qpJfg96wbvUI4CVkmTcOqqdxH5cVnSaz2iiZj6sa7oYCXYh1EdlY3bi8jdTypzXoKMHRWHRhmvFtH1meO/i+0hTA5CsQMFM969jss/Y4geoXFejh6TpJxZlJ3J6SlpK6SRKSlopgLS00UtAC0UUUgFpMUtFACEU0in0lAETRg1XkgDdqu4pCtMDlfEGjLfWToAN6jchx0NReGtUW8sjC7fv7bEcgPX2P8ASurkiDA157r8M3h/W0vrVdsdy/zE/dDY6H2NAHYAlckcg9R2NV2gyxMRA/2G/oar6XqkOoQlojh1/wBZEx5T/Ee9XMhuh59KYio+5DiQFT70sc8kRyjEVZLMBg4I9DyKiaGF/wC9Ef8AZ5H5UARXQsr/AAL61R2/56L8rj8RzWXdeGoHXNhe4P8AzzuBn/x4f4VpyW0i/d2yj/ZPP5VAx2nByp9DxQaRqzhszn00q/srxHms5GQZBeH94uMe3P6Vb8yBmxvAb+6eD+RrZjnkj+65p0twJ123EMUw9HUGuWvh1VfNfUqVZyd2YxhBFRtCe1aL2Ni6/JHLbH1hkIH5HIqu1hKv+o1BWHpNF/UVxywVRbagpopmJqYY2qy0GoJ/yztph/sS4/mKiaa4T/WWE491ww/Q1i8PUX2R8yINj00xvUpvoV+/HMh/2ojR/aFmesoH1BFZuEl0Y7oh8pjSGA1Y+3WX/PZaPt9n2kz9AaLS7DK5gwuTXNahqMjSyQ27lVb5WK9x6VtaxrEcMBSJJNzjAYrgVzMcZxk9T1r0MJSa9+SM5voMWHpxVhIs9qkjjz1qwiBRliFHua7zMbFB7V6p4OuZLnS8yuzkevYjg/yFecQbGIChjk4yBxXf+CEZLW6GPlDjB98cj+X50MR1FJS0lIYUlFJTAKWm5ooAdS02loAdRTaWgB1FJmikAtFJS0AFUNW0yHU7OS3nXcjjH096v0UAeN6nY6l4c1NA8j+UTiO4Xgj8f5g1taf4pZSI9Qj3D/ntEP5r/h+Vd/f6fBqFu0NxGsiMMEGvNPEPge8syZdOkeaEHIjJ+Zfp60wOutb2C8TfaTxzL32nJH1HUVNvHcflXkscktvMROzwzJ0blWH41sW3iu+tSEkuUuF9Jlz/AOPDmmI9Byp6HH1odd64JDD0PNctb+MbdwPtFpIn+1C4cfrg1oReIdIm/wCXsxH0ljZf16UAaDWo/hLL9DUTxTp0KsPcYpI7+xl/1V/bN9JR/jU6tu+7KrfRwaAKvmSr96E/8BNJ9oX+JJB9Vq6EkPemmNu9AFTz4T/Fj6g0u+E9GWpXWNBl5I1/3mAqrLfadCP3l9bL/wBtAf5UgJdsTehpjW0LdUBqnJ4g0iP/AJejIf8ApnGzf0qjP4utkBFrZyyH1kYIP6mgDYFjATxEKgv5NP0uHzLnarfwoOWb6CuYu/E+pTghZY7VT2iXn8zWI84aQu7mRz1Zjkn8aBly/u5NSuvOlURovEcY6KP8ajBCiqZuM9KbvZuvSgC8Jcnl+B/d4q7p1tJfXKwWyRqx/jlcKPzPX8Ky4jgVbjcggg4I70Aeg6X4NXekt/eCTYciODgH3LHmuwt7eG1hWG3jWONeirXnnh3xJIjrb3T57Kxru7a8WVQQaBF2kpoYGlzQMDSUUlACUU3NLmgB2aWm0UAOzS03NLQAtLTaXNADqKTNFAC0tNzS0gFpCoYYIoooAxtY8N2GrRkTwjf2deGH41wWq/D66tizWUgnT+63Df4V6vSEA0AeAz2l5pzmOWJ4zn7rriqpmnB+8R7V77dafb3SFJokdT2YZrltS8C2E+Wtw0Df7J4/KmB5dHc9RMN3ocU554guY1+b3FdLqHgm/tgWi2zr7cGsC40y4tc+fBJH/vLQBWS6JYbxhfbNSG4iPdv1qLyfSmmI0AI03zHaq47ZFPW5AH+rGfameWRSbDSAe9yzDAUL71EXc/xN+dO2UuygCLk9aUCpNlOC0ARhakUU4LT1WgBUFToajVakUUATK3ccGuw8N6s7IEc8rxXGitPRZClzx3oQHqdtcb1HNW1fNc9p8xKCtiJ8iqEW80lMBpc0hjc0uabS5piHZpc02ikMdmlzTc0ZoAfmim5pc0AOopuaXNADqM03NLmgB2aKbmlzQAtLTc0ZpALR1ozSZpgMeNWHIqrPYQyqQyAg+oq6aSgDlL3wlYTsT5AUnuvFYN74IZcm3nI9nGa9IIz1qNow1AjyC58M6hB/yzWQf7JrNlsZ4T+9hkX6rXtb2qt2FVJtNjfqgP4UWA8Z2Ck8uvU7nw7ay53Qp+VZFx4RgOdgK/Q0WGcH5dL5ddTN4SmU/u5D+IqlL4dvUJwFakBibKULWodFvVH+qz+NR/2Ve5/1J/OgCkBS1oJo943VMVbh8PzMR5h/KgDGUEnAGTW9o9k6sGK8mtK00FI8fLzW7b6f5eBtp2ELZoQBWrDUMUGMcVaRMCmBKtOzTRxS5oATNGaTtRQA7NLmmUtADqXNNpaQx2aM02igB+aM02igB+aM02igB2aM0lFADs0ZptFADs0ZpKKAFzRTaKAHUlJRQAtJRSUCEKg9qY0SmpKSgCA24PaomtV9BVzvRQBnmyQ/wiojYpn7tahFNIpgZ32FP7tOFmo7VepcUAVFtwOgqZYwO2O9S0UAIBilzSUUALSZpKOtAH//2Q==`,
     2: `data:image/jpeg;base64,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`,
@@ -3365,12 +3078,10 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     27: `data:image/jpeg;base64,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`,
     28: `data:image/jpeg;base64,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`,
   };
-
   const JSONBIN_KEY = '$2a$10$2dHG8Ssq0MDuoHaqPtb3IONFcQH07EYBJcbds4xwHj4wC7je09Ggy';
   const JSONBIN_ID = '69b02f5c1194a065489a74c0';
   let userReviews = [];
   let selectedStars = 0;
-
   async function loadReviews() {
     try {
       const res = await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}/latest`, {
@@ -3389,7 +3100,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       renderUserReviews();
     }
   }
-
   async function saveReviewsToCloud() {
     try {
       await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}`, {
@@ -3405,9 +3115,7 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       console.log('Save error:', e);
     }
   }
-
   setTimeout(loadReviews, 400);
-
   document.querySelectorAll('#revStars span').forEach(star => {
     star.addEventListener('click', () => {
       selectedStars = parseInt(star.dataset.v);
@@ -3427,7 +3135,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       });
     });
   });
-
   async function submitReview() {
     const name = document.getElementById('rev-name').value.trim();
     const text = document.getElementById('rev-text').value.trim();
@@ -3436,14 +3143,12 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     if (!productId) { alert('من فضلك اختر المنتج'); return; }
     if (selectedStars === 0) { alert('من فضلك اختر تقييم النجوم'); return; }
     if (!text) { alert('من فضلك اكتب تعليقك'); return; }
-
     const review = {
       name, stars: selectedStars, text, productId,
       date: new Date().toISOString().split('T')[0]
     };
     userReviews.unshift(review);
     renderUserReviews();
-    
     showToast('⏳ جاري حفظ التقييم...', 10000);
     try {
       await fetch(`https://api.jsonbin.io/v3/b/${JSONBIN_ID}`, {
@@ -3460,18 +3165,14 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     } catch(e) {
       showToast('❌ خطأ في الحفظ، تحقق من الاتصال', 3500);
     }
-
     document.getElementById('rev-name').value = '';
     document.getElementById('rev-text').value = '';
     document.getElementById('rev-product').value = '';
     selectedStars = 0;
     document.querySelectorAll('#revStars span').forEach(s => { s.classList.remove('active'); s.style.color='#ddd'; });
-
     showToast('✅ تم نشر تقييمك بنجاح!', 3000);
-
     document.getElementById('userReviewsGrid').scrollIntoView({ behavior:'smooth', block:'start' });
   }
-
   function renderUserReviews() {
     const grid = document.getElementById('userReviewsGrid');
     if (!grid) return;
@@ -3502,26 +3203,19 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       </div>`;
     }).join('');
   }
-
-
-
   function toggleFaq(item) {
     const isOpen = item.classList.contains('open');
     document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
     if (!isOpen) item.classList.add('open');
   }
-
   function openTrack() { document.getElementById('trackModal').classList.add('open'); }
   function closeTrack() { document.getElementById('trackModal').classList.remove('open'); document.getElementById('trackResult').classList.remove('show'); }
-
   async function trackOrder() {
     const num = document.getElementById('trackInput').value.trim().toUpperCase();
     const result = document.getElementById('trackResult');
     if (!num) { alert('أدخل رقم الطلب'); return; }
-
     result.innerHTML = '<div style="text-align:center;padding:20px;">⏳ جاري البحث...</div>';
     result.classList.add('show');
-
     try {
       const res = await fetch('https://api.jsonbin.io/v3/b/69b02f3bba8e1176f21debbb/latest', {
         headers: { 
@@ -3534,12 +3228,10 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       console.log('📦 Orders in DB:', JSON.stringify(orders));
       console.log('🔍 Looking for:', num);
       const order = orders.find(o => o.id && o.id.toUpperCase() === num);
-
       if (!order) {
         result.innerHTML = '<div style="text-align:center;padding:20px;color:#ef4444;">❌ رقم الطلب غير موجود<br><small style=\"color:var(--muted)\">تأكد من الرقم أو تواصل معنا عبر واتساب</small></div>';
         return;
       }
-
       const stepsDef = [
         { label:'تأكيد الطلب', icon:'✅' },
         { label:'قيد التجهيز', icon:'📦' },
@@ -3553,7 +3245,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
           <div class="track-step-label">${s.label}</div>
         </div>
       `).join('');
-
       result.innerHTML = `
         <div style="background:var(--teal-light);border-radius:12px;padding:14px;margin-bottom:14px;text-align:right;">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
@@ -3584,7 +3275,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       </div>`;
     }
   }
-
   function closePromo() {
     document.getElementById('promoPopup').classList.remove('show');
     sessionStorage.setItem('promoClosed','1');
@@ -3594,14 +3284,10 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     document.querySelector('.cat-btn[onclick*="رياضي"]').click();
     document.getElementById('shop').scrollIntoView({ behavior:'smooth' });
   }
-
   if (!sessionStorage.getItem('promoClosed')) {
     setTimeout(() => document.getElementById('promoPopup').classList.add('show'), 4000);
   }
-
-
   let loyaltyPoints = parseInt(localStorage.getItem('airzone-points') || '0');
-
   function updateLoyaltyUI() {
     const d = document.getElementById('loyaltyPointsDisplay');
     const n = document.getElementById('loyaltyPointsNav');
@@ -3626,29 +3312,23 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     if (ls) ls.textContent = sub;
     if (lp) lp.style.width = Math.min(progress,100) + '%';
   }
-
   function addLoyaltyPoints(pts) {
     loyaltyPoints += pts;
     localStorage.setItem('airzone-points', loyaltyPoints);
     updateLoyaltyUI();
     showToast(`⭐ ربحت ${pts} نقطة! إجمالي: ${loyaltyPoints} نقطة`, 3000);
   }
-
   function openLoyalty() {
     updateLoyaltyUI();
     document.getElementById('loyaltyModal').classList.add('open');
   }
-
-
   const origCheckout = window.checkout;
   document.addEventListener('click', function(e) {
     if (e.target && e.target.textContent && e.target.textContent.includes('تأكيد الطلب')) {
       setTimeout(() => addLoyaltyPoints(10 * (cart.length || 1)), 500);
     }
   });
-
   const origSubmitReview = window.submitReview;
-
   function initVisitors() {
     let base = 8;
     function updateVisitors() {
@@ -3665,11 +3345,9 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     const orders = 12 + Math.floor(Math.random() * 8);
     const ordersEl = document.getElementById('todayOrders');
     if (ordersEl) ordersEl.textContent = orders;
-
     updateVisitors();
     setInterval(updateVisitors, 4000);
   }
-
   window.addEventListener('load', function() {
     initVisitors();
     initFlashSale();
@@ -3677,16 +3355,12 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     updateWalletUI();
     setTimeout(checkReferralRewards, 3000);
   });
-
-
   function copyOrderId() {
     const id = document.getElementById('orderSuccessId').textContent;
     navigator.clipboard.writeText(id).then(() => {
         showToast('📋 تم نسخ رقم الطلب: ' + id, 3000);
     });
   }
-
-
   function shareProductWa(id, event) {
     event.stopPropagation();
     const p = allProducts.find(x => x.id === id);
@@ -3696,11 +3370,9 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     const text = `👟 *${p.name}* — AirZone\n\n${p.emoji} ${p.desc}\n\n💰 السعر: *${p.price.toLocaleString()} درهم*\n⭐ التقييم: ${p.stars}/5 (${p.reviews} تقييم)\n\n🛍️ تسوق الآن: ${siteUrl}\n📞 للطلب: wa.me/212621382780`;
     window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, '_blank');
   }
-
   function showSuggestions(productId) {
     const p = allProducts.find(x => x.id === productId);
     if (!p) return;
-
     let suggestions = allProducts.filter(x => x.id !== productId && x.cat === p.cat);
     if (suggestions.length < 3) {
       const others = allProducts.filter(x => x.id !== productId && x.cat !== p.cat);
@@ -3709,10 +3381,8 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     suggestions = suggestions
       .sort((a,b) => b.stars - a.stars || b.reviews - a.reviews)
       .slice(0, 6);
-
     const subEl = document.getElementById('suggestionsSubtitle');
     if (subEl) subEl.textContent = `منتجات مشابهة لـ "${p.name}"`;
-
     const grid = document.getElementById('suggestionsGrid');
     grid.innerHTML = suggestions.map(s => {
       const imgSrc = CARD_IMGS[s.id] || '';
@@ -3727,14 +3397,12 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
         <button class="sug-card-add" onclick="addToCartFromSug(${s.id})">+ أضف للسلة</button>
       </div>`;
     }).join('');
-
     document.getElementById('suggestionsModal').classList.add('open');
     setTimeout(() => {
       const m = document.getElementById('suggestionsModal');
       if (m) m.classList.remove('open');
     }, 6000);
   }
-
   function addToCartFromSug(id) {
     cart.push(id);
     document.getElementById('cartCount').textContent = cart.length;
@@ -3743,9 +3411,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     const p = allProducts.find(x => x.id === id);
     showToast(`🛒 تمت إضافة ${p ? p.name : ''} للسلة!`, 2500);
   }
-
-
-
   const STATIC_COUPONS = {
     'FLASH15':   { discount: 0.15, label: 'خصم 15%' },
     'AIRZONE10': { discount: 0.10, label: 'خصم 10%' },
@@ -3757,18 +3422,15 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
   function markCodeUsed(code) { const u = getUsedCodes(); if (!u.includes(code)) { u.push(code); localStorage.setItem('az_used_codes', JSON.stringify(u)); } }
   function saveWheelCode(code, discount, label) { const c = getWheelCodes(); c[code] = { discount, label }; localStorage.setItem('az_wheel_codes', JSON.stringify(c)); }
   let appliedCoupon = null;
-
   function applyCoupon() {
     const code = document.getElementById('couponInput').value.trim().toUpperCase();
     const resultEl = document.getElementById('couponResult');
     const discountRow = document.getElementById('discountRow');
-
     if (!code) {
       resultEl.className = 'coupon-result error';
       resultEl.textContent = '❌ أدخل كود الخصم أولاً';
       return;
     }
-
     if (getUsedCodes().includes(code)) {
       appliedCoupon = null;
       resultEl.className = 'coupon-result error';
@@ -3777,7 +3439,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       renderCartModal();
       return;
     }
-
     const couponData = STATIC_COUPONS[code] || getWheelCodes()[code] || COUPONS[code];
     if (couponData) {
       appliedCoupon = { code, ...couponData };
@@ -3793,15 +3454,12 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       renderCartModal();
     }
   }
-
-
   function initFlashSale() {
     let endTime = localStorage.getItem('flashSaleEnd');
     if (!endTime || Date.now() > parseInt(endTime)) {
       endTime = Date.now() + 6 * 60 * 60 * 1000;
       localStorage.setItem('flashSaleEnd', endTime);
     }
-
     function updateFlash() {
       const remaining = parseInt(endTime) - Date.now();
       if (remaining <= 0) {
@@ -3818,13 +3476,9 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       if (fm) fm.textContent = String(m).padStart(2,'0');
       if (fs) fs.textContent = String(s).padStart(2,'0');
     }
-
     updateFlash();
     setInterval(updateFlash, 1000);
   }
-
-
-
   let gamesModalOpen = false;
   function openGames() {
     if (gamesModalOpen) return;
@@ -3841,7 +3495,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     initCards();
     initQuiz();
   }
-
   function closeGamesAndLock() {
     gamesModalOpen = false;
     document.getElementById('gamesModal').classList.remove('open');
@@ -3849,13 +3502,10 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     localStorage.setItem('airzone-game-date', today);
     showToast('🔒 انتهت محاولتك اليومية! عد غداً للعب مجدداً 😊', 4000);
   }
-
   function closeGames() {
     gamesModalOpen = false;
     document.getElementById('gamesModal').classList.remove('open');
   }
-
-
   function switchGame(name, tab) {
     document.querySelectorAll('.game-panel').forEach(p => p.classList.remove('active'));
     document.querySelectorAll('.games-tab').forEach(t => t.classList.remove('active'));
@@ -3868,7 +3518,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
         showToast('📋 تم نسخ الكود: ' + code, 2500);
     });
   }
-
   const WHEEL_PRIZES = [
     { label:'5%',   code:'WHEEL5',   color:'#6c5ce7' },
     { label:'خسارة',code:null,       color:'#dfe6e9' },
@@ -3880,11 +3529,9 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     { label:'خسارة',code:null,       color:'#dfe6e9' },
   ];
   let wheelAngle = 0, wheelSpinning = false;
-
   function initWheel() {
     drawWheel(0);
   }
-
   function drawWheel(angle) {
     const canvas = document.getElementById('wheelCanvas');
     if (!canvas) return;
@@ -3926,20 +3573,17 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     ctx.fillStyle = '#ff6b35';
     ctx.fill();
   }
-
   function spinWheel() {
     if (wheelSpinning) return;
     wheelSpinning = true;
     document.getElementById('wheelBtn').disabled = true;
     document.getElementById('wheelResult').textContent = '🎰 تدور...';
     document.getElementById('wheelWin').classList.remove('show');
-
     const extraSpins = (5 + Math.random() * 5) * 2 * Math.PI;
     const targetAngle = wheelAngle + extraSpins;
     const duration = 4000;
     const start = performance.now();
     const startAngle = wheelAngle;
-
     function animate(now) {
       const elapsed = now - start;
       const progress = Math.min(elapsed / duration, 1);
@@ -3972,7 +3616,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     }
     requestAnimationFrame(animate);
   }
-
   const CARD_PRIZES = [
     { emoji:'🎁', label:'خصم 10%', code:'AIRZONE10' },
     { emoji:'⭐', label:'خصم 5%',  code:'WHEEL5' },
@@ -3982,7 +3625,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     { emoji:'🎯', label:'خصم 10%', code:'AIRZONE10' },
   ];
   let cardsFlipped = false;
-
   function initCards() {
     cardsFlipped = false;
     document.getElementById('cardsResult').textContent = '';
@@ -3998,7 +3640,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       </div>
     `).join('');
   }
-
   function flipCard(i, label, code) {
     if (cardsFlipped) return;
     cardsFlipped = true;
@@ -4014,7 +3655,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       }
     }, 600);
   }
-
   const QUIZ_QUESTIONS = [
     { q:'كم عدد فئات الأحذية في AirZone؟', opts:['3','5','6','8'], correct:2 },
     { q:'ما هي عملة الدفع في المتجر؟', opts:['دولار','يورو','درهم مغربي','دينار'], correct:2 },
@@ -4024,14 +3664,12 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
   ];
   let quizIdx = 0, quizScore = 0, quizDone = false;
   let quizPool = [];
-
   function initQuiz() {
     quizPool = [...QUIZ_QUESTIONS].sort(() => Math.random()-0.5).slice(0,3);
     quizIdx = 0; quizScore = 0; quizDone = false;
     document.getElementById('quizWin').classList.remove('show');
     renderQuizQuestion();
   }
-
   function renderQuizQuestion() {
     if (quizIdx >= quizPool.length) {
       endQuiz(); return;
@@ -4045,7 +3683,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       <button class="quiz-opt" onclick="answerQuiz(${i})">${o}</button>
     `).join('');
   }
-
   function answerQuiz(chosen) {
     if (quizDone) return;
     const q = quizPool[quizIdx];
@@ -4063,7 +3700,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     }
     setTimeout(() => { quizIdx++; renderQuizQuestion(); }, 1200);
   }
-
   function endQuiz() {
     quizDone = true;
     let code = null, msg = '';
@@ -4080,8 +3716,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       setTimeout(() => closeGamesAndLock(), 2500);
     }
   }
-
-
   const NOTIF_MESSAGES = [
     { title:'🔥 عرض محدود!', body:'خصم 15% على الأحذية الرياضية — استخدم كود FLASH15', icon:'👟' },
     { title:'⭐ منتج جديد!', body:'تم إضافة أحذية جديدة للمتجر — تفقدها الآن', icon:'✨' },
@@ -4089,31 +3723,25 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     { title:'🎮 العب واربح!', body:'جرب حظك اليوم واربح كوبون خصم حصري', icon:'🎰' },
     { title:'💎 عضو مميز!', body:'اجمع نقاطك واصل للمستوى الذهبي', icon:'🏆' },
   ];
-
   async function initNotifications() {
     if (!('Notification' in window)) return;
-
     if (Notification.permission === 'granted') {
       startNotificationSchedule();
       return;
     }
-
     if (Notification.permission !== 'denied') {
       setTimeout(showNotifBanner, 3000);
     }
   }
-
   function showNotifBanner() {
     if (localStorage.getItem('airzone-notif-asked')) return;
     const banner = document.getElementById('notifBanner');
     if (banner) banner.classList.add('show');
   }
-
   async function requestNotifPermission() {
     localStorage.setItem('airzone-notif-asked', '1');
     const banner = document.getElementById('notifBanner');
     if (banner) banner.classList.remove('show');
-
     const permission = await Notification.requestPermission();
     if (permission === 'granted') {
       sendNotification(NOTIF_MESSAGES[0]);
@@ -4121,13 +3749,11 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
         showToast('🔔 تم تفعيل الإشعارات! سنخبرك بأحدث العروض', 3000);
     }
   }
-
   function dismissNotifBanner() {
     localStorage.setItem('airzone-notif-asked', '1');
     const banner = document.getElementById('notifBanner');
     if (banner) banner.classList.remove('show');
   }
-
   function sendNotification(msg) {
     if (Notification.permission !== 'granted') return;
     const notif = new Notification(msg.title, {
@@ -4140,7 +3766,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     notif.onclick = () => { window.focus(); notif.close(); };
     setTimeout(() => notif.close(), 6000);
   }
-
   function startNotificationSchedule() {
     let idx = 1;
     setInterval(() => {
@@ -4149,7 +3774,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       sendNotification(msg);
       idx++;
     }, 3 * 60 * 1000);
-
     document.addEventListener('visibilitychange', () => {
       if (document.visibilityState === 'hidden') {
         setTimeout(() => {
@@ -4159,24 +3783,18 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       }
     });
   }
-
   initNotifications();
-
-
   let walletTxs = JSON.parse(localStorage.getItem('airzone-wallet-txs') || '[]');
   let walletOrders = parseInt(localStorage.getItem('airzone-wallet-orders') || '0');
-
   function addWalletTx(label, pts) {
     walletTxs.unshift({ label, pts, date: new Date().toLocaleString('ar-MA') });
     if (walletTxs.length > 50) walletTxs = walletTxs.slice(0, 50);
     localStorage.setItem('airzone-wallet-txs', JSON.stringify(walletTxs));
   }
-
   function openWallet() {
     updateWalletUI();
     document.getElementById('walletModal').classList.add('open');
   }
-
   function updateWalletUI() {
     const pts = loyaltyPoints;
     const val = Math.floor(pts / 500) * 50;
@@ -4186,7 +3804,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     if (wb) wb.textContent = pts;
     if (wv) wv.textContent = '= ' + val + ' درهم خصم';
     if (wbp) wbp.textContent = pts;
-
     let level = pts < 500 ? 'برونزي' : pts < 1500 ? 'فضي' : pts < 3000 ? 'ذهبي' : 'بلاتيني';
     let nextReward = pts < 500 ? 500 - pts : pts < 1500 ? 1500 - pts : pts < 3000 ? 3000 - pts : 0;
     const wl = document.getElementById('walletLevel');
@@ -4197,7 +3814,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     if (wnr) wnr.textContent = nextReward || '✓ MAX';
     if (wo) wo.textContent = walletOrders;
     if (wr) wr.textContent = parseInt(localStorage.getItem('airzone-ref-count') || '0');
-
     const txList = document.getElementById('walletTxList');
     if (!txList) return;
     if (walletTxs.length === 0) {
@@ -4214,7 +3830,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       `).join('');
     }
   }
-
   function redeemPoints() {
     if (loyaltyPoints < 500) {
         showToast('⚠️ تحتاج 500 نقطة على الأقل للاستبدال', 3000);
@@ -4233,11 +3848,9 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     showRedeemCodeModal(code, discount);
     navigator.clipboard.writeText(code).catch(() => {});
   }
-
   function showRedeemCodeModal(code, discount) {
     const existing = document.getElementById('redeemCodeModal');
     if (existing) existing.remove();
-
     const modal = document.createElement('div');
     modal.id = 'redeemCodeModal';
     modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:center;justify-content:center;padding:20px;';
@@ -4257,7 +3870,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     `;
     document.body.appendChild(modal);
   }
-
   function copyRedeemCode(code, el) {
     navigator.clipboard.writeText(code).then(() => {
       if (el) { el.style.background = '#dcfce7'; el.style.borderColor = '#22c55e'; }
@@ -4267,7 +3879,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       showToast('📋 الكود: ' + code + ' (انسخه يدوياً)', 4000);
     });
   }
-
   function applyRedeemInCart(code) {
     document.getElementById('redeemCodeModal').remove();
     const couponInput = document.getElementById('couponInput');
@@ -4277,11 +3888,9 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     }
     openCart();
   }
-
   const REF_BIN = '69b02f828d9bd565842d1b3d';
   const REF_MASTER = '$2a$10$2dHG8Ssq0MDuoHaqPtb3IONFcQH07EYBJcbds4xwHj4wC7je09Ggy';
   const REF_ACCESS = '$2a$10$apu/MmCshaeQLnyaDCSuIuaz7n99VzpsTfHrz.rHw.x2d1oS2Tz4K';
-
   function generateRefCode() {
     let code = localStorage.getItem('airzone-ref-code');
     if (!code) {
@@ -4290,7 +3899,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     }
     return code;
   }
-
   async function openReferral() {
     const code = generateRefCode();
     const el = document.getElementById('referralCode');
@@ -4298,7 +3906,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     document.getElementById('referralModal').classList.add('open');
     await loadReferralStats(code);
   }
-
   async function loadReferralStats(code) {
     try {
       const res = await fetch(`https://api.jsonbin.io/v3/b/${REF_BIN}/latest`, {
@@ -4320,7 +3927,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       if (rp) rp.textContent = refCount * 20;
     }
   }
-
   async function saveReferral(inviterCode, usedBy) {
     try {
       const res = await fetch(`https://api.jsonbin.io/v3/b/${REF_BIN}/latest`, {
@@ -4338,7 +3944,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       return true;
     } catch(e) { return false; }
   }
-
   async function applyReferralCode() {
     const input = document.getElementById('couponInput');
     if (!input) return;
@@ -4367,26 +3972,22 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       if (res) { res.className = 'coupon-result error'; res.textContent = '❌ هذا الكود مستخدم من قبل أو غير صحيح'; }
     }
   }
-
   function copyRefCode() {
     const code = generateRefCode();
     navigator.clipboard.writeText(code).then(() => {
         showToast('📋 تم نسخ كود الدعوة: ' + code, 3000);
     });
   }
-
   function shareRefWa() {
     const code = generateRefCode();
     const siteUrl = 'https://paradoxyzhr.github.io/paradox-team/';
     const text = `👟 مرحباً! أنا أتسوق من AirZone 🔥\n\nاستخدم كودي للحصول على خصم 10% على أول طلب:\n\n🎁 كود الخصم: *${code}*\n\n🛍️ تسوق الآن: ${siteUrl}`;
     window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
   }
-
   function inviteFriend() {
     closeThankyou();
     setTimeout(() => openReferral(), 300);
   }
-
   document.addEventListener('DOMContentLoaded', () => {
     const ci = document.getElementById('couponInput');
     if (ci) ci.addEventListener('input', () => {
@@ -4395,7 +3996,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       }
     });
   });
-
   function showThankyouPage(orderId, pts) {
     const tyId = document.getElementById('tyOrderId');
     const tyPts = document.getElementById('tyPoints');
@@ -4410,24 +4010,20 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       }).catch(() => {});
     }, 500);
   }
-
   function closeThankyou() {
     document.getElementById('thankyouModal').classList.remove('open');
   }
-
   function copyTyOrder() {
     const id = document.getElementById('tyOrderId').textContent;
     navigator.clipboard.writeText(id).then(() => {
         showToast('📋 تم نسخ رقم الطلب: ' + id, 2500);
     });
   }
-
   function shareOrderWa() {
     const id = document.getElementById('tyOrderId').textContent;
     const text = `🛍️ لقد اشتريت من AirZone!\n\nرقم طلبي: *${id}*\n👟 أنصحك بالتسوق منهم على: https://paradoxyzhr.github.io/paradox-team/`;
     window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
   }
-
   const _origShowOrderSuccess = showOrderSuccess;
   function showOrderSuccess(orderId, orderItems, total, method) {
     walletOrders++;
@@ -4437,14 +4033,10 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
     showThankyouPage(orderId, pts);
     updateWalletUI();
   }
-
-
-
   async function checkReferralRewards() {
     const myCode = generateRefCode();
     const lastChecked = parseInt(localStorage.getItem('airzone-ref-last-checked') || '0');
     const lastCount = parseInt(localStorage.getItem('airzone-ref-count') || '0');
-
     try {
       const res = await fetch(`https://api.jsonbin.io/v3/b/${REF_BIN}/latest`, {
         headers: { 'X-Master-Key': REF_MASTER, 'X-Access-Key': REF_ACCESS }
@@ -4453,7 +4045,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       const refs = (data.record && data.record.referrals) ? data.record.referrals : [];
       const myRefs = refs.filter(r => r.inviterCode === myCode);
       const newCount = myRefs.length;
-
       if (newCount > lastCount) {
         const newRefs = newCount - lastCount;
         const ptsEarned = newRefs * 20;
@@ -4461,19 +4052,15 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
         addLoyaltyPoints(ptsEarned);
         addWalletTx(`دعوة صديق (${newRefs} جديد)`, ptsEarned);
         updateWalletUI();
-
         setTimeout(() => {
           showToast(`🎉 مبروك! ${newRefs} صديق استخدم كودك وربحت ${ptsEarned} نقطة!`, 5000);
         }, 2000);
       }
-
       localStorage.setItem('airzone-ref-last-checked', Date.now());
     } catch(e) {
       console.log('Ref check error:', e);
     }
   }
-
-
   function pasteRefCode() {
     const code = localStorage.getItem('airzone-ref-code');
     const input = document.getElementById('couponInput');
@@ -4488,8 +4075,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       showToast('📋 أدخل كود دعوة صديقك (يبدأ بـ AIR-)', 3000);
     }
   }
-
-
   function openCartWithRefCode() {
     document.getElementById('referralModal').classList.remove('open');
     renderCartModal();
@@ -4504,28 +4089,20 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       showToast('👇 أدخل كود دعوة صديقك في الحقل أدناه', 4000);
     }, 400);
   }
-
-
   let driverAnimInterval = null;
-
   function initDeliveryMap(orderStatus) {
     const section = document.getElementById('deliveryMapSection');
     if (section) section.style.display = 'block';
-
     const map = document.getElementById('deliveryMap');
     if (!map) return;
-
     const W = map.offsetWidth || 320;
     const H = 220;
-
     const storeX = Math.round(W * 0.28);
     const storeY = Math.round(H * 0.38);
     const destX  = Math.round(W * 0.74);
     const destY  = Math.round(H * 0.62);
-
     const cpX = Math.round(W * 0.52);
     const cpY = Math.round(H * 0.18);
-
     map.innerHTML = `
       <svg width="${W}" height="${H}" style="position:absolute;top:0;left:0;">
         <!-- Background -->
@@ -4555,7 +4132,6 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       <!-- Driver (starts near store) -->
       <div id="driverPin" style="position:absolute;left:${storeX + 10}px;top:${storeY - 10}px;transform:translate(-50%,-50%);font-size:24px;z-index:6;filter:drop-shadow(0 2px 6px rgba(0,0,0,0.4));transition:left 2s ease-in-out,top 2s ease-in-out;">🛵</div>
     `;
-
     if (driverAnimInterval) clearInterval(driverAnimInterval);
     let t = 0.05;
     let dir = 1;
@@ -4572,14 +4148,11 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
         driver.style.transform = `translate(-50%,-50%) scaleX(${dir > 0 ? 1 : -1})`;
       }
     }, 80);
-
     const timeEl = document.getElementById('deliveryTime');
     const distEl = document.getElementById('deliveryDistance');
     const statusEl = document.getElementById('deliveryStatusText');
-    
     const dist = (35 + Math.floor(Math.random()*20));
     if (distEl) distEl.textContent = '~' + dist + ' كم';
-
     if (orderStatus && orderStatus.includes('تم التسليم')) {
       if (timeEl) timeEl.textContent = 'تم التسليم ✅';
       if (statusEl) { statusEl.textContent = '✅ تم تسليم الطلب بنجاح!'; statusEl.style.color = '#22c55e'; }
@@ -4591,19 +4164,14 @@ id:28 مجموعة AirZone العائلية عائلي 900 👨‍👩‍👧
       if (statusEl) statusEl.textContent = '🛵 عامل التوصيل في الطريق إليك...';
     }
   }
-
 </script>
-
 <div id="cursor-glow"></div>
-
 <script>
-
 const cursorGlow = document.getElementById('cursor-glow');
 document.addEventListener('mousemove', e => {
   cursorGlow.style.left = e.clientX + 'px';
   cursorGlow.style.top  = e.clientY + 'px';
 });
-
 document.addEventListener('click', e => {
   const r = document.createElement('div');
   r.className = 'click-ripple';
@@ -4611,7 +4179,6 @@ document.addEventListener('click', e => {
   r.style.top  = e.clientY + 'px';
   document.body.appendChild(r);
   setTimeout(() => r.remove(), 700);
-
   const colors = ['#2ab8c4','#f0b942','#8b5cf6','#22c55e'];
   for(let i = 0; i < 8; i++) {
     const sp = document.createElement('div');
@@ -4628,7 +4195,6 @@ document.addEventListener('click', e => {
     setTimeout(() => sp.remove(), 1100);
   }
 });
-
 function initCardTilt() {
   document.querySelectorAll('.product-card').forEach(card => {
     card.addEventListener('mousemove', e => {
@@ -4647,25 +4213,20 @@ function initCardTilt() {
 initCardTilt();
 setTimeout(initCardTilt, 1500);
 setTimeout(initCardTilt, 4000);
-
 document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow'));
-
 (function initNavParticles() {
   const canvas = document.getElementById('nav-3d-canvas');
   if(!canvas) return;
   const nav = canvas.parentElement;
   const W = nav.offsetWidth, H = nav.offsetHeight || 68;
   canvas.width = W; canvas.height = H;
-
   const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
   renderer.setSize(W, H);
   renderer.setClearColor(0x000000, 0);
-
   const scene  = new THREE.Scene();
   const camera = new THREE.OrthographicCamera(0, W, H, 0, -100, 100);
   camera.position.z = 10;
-
   const spheres = [];
   const cols = [0x2AB8C4, 0xF0B942, 0x8B5CF6, 0x22C55E];
   for(let i = 0; i < 14; i++) {
@@ -4686,13 +4247,11 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
     scene.add(m);
     spheres.push(m);
   }
-
   const tGeo = new THREE.TorusGeometry(18, 3, 8, 40);
   const tMat = new THREE.MeshBasicMaterial({color:0x2AB8C4, transparent:true, opacity:.15, wireframe:true});
   const torus = new THREE.Mesh(tGeo, tMat);
   torus.position.set(W * .5, H * .5, 0);
   scene.add(torus);
-
   function animNav() {
     requestAnimationFrame(animNav);
     spheres.forEach(s => {
@@ -4707,7 +4266,6 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
     renderer.render(scene, camera);
   }
   animNav();
-
   window.addEventListener('resize', () => {
     const nW = nav.offsetWidth;
     canvas.width = nW;
@@ -4717,7 +4275,6 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
     torus.position.x = nW * .5;
   });
 })();
-
 (function initHero3D() {
   const canvas = document.getElementById('hero-3d-canvas');
   if(!canvas) return;
@@ -4725,16 +4282,13 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
   const W = hero.offsetWidth || window.innerWidth;
   const H = hero.offsetHeight || 400;
   canvas.width = W; canvas.height = H;
-
   const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
   renderer.setSize(W, H);
   renderer.setClearColor(0x000000, 0);
-
   const scene  = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(60, W / H, 0.1, 500);
   camera.position.set(0, 0, 18);
-
   scene.add(new THREE.AmbientLight(0xffffff, .4));
   const pt1 = new THREE.PointLight(0xffffff, 3, 40);
   pt1.position.set(5, 5, 8);
@@ -4742,30 +4296,25 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
   const pt2 = new THREE.PointLight(0xF0B942, 2, 30);
   pt2.position.set(-6, -3, 5);
   scene.add(pt2);
-
   const mkMat = (col, emit=0) => new THREE.MeshStandardMaterial({
     color:col, metalness:.8, roughness:.2,
     emissive:col, emissiveIntensity:emit, transparent:true, opacity:.85
   });
-
   const icoGeo = new THREE.IcosahedronGeometry(2.2, 1);
   const ico = new THREE.Mesh(icoGeo, mkMat(0xffffff, .3));
   ico.position.set(-5, 0, 0);
   scene.add(ico);
-
   const icoW = new THREE.Mesh(
     new THREE.IcosahedronGeometry(2.4, 1),
     new THREE.MeshBasicMaterial({color:0xffffff, wireframe:true, transparent:true, opacity:.15})
   );
   icoW.position.copy(ico.position);
   scene.add(icoW);
-
   const torusGeo = new THREE.TorusGeometry(3.8, .22, 12, 80);
   const torusMesh = new THREE.Mesh(torusGeo, mkMat(0xffffff, .4));
   torusMesh.position.set(5, 0, -2);
   torusMesh.rotation.x = Math.PI / 2.5;
   scene.add(torusMesh);
-
   const orbs = [];
   const oc = [0xffffff, 0xF0B942, 0xffffff, 0xF0B942, 0xffffff, 0xF0B942];
   for(let i = 0; i < 8; i++) {
@@ -4780,7 +4329,6 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
     scene.add(m);
     orbs.push(m);
   }
-
   const pN = 600;
   const pPos = new Float32Array(pN * 3);
   for(let i = 0; i < pN; i++) {
@@ -4794,34 +4342,27 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
     color:0xffffff, size:.08, transparent:true, opacity:.45, sizeAttenuation:true
   }));
   scene.add(pMesh);
-
   let mx = 0, my = 0;
   hero.addEventListener('mousemove', e => {
     const r = hero.getBoundingClientRect();
     mx = ((e.clientX - r.left) / r.width  - .5) * 2;
     my = ((e.clientY - r.top)  / r.height - .5) * 2;
   });
-
   let t = 0;
   function animHero() {
     requestAnimationFrame(animHero);
     t += .016;
-
     camera.position.x += (mx * 2 - camera.position.x) * .04;
     camera.position.y += (-my * 1.5 - camera.position.y) * .04;
     camera.lookAt(0, 0, 0);
-
     ico.rotation.y += .008;
     ico.rotation.x += .004;
     icoW.rotation.y = ico.rotation.y + .02;
     icoW.rotation.x = ico.rotation.x;
-
     torusMesh.rotation.z += .006;
     torusMesh.rotation.y += .003;
-
     const pulse = 1 + Math.sin(t * 1.5) * .04;
     ico.scale.set(pulse, pulse, pulse);
-
     orbs.forEach((o, i) => {
       o.userData.angle += o.userData.speed * .016;
       const a = o.userData.angle;
@@ -4831,17 +4372,13 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
       o.position.z = Math.sin(a * .7) * 2;
       o.rotation.y += .03;
     });
-
     pMesh.rotation.y += .0008;
     pMesh.rotation.x += .0003;
-
     pt1.intensity = 3 + Math.sin(t * 2) * .5;
     pt2.intensity = 2 + Math.cos(t * 1.5) * .4;
-
     renderer.render(scene, camera);
   }
   animHero();
-
   const resizeHero = () => {
     const nW = hero.offsetWidth || window.innerWidth;
     const nH = hero.offsetHeight || 400;
@@ -4851,7 +4388,6 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
   };
   window.addEventListener('resize', resizeHero);
 })();
-
 (function initShopHero3D() {
   const canvas = document.getElementById('shop3d-canvas');
   if(!canvas) return;
@@ -4859,21 +4395,17 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
   const W = shopHero.offsetWidth || window.innerWidth;
   const H = shopHero.offsetHeight || 200;
   canvas.width = W; canvas.height = H;
-
   const renderer = new THREE.WebGLRenderer({canvas, alpha:true, antialias:true});
   renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
   renderer.setSize(W, H);
   renderer.setClearColor(0x000000, 0);
-
   const scene  = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(70, W / H, .1, 200);
   camera.position.set(0, 0, 12);
-
   scene.add(new THREE.AmbientLight(0x2AB8C4, .6));
   const spt = new THREE.PointLight(0xF0B942, 3, 30);
   spt.position.set(0, 5, 5);
   scene.add(spt);
-
   const rings = [];
   const ringCols = [0x2AB8C4, 0xF0B942, 0x1a9aa6, 0xF0B942];
   for(let i = 0; i < 4; i++) {
@@ -4891,13 +4423,11 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
     scene.add(ring);
     rings.push(ring);
   }
-
   const dGeo = new THREE.OctahedronGeometry(1.8, 0);
   const dMat = new THREE.MeshStandardMaterial({color:0x2AB8C4, metalness:1, roughness:0, emissive:0x2AB8C4, emissiveIntensity:.6, transparent:true, opacity:.7});
   const diamond = new THREE.Mesh(dGeo, dMat);
   diamond.scale.y = 1.3;
   scene.add(diamond);
-
   const spN = 400;
   const spPos = new Float32Array(spN * 3);
   for(let i = 0; i < spN; i++) {
@@ -4909,14 +4439,12 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
   spGeo.setAttribute('position', new THREE.BufferAttribute(spPos, 3));
   const spMesh = new THREE.Points(spGeo, new THREE.PointsMaterial({color:0xF0B942, size:.07, transparent:true, opacity:.5}));
   scene.add(spMesh);
-
   let st = 0;
   let smx = 0;
   shopHero.addEventListener('mousemove', e => {
     const r = shopHero.getBoundingClientRect();
     smx = ((e.clientX - r.left) / r.width - .5) * 2;
   });
-
   function animShop() {
     requestAnimationFrame(animShop);
     st += .016;
@@ -4934,7 +4462,6 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
     renderer.render(scene, camera);
   }
   animShop();
-
   window.addEventListener('resize', () => {
     const nW = shopHero.offsetWidth || window.innerWidth;
     const nH = shopHero.offsetHeight || 200;
@@ -4943,7 +4470,6 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
     camera.updateProjectionMatrix();
   });
 })();
-
 (function() {
   const obs = new IntersectionObserver((entries) => {
     entries.forEach((entry, i) => {
@@ -4955,12 +4481,10 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
       }
     });
   }, {threshold: .1});
-
   document.querySelectorAll('.product-card, .hero-stat, .trust-item, .cell, .review-card').forEach(el => {
     el.style.opacity = '0';
     obs.observe(el);
   });
-
   setTimeout(() => {
     document.querySelectorAll('.product-card').forEach(el => {
       if(el.style.opacity === '') {
@@ -4971,14 +4495,12 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
     initCardTilt();
   }, 2000);
 })();
-
 (function() {
   const ambCanvas = document.createElement('canvas');
   ambCanvas.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.35';
   ambCanvas.width = window.innerWidth;
   ambCanvas.height = window.innerHeight;
   document.body.appendChild(ambCanvas);
-
   const ctx = ambCanvas.getContext('2d');
   const dots = Array.from({length: 55}, () => ({
     x: Math.random() * window.innerWidth,
@@ -4989,7 +4511,6 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
     color: ['#2ab8c4','#f0b942','#8b5cf6','#22c55e'][Math.floor(Math.random()*4)],
     opacity: .2 + Math.random() * .5
   }));
-
   function animAmb() {
     ctx.clearRect(0, 0, ambCanvas.width, ambCanvas.height);
     dots.forEach(d => {
@@ -5009,13 +4530,11 @@ document.querySelectorAll('.section').forEach(s => s.classList.add('section-glow
     requestAnimationFrame(animAmb);
   }
   animAmb();
-
   window.addEventListener('resize', () => {
     ambCanvas.width  = window.innerWidth;
     ambCanvas.height = window.innerHeight;
   });
 })();
-
 const _origFilter = window.filterProducts;
 if(typeof _origFilter === 'function') {
   window.filterProducts = function() {
@@ -5024,6 +4543,5 @@ if(typeof _origFilter === 'function') {
   };
 }
 </script>
-
 </body>
 </html>
